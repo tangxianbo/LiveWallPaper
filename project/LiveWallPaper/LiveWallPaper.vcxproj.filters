@@ -9,18 +9,36 @@
       <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
       <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
     </Filter>
+    <Filter Include="Source Files\platform">
+      <UniqueIdentifier>{399c947e-b2a5-4f25-b92b-8ea8a34dec41}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\wallpaper">
+      <UniqueIdentifier>{cdcfa68a-f236-497e-b59e-481e0893fa0f}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\..\source\platforms\win32\application.cpp">
-      <Filter>Source Files</Filter>
+      <Filter>Source Files\platform</Filter>
     </ClCompile>
     <ClCompile Include="..\..\source\platforms\win32\main.cpp">
-      <Filter>Source Files</Filter>
+      <Filter>Source Files\platform</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\source\livewallpaper\livewallpaper.cpp">
+      <Filter>Source Files\wallpaper</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\source\livewallpaper\esutils.cpp">
+      <Filter>Source Files\wallpaper</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\source\platforms\win32\application.h">
-      <Filter>Source Files</Filter>
+      <Filter>Source Files\platform</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\source\livewallpaper\livewallpaper.h">
+      <Filter>Source Files\wallpaper</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\source\livewallpaper\esutils.h">
+      <Filter>Source Files\wallpaper</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

@@ -2,6 +2,7 @@
 
 #include <Windows.h>
 #include "base/singleton.h"
+#include "livewallpaper/livewallpaper.h"
 
 
 class Application:public Singleton<Application>

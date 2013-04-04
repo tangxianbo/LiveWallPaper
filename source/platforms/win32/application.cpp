@@ -61,7 +61,7 @@ bool Application::CreateRenderWindow(LPCWSTR title, int width, int height, int b
 	wc.hInstance		= hInstance;							// Set The Instance
 	wc.hIcon			= LoadIcon(NULL, IDI_WINLOGO);			// Load The Default Icon
 	wc.hCursor			= LoadCursor(NULL, IDC_ARROW);			// Load The Arrow Pointer
-	wc.hbrBackground	= NULL;									// No Background Required For GL
+	wc.hbrBackground	= (HBRUSH)GetStockObject(BLACK_BRUSH);									// No Background Required For GL
 	wc.lpszMenuName		= NULL;									// We Don't Want A Menu
 	wc.lpszClassName	= L"RayTracing";								// Set The Class Name
 
@@ -132,52 +132,7 @@ bool Application::CreateRenderWindow(LPCWSTR title, int width, int height, int b
 		return FALSE;								
 	}
 
-	static	PIXELFORMATDESCRIPTOR pfd=				// pfd Tells Windows How We Want Things To Be
-	{
-		sizeof(PIXELFORMATDESCRIPTOR),				// Size Of This Pixel Format Descriptor
-		1,										// Version Number
-		PFD_DRAW_TO_WINDOW |						// Format Must Support Window
-		PFD_SUPPORT_OPENGL |						// Format Must Support RayTracing
-		PFD_DOUBLEBUFFER,							// Must Support Double Buffering
-		PFD_TYPE_RGBA,								// Request An RGBA Format
-		bits,										// Select Our Color Depth
-		0, 0, 0, 0, 0, 0,							// Color Bits Ignored
-		0,											// No Alpha Buffer
-		0,											// Shift Bit Ignored
-		0,											// No Accumulation Buffer
-		0, 0, 0, 0,									// Accumulation Bits Ignored
-		16,											// 16Bit Z-Buffer (Depth Buffer)  
-		0,											// No Stencil Buffer
-		0,											// No Auxiliary Buffer
-		PFD_MAIN_PLANE,								// Main Drawing Layer
-		0,											// Reserved
-		0, 0, 0										// Layer Masks Ignored
-	};
-	
-	if (!(hDC=GetDC(m_hWnd)))							// Did We Get A Device Context?
-	{
-		CloseRenderWindow();								// Reset The Display
-		MessageBox(NULL,L"Can't Create A Device Context.",L"ERROR",MB_OK|MB_ICONEXCLAMATION);
-		return false;								// Return FALSE
-	}
-
-	if (!(PixelFormat=ChoosePixelFormat(hDC,&pfd)))	// Did Windows Find A Matching Pixel Format?
-	{
-		CloseRenderWindow();								// Reset The Display
-		MessageBox(NULL,L"Can't Find A Suitable PixelFormat.",L"ERROR",MB_OK|MB_ICONEXCLAMATION);
-		return false;								// Return FALSE
-	}
-
-	if(!SetPixelFormat(hDC,PixelFormat,&pfd))		// Are We Able To Set The Pixel Format?
-	{
-		CloseRenderWindow();								
-		MessageBox(NULL,L"Can't Set The PixelFormat.",L"ERROR",MB_OK|MB_ICONEXCLAMATION);
-		return false;								
-	}
-
-
-
-	ShowWindow(m_hWnd,SW_SHOW);						
+	ShowWindow(m_hWnd,TRUE);						
 	SetForegroundWindow(m_hWnd);					// Slightly Higher Priority
 	SetFocus(m_hWnd);								
 
@@ -301,10 +256,10 @@ int Application::Run()
 
 bool Application::Init()
 {
-	if (CreateRenderWindow(L"RayTracing",960,640,16,false,m_hWnd))
+	if (CreateRenderWindow(L"LiveWallPaper",960,640,16,false,m_hWnd))
 	{
-		//m_game = new Game();
-		//m_game->Init(m_screenWidth,m_screenHeight,m_hWnd);
+		LiveWallPaper::newInstance();
+		LiveWallPaper::instance()->Init(960,640,m_hWnd);
 		return true;
 	}
 	return false;
