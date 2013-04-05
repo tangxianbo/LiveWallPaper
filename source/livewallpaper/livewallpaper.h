@@ -2,6 +2,7 @@
 #include <EGL/egl.h>
 #include "base/singleton.h"
 
+class Water;
 class LiveWallPaper:public Singleton<LiveWallPaper>
 {
 	friend Singleton<LiveWallPaper>;
@@ -12,21 +13,17 @@ protected:
 
 public:
 	void Init(int width, int height, HWND hwnd);
-
 	void Update();
 
 private:
-	void _initShader();
-	void _initTexture();
-
-
-private:
 	HWND		m_hWnd;
-	GLuint		m_programObject;
+
 	GLuint		m_width;
 	GLuint		m_height;
+
 	EGLDisplay	m_eglDisplay;
 	EGLContext	m_eglContext;
 	EGLSurface	m_eglSurface;
 
+	Water*		m_water;
 };

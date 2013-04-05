@@ -84,12 +84,14 @@
   <ItemGroup>
     <ClCompile Include="..\..\source\livewallpaper\esutils.cpp" />
     <ClCompile Include="..\..\source\livewallpaper\livewallpaper.cpp" />
+    <ClCompile Include="..\..\source\livewallpaper\water.cpp" />
     <ClCompile Include="..\..\source\platforms\win32\application.cpp" />
     <ClCompile Include="..\..\source\platforms\win32\main.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\source\livewallpaper\esutils.h" />
     <ClInclude Include="..\..\source\livewallpaper\livewallpaper.h" />
+    <ClInclude Include="..\..\source\livewallpaper\water.h" />
     <ClInclude Include="..\..\source\platforms\win32\application.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
