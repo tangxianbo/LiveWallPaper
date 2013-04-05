@@ -257,10 +257,10 @@ int Application::Run()
 
 bool Application::Init()
 {
-	if (CreateRenderWindow(L"LiveWallPaper",960,640,16,false,m_hWnd))
+	if (CreateRenderWindow(L"LiveWallPaper",800,400,16,false,m_hWnd))
 	{
 		LiveWallPaper::newInstance();
-		LiveWallPaper::instance()->Init(960,640,m_hWnd);
+		LiveWallPaper::instance()->Init(800,400,m_hWnd);
 		return true;
 	}
 	return false;
