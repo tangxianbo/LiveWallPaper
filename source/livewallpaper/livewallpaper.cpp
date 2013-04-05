@@ -1,9 +1,13 @@
 #include "livewallpaper.h"
 #include "esutils.h"
 
+const int posotion_index = 0;
 
 LiveWallPaper::LiveWallPaper():	m_hWnd(nullptr)
 								,m_programObject(0)
+								,m_width(0)
+								,m_height(0)
+
 {
 
 }
@@ -17,6 +21,8 @@ LiveWallPaper::~LiveWallPaper()
 
 void LiveWallPaper::Init(int width, int height, HWND hwnd)
 {
+	m_width = width;
+	m_height = height;
 	m_hWnd = hwnd;
 
 	GLuint flags = ES_WINDOW_RGB;
@@ -35,6 +41,31 @@ void LiveWallPaper::Init(int width, int height, HWND hwnd)
 	CreateEGLContext(m_hWnd,&m_eglDisplay,&m_eglContext,&m_eglSurface,attribList);
 
 	_initShader();
+}
+
+
+void LiveWallPaper::Update()
+{
+	GLfloat vVertices[] = {  0.0f,  0.5f, 0.0f, 
+							-0.5f, -0.5f, 0.0f,
+							0.5f, -0.5f, 0.0f };
+
+	// Set the viewport
+	glViewport ( 0, 0, m_width, m_height);
+
+	// Clear the color buffer
+	glClear ( GL_COLOR_BUFFER_BIT );
+
+	// Use the program object
+	glUseProgram (m_programObject);
+
+	// Load the vertex data
+	glVertexAttribPointer ( posotion_index, 3, GL_FLOAT, GL_FALSE, 0, vVertices );
+	glEnableVertexAttribArray ( posotion_index );
+
+	glDrawArrays ( GL_TRIANGLES, 0, 3 );
+
+	eglSwapBuffers ( m_eglDisplay, m_eglSurface);
 }
 
 
@@ -64,7 +95,7 @@ void LiveWallPaper::_initShader()
 	glAttachShader(m_programObject,vertexShader);
 	glAttachShader(m_programObject,fragmentShader);
 
-	glBindAttribLocation(m_programObject,0,"vPosition");
+	glBindAttribLocation(m_programObject,posotion_index,"vPosition");
 
 	glLinkProgram(m_programObject);
 
@@ -76,7 +107,6 @@ void LiveWallPaper::_initShader()
 		m_programObject = 0;
 		return;
 	}
-
 }
 
 void LiveWallPaper::_initTexture()

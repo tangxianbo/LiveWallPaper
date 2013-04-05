@@ -232,6 +232,7 @@ int Application::Run()
 				else								// Not Time To Quit, Update Screen
 				{
 					//m_game->RenderScene();
+					LiveWallPaper::instance()->Update();
 				}
 			}
 
