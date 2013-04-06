@@ -41,7 +41,6 @@ void Application::CloseRenderWindow(void)
  
 bool Application::CreateRenderWindow(LPCWSTR title, int width, int height, int bits, bool isFullScreen,HWND& m_hWnd)
 {
-	unsigned int	PixelFormat;			// Holds The Results After Searching For A Match
 	WNDCLASS		wc;						// Windows Class Structure
 	DWORD			dwExStyle;				// Window Extended Style
 	DWORD			dwStyle;				// Window Style
