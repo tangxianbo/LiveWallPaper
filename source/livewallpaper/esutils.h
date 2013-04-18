@@ -20,6 +20,8 @@ void esLogMessage ( const char *formatStr, ... );
 
 GLuint LoadShader ( GLenum type, const char *shaderSrc );
 
+GLuint esLoadProgram ( const char *vertShaderSrc, const char *fragShaderSrc );
+
 EGLBoolean CreateEGLContext(EGLNativeWindowType  hWnd,
 							EGLDisplay* eglDisplay,
 							EGLContext* eglContext,

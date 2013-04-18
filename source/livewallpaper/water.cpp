@@ -1,23 +1,26 @@
 #include "water.h"
 #include "esutils.h"
 #include <vector>
+#include <ktx.h>
 
-const int VERTEX_POS_INDX = 0;
-
-#define REAL_WATER 1
 
 Water::Water(int screenWidth, int screenHeight, float dx):	m_screenWidth(screenWidth)
-															,m_screenHeight(screenHeight)
-															,m_resWidth(0)
-															,m_resHeight(0)
-															,m_dx(dx)
-															,m_vertexBufferSize(0)
-															,m_indexEleNum(0)
-															,m_curVertexBuffer(nullptr)
-															,m_preVertexBuffer(nullptr)
-															,m_programObject(NULL)
-															,m_vertexBuffer(NULL)
-															,m_indexBuffer(NULL)
+	,m_screenHeight(screenHeight)
+	,m_resWidth(0)
+	,m_resHeight(0)
+	,m_dx(dx)
+	,m_vertexBufferSize(0)
+	,m_indexEleNum(0)
+	,m_curVertexBuffer(nullptr)
+	,m_preVertexBuffer(nullptr)
+	,m_programObject(NULL)
+	,m_vertexBuffer(NULL)
+	,m_indexBuffer(NULL)
+	,m_textureObject(NULL)
+	,m_positionIndex(-1)
+	,m_uvIndex(-1)
+	,m_heightMapIndex(-1)
+	,m_textureIndex(-1)
 {
 }
 
@@ -35,67 +38,90 @@ void Water::Init()
 
 void Water::Render()
 {
-	glUseProgram (m_programObject);
+	glUseProgram(m_programObject);
 
 	glBindBuffer(GL_ARRAY_BUFFER,m_vertexBuffer);
-	glVertexAttribPointer(VERTEX_POS_INDX,3,GL_FLOAT,0,0,NULL);
-	glEnableVertexAttribArray(VERTEX_POS_INDX);
+	glVertexAttribPointer(m_positionIndex,3,GL_FLOAT,0,sizeof(WaterVertex),NULL);
+	float* uvOffset = reinterpret_cast<float*>(12);
+	glVertexAttribPointer(m_uvIndex,2,GL_FLOAT,0,sizeof(WaterVertex),uvOffset);
+
+	glEnableVertexAttribArray(m_positionIndex);
+	glEnableVertexAttribArray(m_uvIndex);
+
+	//glActiveTexture(GL_TEXTURE0);
+	//glBindTexture(GL_TEXTURE_2D, m_textureObject);
+	//glUniform1i(m_textureIndex, 0);
 
 	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER,m_indexBuffer);
 	glDrawElements(GL_TRIANGLES,m_numFaces*3,GL_UNSIGNED_SHORT,NULL);
 
-	glDisableVertexAttribArray(VERTEX_POS_INDX);
+	glDisableVertexAttribArray(m_positionIndex);
+	glDisableVertexAttribArray(m_uvIndex);
 }
 
 void Water::_initShader()
 {
 	const char vShaderStr[] =  
-		"attribute vec4 vPosition;    \n"
-		"void main()                  \n"
-		"{                            \n"
-		"   gl_Position = vPosition;  \n"
-		"}                            \n";
+		"attribute vec4 vPosition;		\n"
+		"attribute vec2 vTexCoord;		\n"
+		"varying vec2 v_texCoord;		\n"
+		"void main()					\n"
+		"{								\n"
+		"   gl_Position = vPosition;	\n"
+		"   v_texCoord = vTexCoord;		\n"	
+		"}								\n";
 
 	const char fShaderStr[] =  
-		"precision mediump float;\n"\
-		"void main()                                  \n"
-		"{                                            \n"
-		"  gl_FragColor = vec4 ( 1.0, 0.0, 0.0, 1.0 );\n"
-		"}                                            \n";
+		"precision mediump float;								\n"
+		"varying vec2 v_texCoord;								\n"
+		"uniform sampler2D s_texture;							\n"
+		"void main()											\n"
+		"{														\n"
+		"  gl_FragColor = texture2D( s_texture, v_texCoord);	\n"
+		"}														\n";
 
-	GLuint vertexShader = LoadShader(GL_VERTEX_SHADER, vShaderStr);
-	GLuint fragmentShader = LoadShader(GL_FRAGMENT_SHADER,fShaderStr);
-
-	m_programObject = glCreateProgram();
+	m_programObject = esLoadProgram(vShaderStr,fShaderStr);
 	if(0 == m_programObject)
 		return;
 
-	glAttachShader(m_programObject,vertexShader);
-	glAttachShader(m_programObject,fragmentShader);
+	m_positionIndex = glGetAttribLocation(m_programObject,"vPosition");
+	m_uvIndex = glGetAttribLocation(m_programObject,"vTexCoord");
 
-	glBindAttribLocation(m_programObject,VERTEX_POS_INDX,"vPosition");
-
-	glLinkProgram(m_programObject);
-
-	GLint linked;
-	glGetProgramiv(m_programObject,GL_LINK_STATUS,&linked);
-	if(!linked)
-	{
-		glDeleteProgram(m_programObject);
-		m_programObject = 0;
-		return;
-	}
+	m_textureIndex = glGetUniformLocation(m_programObject,"s_texture");
 }
 
 void Water::_initTexture()
 {
+	GLenum		target;
+	GLenum		glerror;
+	GLboolean	isMipmapped;
+	KTX_error_code ktxerror;
+
+	FILE* ktxFile = fopen("triangle.ktx","rb");
+	if (ktxFile)
+	{
+		fseek(ktxFile,0L,SEEK_END);
+		long fileSize = ftell(ktxFile);
+		char* fileData = new char[fileSize];
+		fseek(ktxFile,0L,SEEK_SET);
+		long readSize = fread(fileData,sizeof(char),fileSize,ktxFile);
+
+		ktxerror = ktxLoadTextureM(fileData,fileSize,&m_textureObject,&target,NULL,&isMipmapped,&glerror,0,NULL);
+		if (KTX_SUCCESS == ktxerror)
+		{
+			if (isMipmapped) 
+				glTexParameteri(target, GL_TEXTURE_MIN_FILTER, GL_LINEAR_MIPMAP_NEAREST);
+			else
+				glTexParameteri(target, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+			glTexParameteri(target, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+		}
+	}
 
 }
 
 
 void Water::_initMesh()
 {
-#if 1
 	m_resWidth = int(m_screenWidth/m_dx+0.5f) + 1;
 	m_resHeight = int(m_screenHeight/m_dx+0.5f) + 1;
 	m_vertexBufferSize = sizeof(WaterVertex)*m_resWidth*m_resHeight;
@@ -115,13 +141,15 @@ void Water::_initMesh()
 		{
 			float x = -halfWidth + j*m_dx;
 
-#if 1
-			m_curVertexBuffer[i*m_resWidth + j] = WaterVertex(j*2.0f/(m_resWidth-1)-1.0f,1.0f-i*2.0f/(m_resHeight-1),0.5f);
-			m_preVertexBuffer[i*m_resWidth + j] = WaterVertex(j*2.0f/(m_resWidth-1)-1.0f,1.0f-i*2.0f/(m_resHeight-1),0.5f);
-#else
+		#if 1
+			float u = j*1.0f/(m_resWidth-1);
+			float v = i*1.0f/(m_resHeight-1);
+			m_curVertexBuffer[i*m_resWidth + j] = WaterVertex(j*2.0f/(m_resWidth-1)-1.0f,1.0f-i*2.0f/(m_resHeight-1),0.5f,u,v);
+			m_preVertexBuffer[i*m_resWidth + j] = WaterVertex(j*2.0f/(m_resWidth-1)-1.0f,1.0f-i*2.0f/(m_resHeight-1),0.5f,u,v);
+		#else
 			m_curVertexBuffer[i*m_resWidth + j] = WaterVertex(x,0.0f,z);
 			m_preVertexBuffer[i*m_resWidth + j] = WaterVertex(x,0.0f,z);
-#endif
+		#endif
 		}
 	}
 
@@ -149,19 +177,4 @@ void Water::_initMesh()
 	glGenBuffers(1,&m_indexBuffer);
 	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER,m_indexBuffer);
 	glBufferData(GL_ELEMENT_ARRAY_BUFFER,sizeof(GLushort)*m_numFaces*3,&indices[0],GL_STATIC_DRAW);
-
-#else
-	m_numFaces = 1;
-	GLfloat vVertices[] = {  0.0f,  0.5f, 0.0f, 
-							-0.5f, -0.5f, 0.0f,
-							0.5f, -0.5f, 0.0f };
-	glGenBuffers(1,&m_vertexBuffer);
-	glBindBuffer(GL_ARRAY_BUFFER,m_vertexBuffer);
-	glBufferData(GL_ARRAY_BUFFER,sizeof(vVertices),vVertices,GL_STATIC_DRAW);
-
-	GLushort vIndex[] = {0,1,2};
-	glGenBuffers(1,&m_indexBuffer);
-	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER,m_indexBuffer);
-	glBufferData(GL_ELEMENT_ARRAY_BUFFER,sizeof(vIndex),vIndex,GL_STATIC_DRAW);
-#endif
 }

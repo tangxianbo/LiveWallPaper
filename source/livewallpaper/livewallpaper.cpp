@@ -40,7 +40,7 @@ void LiveWallPaper::Init(int width, int height, HWND hwnd)
 	CreateEGLContext(m_hWnd,&m_eglDisplay,&m_eglContext,&m_eglSurface,attribList);
 
 
-	m_water = new Water(m_width,m_height,20.0f);
+	m_water = new Water(m_width,m_height,200.0f);
 	m_water->Init();
 }
 
