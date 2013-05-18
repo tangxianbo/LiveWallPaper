@@ -1,8 +1,17 @@
 #pragma once
-#include <map>
+#include <unordered_map>
 #include <string>
 #include <GLES2/gl2.h>
 #include <EGL/egl.h>
+
+
+struct ShaderUniformDef
+{
+	size_t  hashedName;
+	int		location;
+	int		arraySize;
+	GLenum	valueType;
+};
 
 class Shader
 {
@@ -16,6 +25,6 @@ private:
     void GetShaderUniforms(GLuint shaderProgram);
 
 private:
-    GLuint mShaderProgram;
-    std::map<std::string, int> mAttributes;
+    GLuint				mShaderProgram;
+    ShaderUniformDef*	mShaderUniforms;
 };

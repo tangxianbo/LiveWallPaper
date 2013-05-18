@@ -2,11 +2,25 @@
 #include <stdlib.h>
 
 Texture2D::Texture2D(GLuint width, GLuint height, GLenum format, GLenum type)
-					:id(0)
+					:m_width(width)
+					,m_height(height)
+					,id(0)
 {
 	glGenTextures(1,&id);
 	glBindTexture(GL_TEXTURE_2D, id);
-	glTexImage2D(GL_TEXTURE_2D,0,GL_RGB,width,height,0,GL_RGB,GL_FLOAT,NULL);
+
+	//test
+	float* data = new float[width*height*4];
+	for (int i=0; i<width*height; ++i)
+	{
+		*data++ = 255.0f;
+		*data++ = 255.0f;
+		*data++ = 1.0f;
+		*data++ = 1.0f;
+	}
+	//test end
+
+	glTexImage2D(GL_TEXTURE_2D,0,format,width,height,0,format,type,0);
 	glTexParameteri(GL_TEXTURE_2D,GL_TEXTURE_MIN_FILTER,GL_NEAREST);
 	glTexParameteri(GL_TEXTURE_2D,GL_TEXTURE_MAG_FILTER,GL_NEAREST);
 	glTexParameteri(GL_TEXTURE_2D,GL_TEXTURE_WRAP_S,GL_CLAMP_TO_EDGE);
@@ -24,7 +38,7 @@ void Texture2D::bind(GLuint index)
 	glBindTexture(GL_TEXTURE_2D,this->id);
 }
 
-void Texture2D::unBind(GLuint index)
+void Texture2D::unbind(GLuint index)
 {
 	glActiveTexture(GL_TEXTURE0 + (index||0));
 	glBindTexture(GL_TEXTURE_2D,NULL);

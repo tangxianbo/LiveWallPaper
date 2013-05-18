@@ -2,6 +2,10 @@
 #include "esutils.h"
 #include <vector>
 #include <ktx.h>
+#include "texture2d.h"
+#include "framebuffer.h"
+#include <string>
+#include "shader.h"
 
 
 Water::Water(int screenWidth, int screenHeight, float dx):	m_screenWidth(screenWidth)
@@ -13,7 +17,8 @@ Water::Water(int screenWidth, int screenHeight, float dx):	m_screenWidth(screenW
 	,m_indexEleNum(0)
 	,m_curVertexBuffer(nullptr)
 	,m_preVertexBuffer(nullptr)
-	,m_programObject(NULL)
+	,m_shader_waterdisplay(NULL)
+	,m_shader_drop(NULL)
 	,m_vertexBuffer(NULL)
 	,m_indexBuffer(NULL)
 	,m_textureObject(NULL)
@@ -21,6 +26,9 @@ Water::Water(int screenWidth, int screenHeight, float dx):	m_screenWidth(screenW
 	,m_uvIndex(-1)
 	,m_heightMapIndex(-1)
 	,m_textureIndex(-1)
+	,m_pingTexture(nullptr)
+	,m_pangTexture(nullptr)
+	,m_frameBuffer(0)
 {
 }
 
@@ -31,14 +39,47 @@ Water::~Water()
 
 void Water::Init()
 {
+	const GLubyte* extension = glGetString(GL_EXTENSIONS);
+
 	this->_initShader();
-	this->_initTexture();
 	this->_initMesh();
+	this->_initTexture();
+
+	m_frameBuffer = new FrameBuffer(m_resWidth,m_resHeight);
+	m_frameBuffer->SetColorAttachment(m_pingTexture);
+	//m_frameBuffer->Begin();
+	//m_frameBuffer->End();
+
+	//glViewport(0,0,m_screenWidth,m_screenHeight);
 }
 
 void Water::Render()
 {
-	glUseProgram(m_programObject);
+
+
+	//render to buffer benign.
+	{
+		m_frameBuffer->Begin();
+		glUseProgram(m_shader_waterdisplay);
+		glBindBuffer(GL_ARRAY_BUFFER,m_vertexBuffer);
+		glVertexAttribPointer(m_positionIndex,3,GL_FLOAT,0,sizeof(WaterVertex),NULL);
+		float* uvOffset = reinterpret_cast<float*>(12);
+		glVertexAttribPointer(m_uvIndex,2,GL_FLOAT,0,sizeof(WaterVertex),uvOffset);
+
+		glEnableVertexAttribArray(m_positionIndex);
+		glEnableVertexAttribArray(m_uvIndex);
+
+		glActiveTexture(GL_TEXTURE0);
+		glBindTexture(GL_TEXTURE_2D,m_textureObject);
+
+		glBindBuffer(GL_ELEMENT_ARRAY_BUFFER,m_indexBuffer);
+		glDrawElements(GL_TRIANGLES,m_numFaces*3,GL_UNSIGNED_SHORT,NULL);
+		m_frameBuffer->End();
+	}
+	//render to buffer end.
+
+	glViewport(0,0,m_screenWidth,m_screenHeight);
+	glUseProgram(m_shader_waterdisplay);
 
 	glBindBuffer(GL_ARRAY_BUFFER,m_vertexBuffer);
 	glVertexAttribPointer(m_positionIndex,3,GL_FLOAT,0,sizeof(WaterVertex),NULL);
@@ -48,7 +89,8 @@ void Water::Render()
 	glEnableVertexAttribArray(m_positionIndex);
 	glEnableVertexAttribArray(m_uvIndex);
 
-	//glActiveTexture(GL_TEXTURE0);
+	glActiveTexture(GL_TEXTURE0);
+	glBindTexture(GL_TEXTURE_2D,m_pingTexture->getId());
 	//glBindTexture(GL_TEXTURE_2D, m_textureObject);
 	//glUniform1i(m_textureIndex, 0);
 
@@ -57,6 +99,12 @@ void Water::Render()
 
 	glDisableVertexAttribArray(m_positionIndex);
 	glDisableVertexAttribArray(m_uvIndex);
+}
+
+
+void Water::Touch(int x, int y)
+{
+
 }
 
 void Water::_initShader()
@@ -80,14 +128,17 @@ void Water::_initShader()
 		"  gl_FragColor = texture2D( s_texture, v_texCoord);	\n"
 		"}														\n";
 
-	m_programObject = esLoadProgram(vShaderStr,fShaderStr);
-	if(0 == m_programObject)
+
+	Shader testShader(vShaderStr,fShaderStr);
+
+	m_shader_waterdisplay = esLoadProgram(vShaderStr,fShaderStr);
+	if(0 == m_shader_waterdisplay)
 		return;
 
-	m_positionIndex = glGetAttribLocation(m_programObject,"vPosition");
-	m_uvIndex = glGetAttribLocation(m_programObject,"vTexCoord");
+	m_positionIndex = glGetAttribLocation(m_shader_waterdisplay,"vPosition");
+	m_uvIndex = glGetAttribLocation(m_shader_waterdisplay,"vTexCoord");
 
-	m_textureIndex = glGetUniformLocation(m_programObject,"s_texture");
+	m_textureIndex = glGetUniformLocation(m_shader_waterdisplay,"s_texture");
 }
 
 void Water::_initTexture()
@@ -117,13 +168,20 @@ void Water::_initTexture()
 		}
 	}
 
+	m_pingTexture = new Texture2D(GLuint(m_resWidth),GLuint(m_resHeight),GL_RGBA,GL_FLOAT);
+	m_pangTexture = new Texture2D(GLuint(m_resWidth),GLuint(m_resHeight),GL_RGBA,GL_FLOAT);
 }
 
 
 void Water::_initMesh()
 {
+	#if 0
 	m_resWidth = int(m_screenWidth/m_dx+0.5f) + 1;
 	m_resHeight = int(m_screenHeight/m_dx+0.5f) + 1;
+	#else
+	m_resWidth = 128;
+	m_resHeight = 64;
+	#endif
 	m_vertexBufferSize = sizeof(WaterVertex)*m_resWidth*m_resHeight;
 
 	m_numFaces = (m_resWidth-1)*(m_resHeight-1)*2;

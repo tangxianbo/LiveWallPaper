@@ -1,4 +1,5 @@
 #include "shader.h"
+#include "base/string_hash.h"
 
 
 Shader::Shader(const char* verStr, const char* fragStr):mShaderProgram(0)
@@ -12,13 +13,18 @@ Shader::Shader(const char* verStr, const char* fragStr):mShaderProgram(0)
        if(mShaderProgram)
        {
            glAttachShader(mShaderProgram,vertShader);
-           glAttachShader(mShaderProgram,vertShader);
+           glAttachShader(mShaderProgram,fragShader);
 
            glLinkProgram(mShaderProgram);
 
            GLint linked;
            glGetProgramiv(mShaderProgram,GL_LINK_STATUS,&linked);
-           if(!linked)
+
+		   if(linked)
+		   {
+			   GetShaderUniforms(mShaderProgram);
+		   }
+		   else
            {
                glDeleteProgram(mShaderProgram);
                mShaderProgram = 0;
@@ -34,7 +40,8 @@ Shader::Shader(const char* verStr, const char* fragStr):mShaderProgram(0)
 
 Shader::~Shader()
 {
-
+	glDeleteProgram(mShaderProgram);
+	delete[] mShaderUniforms;
 }
 
 
@@ -83,12 +90,21 @@ Shader::GetShaderUniforms(GLuint shaderProgram)
         char* nameBuffer = new char[maxUniformLen+1];
         nameBuffer[maxUniformLen] = 0;
 
+		char* uniformBuffer = new char[sizeof(ShaderUniformDef)*uniformCount];
+		ShaderUniformDef* uniformDef = mShaderUniforms = reinterpret_cast<ShaderUniformDef*>(uniformBuffer);
+
         for(int i=0; i<uniformCount; ++i)
         {
             GLint arraySize;
             GLenum valueType;
             glGetActiveUniform(shaderProgram, i, maxUniformLen,0,&arraySize, &valueType, nameBuffer);
             GLint loc = glGetUniformLocation(shaderProgram,nameBuffer);
+			uniformDef->hashedName =  RTHASH(nameBuffer);
+			uniformDef->arraySize = arraySize;
+			uniformDef->valueType = valueType;
+			uniformDef->location = loc;
+			uniformDef++;
         }
+		delete []nameBuffer;
     }
 }

@@ -56,6 +56,24 @@
     <ClCompile Include="..\..\source\common\ktx10\ktx10\etcdec.c">
       <Filter>Source Files\ktx</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\source\livewallpaper\framebuffer.cpp">
+      <Filter>Source Files\wallpaper</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\source\livewallpaper\texture2d.cpp">
+      <Filter>Source Files\wallpaper</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\source\livewallpaper\shader.cpp">
+      <Filter>Source Files\wallpaper</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\source\livewallpaper\ShaderParamterDef.cpp">
+      <Filter>Source Files\wallpaper</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\source\livewallpaper\ProcessBufferHeap.cpp">
+      <Filter>Source Files\wallpaper</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\source\livewallpaper\ScopedProcessArray.cpp">
+      <Filter>Source Files\wallpaper</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\source\platforms\win32\application.h">
@@ -84,6 +102,24 @@
     </ClInclude>
     <ClInclude Include="..\..\source\common\ktx10\ktx10\ktxint.h">
       <Filter>Source Files\ktx</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\source\livewallpaper\framebuffer.h">
+      <Filter>Source Files\wallpaper</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\source\livewallpaper\texture2d.h">
+      <Filter>Source Files\wallpaper</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\source\livewallpaper\shader.h">
+      <Filter>Source Files\wallpaper</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\source\livewallpaper\ShaderParamterDef.h">
+      <Filter>Source Files\wallpaper</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\source\livewallpaper\ProcessBufferHeap.h">
+      <Filter>Source Files\wallpaper</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\source\livewallpaper\ScopedProcessArray.h">
+      <Filter>Source Files\wallpaper</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

@@ -17,6 +17,8 @@ struct WaterVertex
 	float uv[2];
 };
 
+class Texture2D;
+class FrameBuffer;
 class Water
 {
 public:
@@ -25,6 +27,8 @@ public:
 
 	void Init();
 	void Render();
+
+	void Touch(int x, int y);
 
 private:
 	void _initShader();
@@ -44,7 +48,8 @@ private:
 	WaterVertex*	m_preVertexBuffer;
 
 	//object and buffer
-	GLuint			m_programObject;
+	GLuint			m_shader_waterdisplay;
+	GLuint			m_shader_drop;
 	GLuint			m_vertexBuffer;
 	GLuint			m_indexBuffer;
 	GLuint			m_textureObject;
@@ -54,4 +59,8 @@ private:
 	GLint			m_uvIndex;
 	GLint			m_heightMapIndex;
 	GLint			m_textureIndex;
+
+	Texture2D*		m_pingTexture;
+	Texture2D*		m_pangTexture;
+	FrameBuffer*	m_frameBuffer;
 };

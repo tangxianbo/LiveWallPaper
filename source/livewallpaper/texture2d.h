@@ -8,10 +8,20 @@ public:
 	~Texture2D();
 
 	void bind(GLuint index);
-	void unBind(GLuint index);
+	void unbind(GLuint index);
 
 	void swap(Texture2D* other);
 
+	GLuint getId();
+
 private:
+	GLuint m_width;
+	GLuint m_height;
 	GLuint id;
 };
+
+inline GLuint 
+Texture2D::getId()
+{
+	return id;
+}

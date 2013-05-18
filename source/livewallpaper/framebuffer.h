@@ -1,13 +1,15 @@
 #pragma once
 #include <GLES2/gl2.h>
+#include "texture2d.h"
 
+class Texture2D;
 class FrameBuffer
 {
 public:
 	FrameBuffer(GLuint width,GLuint height);
 	~FrameBuffer();
 
-	void SetColorAttachment(GLuint textureObject);
+	void SetColorAttachment(Texture2D* colorTexture);
 	void Begin();
 	void End();
 
@@ -21,7 +23,7 @@ private:
 };
 
 inline void 
-FrameBuffer::SetColorAttachment(GLuint textureObject)
+FrameBuffer::SetColorAttachment(Texture2D* colorTexture)
 {
-	m_targetTexture = textureObject;
+	this->m_targetTexture = colorTexture->getId();
 }
