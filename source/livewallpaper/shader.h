@@ -7,10 +7,14 @@
 
 struct ShaderUniformDef
 {
-	size_t  hashedName;
 	int		location;
 	int		arraySize;
 	GLenum	valueType;
+};
+
+struct ShaderAttributeDef
+{
+	int    location;
 };
 
 class Shader
@@ -19,12 +23,20 @@ public:
     Shader(const char* verStr, const char* fragStr);
     ~Shader();
 
+	void Bind();
 
 private:
     GLuint LoadShader ( GLenum type, const char *shaderStr);
-    void GetShaderUniforms(GLuint shaderProgram);
+    void GenerateShaderInfos(GLuint shaderProgram);
 
 private:
     GLuint				mShaderProgram;
-    ShaderUniformDef*	mShaderUniforms;
+	std::unordered_map<size_t, ShaderUniformDef*> mShaderUniformsInfo;
+	std::unordered_map<size_t, ShaderAttributeDef*> mShaderAttributesInfo;
 };
+
+
+inline void Shader::Bind()
+{
+	glUseProgram(mShaderProgram);
+}

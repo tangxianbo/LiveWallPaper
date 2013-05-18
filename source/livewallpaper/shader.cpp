@@ -22,7 +22,7 @@ Shader::Shader(const char* verStr, const char* fragStr):mShaderProgram(0)
 
 		   if(linked)
 		   {
-			   GetShaderUniforms(mShaderProgram);
+			   GenerateShaderInfos(mShaderProgram);
 		   }
 		   else
            {
@@ -41,7 +41,8 @@ Shader::Shader(const char* verStr, const char* fragStr):mShaderProgram(0)
 Shader::~Shader()
 {
 	glDeleteProgram(mShaderProgram);
-	delete[] mShaderUniforms;
+	delete[] reinterpret_cast<char*>(mShaderAttributesInfo.begin()->second);
+	delete[] reinterpret_cast<char*>(mShaderUniformsInfo.begin()->second);
 }
 
 
@@ -77,8 +78,37 @@ Shader::LoadShader ( GLenum type, const char* shaderStr)
 }
 
 void 
-Shader::GetShaderUniforms(GLuint shaderProgram)
+Shader::GenerateShaderInfos(GLuint shaderProgram)
 {
+	int attributeCount = 0;
+	glGetProgramiv(shaderProgram,GL_ACTIVE_ATTRIBUTES, &attributeCount);
+
+	int maxAttributeLen = 0;
+	glGetProgramiv(shaderProgram,GL_ACTIVE_ATTRIBUTE_MAX_LENGTH, &maxAttributeLen);
+
+	if (attributeCount && maxAttributeLen)
+	{
+		char* nameBuffer = new char[maxAttributeLen];
+
+		char* attributeBuffer = new char[sizeof(ShaderAttributeDef)*attributeCount];
+		ShaderAttributeDef* attributeDef = reinterpret_cast<ShaderAttributeDef*>(attributeBuffer);
+
+		for (int i = 0; i < attributeCount; ++i)
+		{
+			GLint arraySize;
+			GLenum valueType;
+			glGetActiveAttrib(shaderProgram, i, maxAttributeLen, 0, &arraySize, &valueType, nameBuffer);
+			size_t hashedName =  RTHASH(nameBuffer);
+			GLint loc = glGetAttribLocation(shaderProgram,nameBuffer);
+			attributeDef->location = loc;
+			attributeDef++;
+			mShaderAttributesInfo.insert(std::pair<size_t, ShaderAttributeDef*>(hashedName, attributeDef));
+		}
+
+		delete[] nameBuffer;
+	}
+
+
     int uniformCount = 0;
     glGetProgramiv(shaderProgram, GL_ACTIVE_UNIFORMS, &uniformCount);
 
@@ -87,11 +117,10 @@ Shader::GetShaderUniforms(GLuint shaderProgram)
 
     if (uniformCount && maxUniformLen)
     {
-        char* nameBuffer = new char[maxUniformLen+1];
-        nameBuffer[maxUniformLen] = 0;
+        char* nameBuffer = new char[maxUniformLen];
 
 		char* uniformBuffer = new char[sizeof(ShaderUniformDef)*uniformCount];
-		ShaderUniformDef* uniformDef = mShaderUniforms = reinterpret_cast<ShaderUniformDef*>(uniformBuffer);
+		ShaderUniformDef* uniformDef = reinterpret_cast<ShaderUniformDef*>(uniformBuffer);
 
         for(int i=0; i<uniformCount; ++i)
         {
@@ -99,11 +128,13 @@ Shader::GetShaderUniforms(GLuint shaderProgram)
             GLenum valueType;
             glGetActiveUniform(shaderProgram, i, maxUniformLen,0,&arraySize, &valueType, nameBuffer);
             GLint loc = glGetUniformLocation(shaderProgram,nameBuffer);
-			uniformDef->hashedName =  RTHASH(nameBuffer);
+			size_t hashedName =  RTHASH(nameBuffer);
 			uniformDef->arraySize = arraySize;
 			uniformDef->valueType = valueType;
 			uniformDef->location = loc;
 			uniformDef++;
+
+			mShaderUniformsInfo.insert(std::pair<size_t, ShaderUniformDef*>(hashedName,uniformDef));
         }
 		delete []nameBuffer;
     }
