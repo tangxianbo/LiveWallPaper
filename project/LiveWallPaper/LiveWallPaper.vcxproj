@@ -60,7 +60,7 @@
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug_OpenGL|Win32'">
     <LinkIncremental>true</LinkIncremental>
-    <IncludePath>..\..\source;..\..\source\common;..\..\source\common\ktx10\include;..\..\source\common\include;$(IncludePath)</IncludePath>
+    <IncludePath>..\..\source;..\..\source\common;..\..\source\common\ktx10\include;..\..\source\common\include;..\..\source\pthread;..\..\source\kazmath;$(IncludePath)</IncludePath>
     <LibraryPath>..\..\source\common\lib;$(LibraryPath)</LibraryPath>
     <LibraryWPath>$(LibraryWPath)</LibraryWPath>
   </PropertyGroup>
@@ -94,7 +94,7 @@
     <Link>
       <SubSystem>Console</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalDependencies>libEGL.lib;libGLESv2.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>libEGL.lib;libGLESv2.lib;pthreadVCE2.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
@@ -116,6 +116,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="..\..\source\base\string_hash.cpp" />
     <ClCompile Include="..\..\source\common\ktx10\ktx10\checkheader.c" />
     <ClCompile Include="..\..\source\common\ktx10\ktx10\etcdec.c" />
     <ClCompile Include="..\..\source\common\ktx10\ktx10\etcunpack.c" />
@@ -123,9 +124,24 @@
     <ClCompile Include="..\..\source\common\ktx10\ktx10\loader.c" />
     <ClCompile Include="..\..\source\common\ktx10\ktx10\swap.c" />
     <ClCompile Include="..\..\source\common\ktx10\ktx10\writer.c" />
+    <ClCompile Include="..\..\source\kazmath\aabb.cpp" />
+    <ClCompile Include="..\..\source\kazmath\GL\mat4stack.cpp" />
+    <ClCompile Include="..\..\source\kazmath\GL\matrix.cpp" />
+    <ClCompile Include="..\..\source\kazmath\mat3.cpp" />
+    <ClCompile Include="..\..\source\kazmath\mat4.cpp" />
+    <ClCompile Include="..\..\source\kazmath\plane.cpp" />
+    <ClCompile Include="..\..\source\kazmath\quaternion.cpp" />
+    <ClCompile Include="..\..\source\kazmath\ray2.cpp" />
+    <ClCompile Include="..\..\source\kazmath\ray3.cpp" />
+    <ClCompile Include="..\..\source\kazmath\utility.cpp" />
+    <ClCompile Include="..\..\source\kazmath\vec2.cpp" />
+    <ClCompile Include="..\..\source\kazmath\vec3.cpp" />
+    <ClCompile Include="..\..\source\kazmath\vec4.cpp" />
     <ClCompile Include="..\..\source\livewallpaper\esutils.cpp" />
+    <ClCompile Include="..\..\source\livewallpaper\EVertexAttribute.cpp" />
     <ClCompile Include="..\..\source\livewallpaper\framebuffer.cpp" />
     <ClCompile Include="..\..\source\livewallpaper\livewallpaper.cpp" />
+    <ClCompile Include="..\..\source\livewallpaper\Mesh.cpp" />
     <ClCompile Include="..\..\source\livewallpaper\ProcessBufferHeap.cpp" />
     <ClCompile Include="..\..\source\livewallpaper\ScopedProcessArray.cpp" />
     <ClCompile Include="..\..\source\livewallpaper\shader.cpp" />
@@ -136,14 +152,33 @@
     <ClCompile Include="..\..\source\platforms\win32\main.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="..\..\source\base\singleton.h" />
+    <ClInclude Include="..\..\source\base\string_hash.h" />
+    <ClInclude Include="..\..\source\base\Types.h" />
     <ClInclude Include="..\..\source\common\ktx10\ktx10\gles1_funcptrs.h" />
     <ClInclude Include="..\..\source\common\ktx10\ktx10\gles2_funcptrs.h" />
     <ClInclude Include="..\..\source\common\ktx10\ktx10\gl_funcptrs.h" />
     <ClInclude Include="..\..\source\common\ktx10\ktx10\ktxint.h" />
     <ClInclude Include="..\..\source\common\ktx10\ktx10\uthash.h" />
+    <ClInclude Include="..\..\source\kazmath\aabb.h" />
+    <ClInclude Include="..\..\source\kazmath\GL\mat4stack.h" />
+    <ClInclude Include="..\..\source\kazmath\GL\matrix.h" />
+    <ClInclude Include="..\..\source\kazmath\kazmath.h" />
+    <ClInclude Include="..\..\source\kazmath\mat3.h" />
+    <ClInclude Include="..\..\source\kazmath\mat4.h" />
+    <ClInclude Include="..\..\source\kazmath\plane.h" />
+    <ClInclude Include="..\..\source\kazmath\quaternion.h" />
+    <ClInclude Include="..\..\source\kazmath\ray2.h" />
+    <ClInclude Include="..\..\source\kazmath\ray3.h" />
+    <ClInclude Include="..\..\source\kazmath\utility.h" />
+    <ClInclude Include="..\..\source\kazmath\vec2.h" />
+    <ClInclude Include="..\..\source\kazmath\vec3.h" />
+    <ClInclude Include="..\..\source\kazmath\vec4.h" />
     <ClInclude Include="..\..\source\livewallpaper\esutils.h" />
+    <ClInclude Include="..\..\source\livewallpaper\EVertexAttribute.h" />
     <ClInclude Include="..\..\source\livewallpaper\framebuffer.h" />
     <ClInclude Include="..\..\source\livewallpaper\livewallpaper.h" />
+    <ClInclude Include="..\..\source\livewallpaper\Mesh.h" />
     <ClInclude Include="..\..\source\livewallpaper\ProcessBufferHeap.h" />
     <ClInclude Include="..\..\source\livewallpaper\ScopedProcessArray.h" />
     <ClInclude Include="..\..\source\livewallpaper\shader.h" />
@@ -151,6 +186,9 @@
     <ClInclude Include="..\..\source\livewallpaper\texture2d.h" />
     <ClInclude Include="..\..\source\livewallpaper\water.h" />
     <ClInclude Include="..\..\source\platforms\win32\application.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <Text Include="..\..\source\kazmath\CMakeLists.txt" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

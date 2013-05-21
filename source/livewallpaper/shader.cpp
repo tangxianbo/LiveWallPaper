@@ -4,8 +4,8 @@
 
 Shader::Shader(const char* verStr, const char* fragStr):mShaderProgram(0)
 {
-   GLuint vertShader = this->LoadShader(GL_VERTEX_SHADER,verStr);
-   GLuint fragShader = this->LoadShader(GL_FRAGMENT_SHADER, fragStr);
+   GLuint vertShader = this->loadShader(GL_VERTEX_SHADER,verStr);
+   GLuint fragShader = this->loadShader(GL_FRAGMENT_SHADER, fragStr);
 
    if (vertShader && fragShader)
    {
@@ -22,7 +22,7 @@ Shader::Shader(const char* verStr, const char* fragStr):mShaderProgram(0)
 
 		   if(linked)
 		   {
-			   GenerateShaderInfos(mShaderProgram);
+			   generateShaderInfo(mShaderProgram);
 		   }
 		   else
            {
@@ -41,13 +41,13 @@ Shader::Shader(const char* verStr, const char* fragStr):mShaderProgram(0)
 Shader::~Shader()
 {
 	glDeleteProgram(mShaderProgram);
-	delete[] reinterpret_cast<char*>(mShaderAttributesInfo.begin()->second);
-	delete[] reinterpret_cast<char*>(mShaderUniformsInfo.begin()->second);
+	delete[] reinterpret_cast<char*>(mShaderAttributesInfo.crbegin()->second);
+	delete[] reinterpret_cast<char*>(mShaderUniformsInfo.crbegin()->second);
 }
 
 
 GLuint 
-Shader::LoadShader ( GLenum type, const char* shaderStr)
+Shader::loadShader ( GLenum type, const char* shaderStr)
 {
     GLuint shader;
     GLint compiled;
@@ -66,7 +66,7 @@ Shader::LoadShader ( GLenum type, const char* shaderStr)
         glGetShaderiv ( shader, GL_INFO_LOG_LENGTH, &infoLen );
         if ( infoLen > 1 )
         {
-            char* infoLog = reinterpret_cast<char*>(malloc (sizeof(char) * infoLen ));
+            char* infoLog = reinterpret_cast<char*>(malloc(sizeof(char) * infoLen ));
             glGetShaderInfoLog ( shader, infoLen, NULL, infoLog );      
             free ( infoLog );
         }
@@ -78,7 +78,7 @@ Shader::LoadShader ( GLenum type, const char* shaderStr)
 }
 
 void 
-Shader::GenerateShaderInfos(GLuint shaderProgram)
+Shader::generateShaderInfo(GLuint shaderProgram)
 {
 	int attributeCount = 0;
 	glGetProgramiv(shaderProgram,GL_ACTIVE_ATTRIBUTES, &attributeCount);
@@ -101,8 +101,8 @@ Shader::GenerateShaderInfos(GLuint shaderProgram)
 			size_t hashedName =  RTHASH(nameBuffer);
 			GLint loc = glGetAttribLocation(shaderProgram,nameBuffer);
 			attributeDef->location = loc;
-			attributeDef++;
 			mShaderAttributesInfo.insert(std::pair<size_t, ShaderAttributeDef*>(hashedName, attributeDef));
+			attributeDef++;
 		}
 
 		delete[] nameBuffer;
@@ -132,9 +132,8 @@ Shader::GenerateShaderInfos(GLuint shaderProgram)
 			uniformDef->arraySize = arraySize;
 			uniformDef->valueType = valueType;
 			uniformDef->location = loc;
-			uniformDef++;
-
 			mShaderUniformsInfo.insert(std::pair<size_t, ShaderUniformDef*>(hashedName,uniformDef));
+			uniformDef++;
         }
 		delete []nameBuffer;
     }

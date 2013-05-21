@@ -1,5 +1,7 @@
 #pragma once
 #include <GLES2/gl2.h>
+#include "shader.h"
+#include "Mesh.h"
 
 struct WaterVertex
 {
@@ -35,6 +37,8 @@ private:
 	void _initTexture();
 	void _initMesh();
 
+	void _drawQuad();
+
 private:
 	int				m_screenWidth;
 	int				m_screenHeight;
@@ -54,6 +58,11 @@ private:
 	GLuint			m_indexBuffer;
 	GLuint			m_textureObject;
 
+	GLuint			m_quadVertexBuffer;
+	GLuint			m_quadIndexBuffer;
+	MeshObject		m_screenRect;
+
+
 	//attribute and uniforms location
 	GLint			m_positionIndex;
 	GLint			m_uvIndex;
@@ -63,4 +72,7 @@ private:
 	Texture2D*		m_pingTexture;
 	Texture2D*		m_pangTexture;
 	FrameBuffer*	m_frameBuffer;
+
+	Shader*        m_shader;
+	Shader*		   m_quadShader;
 };

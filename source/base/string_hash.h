@@ -1,8 +1,9 @@
 #pragma once
 #include <stdio.h>
 
+extern size_t RTHASH(const char* srcStr);
 
-#if defined(_WIN32) || defined(ANDROID) || defined(__linux__)
+#if defined(_MSC_VER) || defined(__GNUC__) || defined(__APPLE__)
     
     inline size_t HASH_FUNCTION(size_t seed, char ch)
     {

@@ -27,3 +27,11 @@ EGLBoolean CreateEGLContext(EGLNativeWindowType  hWnd,
 							EGLContext* eglContext,
 							EGLSurface* eglSurface,
 							EGLint attribList[]);
+
+#if defined(_DEBUG)
+#define GETGLERROR() \
+	if(glGetError() != GL_NO_ERROR) \
+		assert(0);
+#else
+#define GETGLERROR()
+#endif

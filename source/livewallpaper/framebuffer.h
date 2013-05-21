@@ -9,7 +9,6 @@ public:
 	FrameBuffer(GLuint width,GLuint height);
 	~FrameBuffer();
 
-	void SetColorAttachment(Texture2D* colorTexture);
 	void Begin();
 	void End();
 
@@ -22,8 +21,12 @@ private:
 	GLuint m_targetTexture;
 };
 
-inline void 
-FrameBuffer::SetColorAttachment(Texture2D* colorTexture)
+inline void FrameBuffer::Begin()
 {
-	this->m_targetTexture = colorTexture->getId();
+	glBindFramebuffer(GL_FRAMEBUFFER,m_frameBuffer);
+}
+
+inline void FrameBuffer::End()
+{
+	glBindFramebuffer(GL_FRAMEBUFFER,0);
 }
