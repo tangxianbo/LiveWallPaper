@@ -3,6 +3,8 @@
 
 
 Shader::Shader(const char* verStr, const char* fragStr):mShaderProgram(0)
+                                                        ,m_ShaderAttributes(nullptr)
+                                                        ,m_ShaderAttributesNum(0)
 {
    GLuint vertShader = this->loadShader(GL_VERTEX_SHADER,verStr);
    GLuint fragShader = this->loadShader(GL_FRAGMENT_SHADER, fragStr);
@@ -41,7 +43,7 @@ Shader::Shader(const char* verStr, const char* fragStr):mShaderProgram(0)
 Shader::~Shader()
 {
 	glDeleteProgram(mShaderProgram);
-	delete[] reinterpret_cast<char*>(mShaderAttributesInfo.crbegin()->second);
+	delete[] reinterpret_cast<char*>(m_ShaderAttributes);
 	delete[] reinterpret_cast<char*>(mShaderUniformsInfo.crbegin()->second);
 }
 
@@ -82,6 +84,7 @@ Shader::generateShaderInfo(GLuint shaderProgram)
 {
 	int attributeCount = 0;
 	glGetProgramiv(shaderProgram,GL_ACTIVE_ATTRIBUTES, &attributeCount);
+    m_ShaderAttributesNum = attributeCount;
 
 	int maxAttributeLen = 0;
 	glGetProgramiv(shaderProgram,GL_ACTIVE_ATTRIBUTE_MAX_LENGTH, &maxAttributeLen);
@@ -91,7 +94,7 @@ Shader::generateShaderInfo(GLuint shaderProgram)
 		char* nameBuffer = new char[maxAttributeLen];
 
 		char* attributeBuffer = new char[sizeof(ShaderAttributeDef)*attributeCount];
-		ShaderAttributeDef* attributeDef = reinterpret_cast<ShaderAttributeDef*>(attributeBuffer);
+		ShaderAttributeDef* attributeDef = m_ShaderAttributes = reinterpret_cast<ShaderAttributeDef*>(attributeBuffer);
 
 		for (int i = 0; i < attributeCount; ++i)
 		{
@@ -100,8 +103,12 @@ Shader::generateShaderInfo(GLuint shaderProgram)
 			glGetActiveAttrib(shaderProgram, i, maxAttributeLen, 0, &arraySize, &valueType, nameBuffer);
 			size_t hashedName =  RTHASH(nameBuffer);
 			GLint loc = glGetAttribLocation(shaderProgram,nameBuffer);
+
+            E_Vertex_Attribute attributeType = getShaderVertexAttribute(nameBuffer);
+
 			attributeDef->location = loc;
-			mShaderAttributesInfo.insert(std::pair<size_t, ShaderAttributeDef*>(hashedName, attributeDef));
+            attributeDef->attributeType = attributeType;
+
 			attributeDef++;
 		}
 

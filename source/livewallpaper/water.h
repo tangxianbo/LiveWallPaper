@@ -39,6 +39,8 @@ private:
 
 	void _drawQuad();
 
+    void _renderMesh(const MeshObject* mesh, const Shader* shader);
+
 private:
 	int				m_screenWidth;
 	int				m_screenHeight;

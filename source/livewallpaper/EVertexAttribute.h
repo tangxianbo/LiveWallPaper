@@ -171,3 +171,5 @@ enum class E_VERTEX_ATTRIBUTE_VALUE_TYPE
 
 	EVAVT_UNKNOWN = u8(-1)
 };
+
+E_Vertex_Attribute getShaderVertexAttribute(const char* name);

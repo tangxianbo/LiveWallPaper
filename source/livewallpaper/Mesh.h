@@ -1,64 +1,83 @@
 #pragma once
 #include <GLES2/gl2.h>
+#include <unordered_map>
 #include "base/Types.h"
+#include "EVertexAttribute.h"
 
 struct MeshAttributeDef
 {
-	size_t		m_attributeName;
 	GLint		m_elementNum;
 	GLenum		m_elementType;
 	GLsizei		m_stride;
-	u32*		m_offsetPtr;
+	u32 		m_offset;
 };
 
 class MeshObject
 {
 public:
-	MeshObject(GLuint vbo, GLuint ibo, int attributeSize):m_VBO(vbo),m_IBO(ibo)
-	{
-		
-	}
+	MeshObject(GLuint vbo, GLuint ibo);
+    MeshObject();
+	~MeshObject();
 
-	MeshObject():m_VBO(0),m_IBO(0)
-	{
+	void setVBO(GLuint vbo);
+    void setIBO(GLuint ibo);
 
-	}
+	GLuint getVBO() const;
+	GLuint getIBO() const;
 
-	~MeshObject()
-	{
-		glDeleteBuffers(1,&m_VBO);
-		glDeleteBuffers(1,&m_IBO);
-	}
+    void setIndexCount(u32 count);
+    u32 getIndexCount() const;
 
-
-	void setVBO(GLuint vbo)
-	{
-		this->m_VBO = vbo;
-	}
-
-	GLuint getVBO()
-	{
-		return m_VBO;
-	}
-
-	GLuint getIBO()
-	{
-		return m_IBO;
-	}
-
-	void setIBO(GLuint ibo)
-	{
-		this->m_IBO = ibo;
-	}
-
-	MeshAttributeDef* getMeshAttribute(size_t hashedName)
-	{
-		for ()
-		{
-		}
-	}
+    void addMeshAttribute(const char* attributeName, 
+                            GLint elementNum, 
+                            GLenum elementType, 
+                            GLsizei stride, 
+                            u32 offset);
+	const MeshAttributeDef* getMeshAttribute(E_Vertex_Attribute attribute) const;
 
 private:
+    typedef std::unordered_map<E_Vertex_Attribute,MeshAttributeDef> AttributeMap;
+    std::unordered_map<E_Vertex_Attribute,MeshAttributeDef> m_attributeMap;
+
 	GLuint m_VBO;
 	GLuint m_IBO;
+
+    u32 m_indexCount;
 };
+
+
+inline void 
+MeshObject::setVBO(GLuint vbo)
+{
+    this->m_VBO = vbo;
+}
+
+inline GLuint 
+MeshObject::getVBO() const
+{
+    return m_VBO;
+}
+
+inline GLuint 
+MeshObject::getIBO() const
+{
+    return m_IBO;
+}
+
+inline void 
+MeshObject::setIBO(GLuint ibo)
+{
+    this->m_IBO = ibo;
+}
+
+inline void 
+MeshObject::setIndexCount(u32 count)
+{
+    m_indexCount = count;
+}
+
+inline u32
+MeshObject::getIndexCount() const
+{
+    return m_indexCount;
+}
