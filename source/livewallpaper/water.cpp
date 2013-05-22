@@ -116,14 +116,14 @@ void Water::Touch(int x, int y)
 void Water::_initShader()
 {
 	const char vShaderStr[] =  
-		"attribute vec4 vPosition;		\n"
-		"attribute vec2 vTexCoord;		\n"
+		"attribute vec4 position;		\n"
+		"attribute vec2 texcoord;		\n"
 		"uniform vec2 v_offset;		    \n"
 		"varying vec2 v_texCoord;		\n"
 		"void main()					\n"
 		"{								\n"
-		"   gl_Position = vPosition + vec4(v_offset, 0.0,0.0); \n"
-		"   v_texCoord = vTexCoord;		\n"	
+		"   gl_Position = position + vec4(v_offset, 0.0,0.0); \n"
+		"   v_texCoord = texcoord;		\n"	
 		"}								\n";
 
 	const char fShaderStr[] =  
@@ -145,13 +145,13 @@ void Water::_initShader()
 	//quad shader
 	{
 		const char vShaderStr[] =  
-			"attribute vec4 vPosition;		\n"
-			"attribute vec2 vTexCoord;		\n"
+			"attribute vec4 position;		\n"
+			"attribute vec2 texcoord;		\n"
 			"varying vec2 v_texCoord;		\n"
 			"void main()					\n"
 			"{								\n"
-			"   gl_Position = vPosition;	\n"
-			"   v_texCoord = vTexCoord;		\n"	
+			"   gl_Position = position;		\n"
+			"   v_texCoord = texcoord;		\n"	
 			"}								\n";
 
 		const char fShaderStr[] =  
@@ -281,6 +281,11 @@ void Water::_initMesh()
 		glGenBuffers(1,&m_quadIndexBuffer);
 		glBindBuffer(GL_ELEMENT_ARRAY_BUFFER,m_quadIndexBuffer);
 		glBufferData(GL_ELEMENT_ARRAY_BUFFER,sizeof(quadIndexBuffer),quadIndexBuffer,GL_STATIC_DRAW);
+
+		m_screenRect = new MeshObject(m_quadVertexBuffer,m_quadIndexBuffer);
+		m_screenRect->addMeshAttribute("position",3,GL_FLOAT,sizeof(WaterVertex),0);
+		m_screenRect->addMeshAttribute("coord",2,GL_FLOAT,sizeof(WaterVertex),12);
+		m_screenRect->setIndexCount(6);
 	}
 }
 
@@ -292,30 +297,37 @@ void Water::_drawQuad()
 
 #if 0
 	m_quadShader->bind();
-		glBindBuffer(GL_ARRAY_BUFFER,m_quadVertexBuffer);
-        GLint positionIndex = m_quadShader->getAttribLocation(CTHASH("vPosition"));
-        GLint uvIndex = m_quadShader->getAttribLocation(CTHASH("vTexCoord"));
+	glBindBuffer(GL_ARRAY_BUFFER,m_quadVertexBuffer);
+	GLint positionIndex = m_quadShader->getAttribLocation(CTHASH("vPosition"));
+	GLint uvIndex = m_quadShader->getAttribLocation(CTHASH("vTexCoord"));
 
-        glVertexAttribPointer(positionIndex,3,GL_FLOAT,0,sizeof(WaterVertex),NULL);
-        unsigned int* uvOffset = reinterpret_cast<unsigned int*>(12);
-        glVertexAttribPointer(uvIndex,2,GL_FLOAT,0,sizeof(WaterVertex),uvOffset);
+	glVertexAttribPointer(positionIndex,3,GL_FLOAT,0,sizeof(WaterVertex),NULL);
+	unsigned int* uvOffset = reinterpret_cast<unsigned int*>(12);
+	glVertexAttribPointer(uvIndex,2,GL_FLOAT,0,sizeof(WaterVertex),uvOffset);
 
-        glEnableVertexAttribArray(positionIndex);
-        glEnableVertexAttribArray(uvIndex);
+	glEnableVertexAttribArray(positionIndex);
+	glEnableVertexAttribArray(uvIndex);
 
-		glActiveTexture(GL_TEXTURE0);
-		glBindTexture(GL_TEXTURE_2D, m_textureObject);
+	glActiveTexture(GL_TEXTURE0);
+	glBindTexture(GL_TEXTURE_2D, m_textureObject);
 
-		glBindBuffer(GL_ELEMENT_ARRAY_BUFFER,m_quadIndexBuffer);
-		glDrawElements(GL_TRIANGLES,6,GL_UNSIGNED_SHORT,NULL);
+	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER,m_quadIndexBuffer);
+	glDrawElements(GL_TRIANGLES,6,GL_UNSIGNED_SHORT,NULL);
 	m_quadShader->unbind();
 
 	glDisableVertexAttribArray(positionIndex);
 	glDisableVertexAttribArray(uvIndex);
+
+#else
+	m_quadShader->bind();
+	glActiveTexture(GL_TEXTURE0);
+	glBindTexture(GL_TEXTURE_2D, m_textureObject);
+	_renderMesh(m_screenRect,m_quadShader);
+	m_quadShader->unbind();
 #endif
 }
 
-void _renderMesh(const MeshObject* mesh, const Shader* shader)
+void Water::_renderMesh(const MeshObject* mesh, const Shader* shader)
 {
     GLuint vbo = mesh->getVBO();
     GLuint ibo = mesh->getIBO();

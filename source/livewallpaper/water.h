@@ -62,7 +62,7 @@ private:
 
 	GLuint			m_quadVertexBuffer;
 	GLuint			m_quadIndexBuffer;
-	MeshObject		m_screenRect;
+	MeshObject*		m_screenRect;
 
 
 	//attribute and uniforms location
