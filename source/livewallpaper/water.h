@@ -39,8 +39,6 @@ private:
 
 	void _drawQuad();
 
-    void _renderMesh(const MeshObject* mesh, const Shader* shader);
-
 private:
 	int				m_screenWidth;
 	int				m_screenHeight;
@@ -53,28 +51,16 @@ private:
 	WaterVertex*	m_curVertexBuffer;
 	WaterVertex*	m_preVertexBuffer;
 
-	//object and buffer
-	GLuint			m_shader_waterdisplay;
-	GLuint			m_shader_drop;
-	GLuint			m_vertexBuffer;
-	GLuint			m_indexBuffer;
-	GLuint			m_textureObject;
+	GLuint			m_backgroundTexture;
 
-	GLuint			m_quadVertexBuffer;
-	GLuint			m_quadIndexBuffer;
-	MeshObject*		m_screenRect;
-
-
-	//attribute and uniforms location
-	GLint			m_positionIndex;
-	GLint			m_uvIndex;
-	GLint			m_heightMapIndex;
-	GLint			m_textureIndex;
+	MeshObject*		m_quadMesh;
+	Shader*			m_quadShader;
+	Shader*			m_dropShader;
+	Shader*			m_updateShader;
+	Shader*			m_normalRenderShader;
 
 	Texture2D*		m_pingTexture;
 	Texture2D*		m_pangTexture;
-	FrameBuffer*	m_frameBuffer;
 
-	Shader*        m_shader;
-	Shader*		   m_quadShader;
+	FrameBuffer*	m_frameBuffer;
 };
