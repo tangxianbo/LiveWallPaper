@@ -9,8 +9,6 @@ public:
 	FrameBuffer(GLuint width,GLuint height);
 	~FrameBuffer();
 
-	void bindColorTexture(GLuint slot);
-
 	void Begin();
 	void End();
 
@@ -31,11 +29,4 @@ inline void FrameBuffer::Begin()
 inline void FrameBuffer::End()
 {
 	glBindFramebuffer(GL_FRAMEBUFFER,0);
-}
-
-inline void 
-FrameBuffer::bindColorTexture(GLuint slot)
-{
-	glActiveTexture(slot);
-	glBindTexture(GL_TEXTURE_2D, m_targetTexture);
 }
