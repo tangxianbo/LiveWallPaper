@@ -39,7 +39,6 @@ void LiveWallPaper::Init(int width, int height, HWND hwnd)
 	};
 	CreateEGLContext(m_hWnd,&m_eglDisplay,&m_eglContext,&m_eglSurface,attribList);
 
-	glViewport ( 0, 0, m_width, m_height);
 
 	m_water = new Water(m_width,m_height,200.0f);
 	m_water->Init();
@@ -48,6 +47,7 @@ void LiveWallPaper::Init(int width, int height, HWND hwnd)
 
 void LiveWallPaper::Update()
 {
+	glViewport ( 0, 0, m_width, m_height);
 	glClear ( GL_COLOR_BUFFER_BIT );
 
 	m_water->Render();

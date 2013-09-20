@@ -75,11 +75,13 @@
       <Optimization>Disabled</Optimization>
       <PreprocessorDefinitions>WIN32;_DEBUG;_CONSOLE;KTX_OPENGL_ES2;_CRT_SECURE_NO_WARNINGS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <SDLCheck>true</SDLCheck>
+      <AdditionalIncludeDirectories>../../source/kazmath/;../../source/pthread/</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalDependencies>libEGL.lib;libGLESv2.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>libEGL.lib;libGLESv2.lib;pthreadVCE2.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalLibraryDirectories>../../3rdparth/lib/;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug_OpenGL|Win32'">
@@ -143,11 +145,9 @@
     <ClCompile Include="..\..\source\livewallpaper\livewallpaper.cpp" />
     <ClCompile Include="..\..\source\livewallpaper\Mesh.cpp" />
     <ClCompile Include="..\..\source\livewallpaper\ProcessBufferHeap.cpp" />
-    <ClCompile Include="..\..\source\livewallpaper\Renderer.cpp" />
     <ClCompile Include="..\..\source\livewallpaper\ScopedProcessArray.cpp" />
     <ClCompile Include="..\..\source\livewallpaper\shader.cpp" />
     <ClCompile Include="..\..\source\livewallpaper\ShaderParamterDef.cpp" />
-    <ClCompile Include="..\..\source\livewallpaper\SrcShader.cpp" />
     <ClCompile Include="..\..\source\livewallpaper\texture2d.cpp" />
     <ClCompile Include="..\..\source\livewallpaper\water.cpp" />
     <ClCompile Include="..\..\source\platforms\win32\application.cpp" />
@@ -176,21 +176,15 @@
     <ClInclude Include="..\..\source\kazmath\vec2.h" />
     <ClInclude Include="..\..\source\kazmath\vec3.h" />
     <ClInclude Include="..\..\source\kazmath\vec4.h" />
-    <ClInclude Include="..\..\source\livewallpaper\Shader_Normal_Render_Fragment.h" />
-    <ClInclude Include="..\..\source\livewallpaper\Shader_PositionCoord_Vertex.h" />
     <ClInclude Include="..\..\source\livewallpaper\esutils.h" />
     <ClInclude Include="..\..\source\livewallpaper\EVertexAttribute.h" />
     <ClInclude Include="..\..\source\livewallpaper\framebuffer.h" />
     <ClInclude Include="..\..\source\livewallpaper\livewallpaper.h" />
     <ClInclude Include="..\..\source\livewallpaper\Mesh.h" />
     <ClInclude Include="..\..\source\livewallpaper\ProcessBufferHeap.h" />
-    <ClInclude Include="..\..\source\livewallpaper\Renderer.h" />
     <ClInclude Include="..\..\source\livewallpaper\ScopedProcessArray.h" />
     <ClInclude Include="..\..\source\livewallpaper\shader.h" />
     <ClInclude Include="..\..\source\livewallpaper\ShaderParamterDef.h" />
-    <ClInclude Include="..\..\source\livewallpaper\Shader_Water_Drop_Fragment.h" />
-    <ClInclude Include="..\..\source\livewallpaper\Shader_Water_Update_Fragment.h" />
-    <ClInclude Include="..\..\source\livewallpaper\SrcShader.h" />
     <ClInclude Include="..\..\source\livewallpaper\texture2d.h" />
     <ClInclude Include="..\..\source\livewallpaper\water.h" />
     <ClInclude Include="..\..\source\platforms\win32\application.h" />
