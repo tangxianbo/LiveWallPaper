@@ -9,17 +9,6 @@ Texture2D::Texture2D(GLuint width, GLuint height, GLenum format, GLenum type)
 	glGenTextures(1,&id);
 	glBindTexture(GL_TEXTURE_2D, id);
 
-	////test
-	//float* data = new float[width*height*4];
-	//for (int i=0; i<width*height; ++i)
-	//{
-	//	*data++ = 255.0f;
-	//	*data++ = 255.0f;
-	//	*data++ = 1.0f;
-	//	*data++ = 1.0f;
-	//}
-	////test end
-
 	glTexImage2D(GL_TEXTURE_2D,0,format,width,height,0,format,type,0);
 	glTexParameteri(GL_TEXTURE_2D,GL_TEXTURE_MIN_FILTER,GL_NEAREST);
 	glTexParameteri(GL_TEXTURE_2D,GL_TEXTURE_MAG_FILTER,GL_NEAREST);

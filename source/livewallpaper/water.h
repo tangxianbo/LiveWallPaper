@@ -55,7 +55,7 @@ private:
 
 	//object and buffer
 	GLuint			m_shader_waterdisplay;
-	GLuint			m_shader_drop;
+	//GLuint			m_shader_drop;
 	GLuint			m_vertexBuffer;
 	GLuint			m_indexBuffer;
 	GLuint			m_textureObject;
@@ -75,6 +75,8 @@ private:
 	Texture2D*		m_pangTexture;
 	FrameBuffer*	m_frameBuffer;
 
-	Shader*        m_shader;
-	Shader*		   m_quadShader;
+	Shader*			m_shader;
+	Shader*			m_quadShader;
+	Shader*			m_shader_drop;
+	Shader*			m_shader_update;
 };
