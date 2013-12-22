@@ -54,3 +54,8 @@ void LiveWallPaper::Update()
 
 	eglSwapBuffers ( m_eglDisplay, m_eglSurface);
 }
+
+void LiveWallPaper::OnTouch(int x, int y)
+{
+	m_water->Touch(x,y);
+}

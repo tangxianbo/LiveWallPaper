@@ -1,7 +1,15 @@
 #pragma once
 #include <GLES2/gl2.h>
+#include <queue>
 #include "shader.h"
 #include "Mesh.h"
+
+struct TouchPos
+{
+	TouchPos(int x, int y):X(x),Y(y){}
+	int X;
+	int Y;
+};
 
 struct WaterVertex
 {
@@ -41,6 +49,8 @@ private:
 
     void _renderMesh(const MeshObject* mesh, const Shader* shader);
 
+	void _processTouch(int x, int y);
+
 private:
 	int				m_screenWidth;
 	int				m_screenHeight;
@@ -73,10 +83,18 @@ private:
 
 	Texture2D*		m_pingTexture;
 	Texture2D*		m_pangTexture;
-	FrameBuffer*	m_frameBuffer;
+	FrameBuffer*	m_frameBufferA;
+	FrameBuffer*	m_frameBufferB;
 
 	Shader*			m_shader;
 	Shader*			m_quadShader;
 	Shader*			m_shader_drop;
 	Shader*			m_shader_update;
+
+	std::queue<TouchPos>	m_touchQueue;
 };
+
+inline void Water::Touch(int x, int y)
+{
+	m_touchQueue.push(TouchPos(x,y));
+}

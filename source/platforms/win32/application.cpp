@@ -1,4 +1,5 @@
-#include <windows.h>		
+#include <windows.h>
+#include <windowsx.h>
 #include <iostream>
 #include <string>
 #include "application.h"
@@ -194,6 +195,13 @@ LRESULT CALLBACK WndProc(	HWND	hWnd,			// Handle For This Window
 			Application::instance()->ResizeScene(LOWORD(lParam),HIWORD(lParam));  // LoWord=Width, HiWord=Height
 			return 0;								// Jump Back
 		}
+		case  WM_RBUTTONDOWN:
+			{
+				int pos_x = GET_X_LPARAM(lParam);
+				int pos_y = GET_Y_LPARAM(lParam);
+				Application::instance()->OnTouch(pos_x,pos_y);
+				return 0;
+			}
 	}
 
 	return DefWindowProc(hWnd,uMsg,wParam,lParam);
@@ -263,4 +271,9 @@ bool Application::Init()
 		return true;
 	}
 	return false;
+}
+
+void Application::OnTouch(int x, int y)
+{
+	LiveWallPaper::instance()->OnTouch(x,y);
 }

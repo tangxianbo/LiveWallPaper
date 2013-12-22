@@ -14,6 +14,7 @@ protected:
 public:
 	void Init(int width, int height, HWND hwnd);
 	void Update();
+	void OnTouch(int x, int y);
 
 private:
 	HWND		m_hWnd;

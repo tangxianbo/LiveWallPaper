@@ -29,6 +29,7 @@ public:
 	bool Init();
 	int	 Run();
 	void ResizeScene(unsigned int width, unsigned int height);
+	void OnTouch(int x, int y);
 
 protected:
 	bool CreateRenderWindow(LPCWSTR title, int width, int height, int bits, bool isFullScreen,HWND& m_hWnd );
