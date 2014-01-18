@@ -36,6 +36,8 @@ public:
 	~Water();
 
 	void Init();
+
+	void Update();
 	void Render();
 
 	void Touch(int x, int y);
@@ -96,5 +98,5 @@ private:
 
 inline void Water::Touch(int x, int y)
 {
-	m_touchQueue.push(TouchPos(x,y));
+	//m_touchQueue.push(TouchPos(x,y));
 }

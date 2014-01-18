@@ -137,6 +137,12 @@
     <ClCompile Include="..\..\source\livewallpaper\texture2d.cpp">
       <Filter>Source Files\wallpaper\engine</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\source\livewallpaper\GLError.cpp">
+      <Filter>Source Files\wallpaper\engine</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\source\livewallpaper\SystemWin32.cpp">
+      <Filter>Source Files\wallpaper\engine</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\source\platforms\win32\application.h">
@@ -255,6 +261,15 @@
     </ClInclude>
     <ClInclude Include="..\..\source\livewallpaper\VertexShader_Quad.h">
       <Filter>Source Files\wallpaper\shader</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\source\livewallpaper\GLError.h">
+      <Filter>Source Files\wallpaper\engine</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\source\livewallpaper\System.h">
+      <Filter>Source Files\wallpaper\engine</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\source\livewallpaper\SystemWin32.h">
+      <Filter>Source Files\wallpaper\engine</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

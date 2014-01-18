@@ -2,6 +2,7 @@
 #include "texture2d.h"
 #include <assert.h>
 #include <algorithm>  
+#include <vector>
 
 FrameBuffer::FrameBuffer(GLuint width,GLuint height,unsigned int flags)
 			:m_width(width)
@@ -10,24 +11,41 @@ FrameBuffer::FrameBuffer(GLuint width,GLuint height,unsigned int flags)
 			,m_depthBuffer(0)
 			,m_targetTexture(0)
 			,m_flags(flags)
-{
+{	
 	glGenFramebuffers(1,&m_frameBuffer);
 	glBindFramebuffer(GL_FRAMEBUFFER, m_frameBuffer);
 
 	if(m_flags & EFBT_TEXTURE)
 	{
 		GLuint textureFormat = (m_flags & EFBT_TEXTURE_RGB8) ? GL_RGB : GL_RGBA;
+		int bytesPerPixel = (m_flags & EFBT_TEXTURE_RGB8) ? 3 : 4;
+
 		glGenTextures(1, &m_targetTexture);
 		glBindTexture(GL_TEXTURE_2D,m_targetTexture);
-		glTexImage2D(GL_TEXTURE_2D,0,textureFormat,m_width,m_height,0,GL_RGB,GL_UNSIGNED_BYTE,0);
-		glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
-		glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+		if(m_flags & EFBT_TEXTURE_WHITE)
+		{
+			std::vector<GLubyte> textureData(m_width*m_height*bytesPerPixel,125);
+			GLubyte* pData = new GLubyte[m_width*m_height*bytesPerPixel];
+			for (int i=0; i< m_width*m_height*bytesPerPixel; ++i)
+			{
+				pData[i] = 255;
+			}
+			glPixelStorei(GL_UNPACK_ALIGNMENT, 1);
+			glTexImage2D(GL_TEXTURE_2D,0,textureFormat,m_width,m_height,0,textureFormat,GL_UNSIGNED_BYTE,pData);
+		}
+		else
+		{
+			glTexImage2D(GL_TEXTURE_2D,0,textureFormat,m_width,m_height,0,textureFormat,GL_UNSIGNED_BYTE,0);
+		}
+
+		glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
+		glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
 		glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
 		glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
-
 		glFramebufferTexture2D(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0, GL_TEXTURE_2D,m_targetTexture,0);
 	}
 
+	
 	if(m_flags & EFBT_TEXTURE_DEPTH)
 	{
 		glGenRenderbuffers(1,&m_depthBuffer);
@@ -42,8 +60,8 @@ FrameBuffer::FrameBuffer(GLuint width,GLuint height,unsigned int flags)
 		assert(0);
 	}
 
-	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 	glBindFramebuffer(GL_FRAMEBUFFER, 0);
+	
 }
 
 FrameBuffer::~FrameBuffer()

@@ -195,7 +195,7 @@ LRESULT CALLBACK WndProc(	HWND	hWnd,			// Handle For This Window
 			Application::instance()->ResizeScene(LOWORD(lParam),HIWORD(lParam));  // LoWord=Width, HiWord=Height
 			return 0;								// Jump Back
 		}
-		case  WM_RBUTTONDOWN:
+		case  WM_LBUTTONUP:
 			{
 				int pos_x = GET_X_LPARAM(lParam);
 				int pos_y = GET_Y_LPARAM(lParam);

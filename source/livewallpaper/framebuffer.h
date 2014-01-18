@@ -8,6 +8,7 @@ enum
 	EFBT_TEXTURE_RGB8 = 1 << 1,
 	EFBT_TEXTURE_RGBA8 = 1 << 2,
 	EFBT_TEXTURE_DEPTH = 1 << 3,
+	EFBT_TEXTURE_WHITE = 1 << 4,
 
 	EFBT_TEXTURE = EFBT_TEXTURE_RGB8 | EFBT_TEXTURE_RGBA8,
 };
@@ -24,6 +25,8 @@ public:
 	bool Swap(FrameBuffer* other);
 	GLuint GetColorTexture();
 	GLuint GetDepthTexture();
+	GLuint GetWidth();
+	GLuint GetHeight();
 
 private:
 	GLuint m_width;
@@ -48,10 +51,20 @@ inline void FrameBuffer::End()
 
 inline GLuint FrameBuffer::GetColorTexture()
 {
-	return m_frameBuffer;
+	return m_targetTexture;
 }
 
 inline GLuint FrameBuffer::GetDepthTexture()
 {
 	return m_depthBuffer;
+}
+
+inline GLuint FrameBuffer::GetWidth()
+{
+	return m_width;
+}
+
+inline GLuint FrameBuffer::GetHeight()
+{
+	return m_height;
 }
