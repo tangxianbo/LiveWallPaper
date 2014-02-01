@@ -1,15 +1,7 @@
 #pragma once
 #include <GLES2/gl2.h>
-#include <queue>
 #include "shader.h"
 #include "Mesh.h"
-
-struct TouchPos
-{
-	TouchPos(int x, int y):X(x),Y(y){}
-	int X;
-	int Y;
-};
 
 struct WaterVertex
 {
@@ -40,7 +32,7 @@ public:
 	void Update();
 	void Render();
 
-	void Touch(int x, int y);
+	void onTouch(int x, int y);
 
 private:
 	void _initShader();
@@ -92,11 +84,9 @@ private:
 	Shader*			m_quadShader;
 	Shader*			m_shader_drop;
 	Shader*			m_shader_update;
-
-	std::queue<TouchPos>	m_touchQueue;
 };
 
-inline void Water::Touch(int x, int y)
+inline void Water::onTouch(int x, int y)
 {
-	//m_touchQueue.push(TouchPos(x,y));
+	this->_processTouch(x,y);
 }

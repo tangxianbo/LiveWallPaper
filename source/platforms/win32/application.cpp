@@ -240,6 +240,7 @@ int Application::Run()
 				{
 					//m_game->RenderScene();
 					LiveWallPaper::instance()->Update();
+					LiveWallPaper::instance()->Render();
 				}
 			}
 

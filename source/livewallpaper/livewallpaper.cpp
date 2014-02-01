@@ -47,9 +47,21 @@ void LiveWallPaper::Init(int width, int height, HWND hwnd)
 
 void LiveWallPaper::Update()
 {
+	//update touches
+	while (m_touchQueue.size() > 0)
+	{
+		TouchPos touch = m_touchQueue.front();
+		m_touchQueue.pop();
+		m_water->onTouch(touch.X, touch.Y);
+	}
+}
+
+void LiveWallPaper::Render()
+{
 	glViewport ( 0, 0, m_width, m_height);
 	glClear ( GL_COLOR_BUFFER_BIT );
 
+	//render water
 	m_water->Render();
 
 	eglSwapBuffers ( m_eglDisplay, m_eglSurface);
@@ -57,5 +69,6 @@ void LiveWallPaper::Update()
 
 void LiveWallPaper::OnTouch(int x, int y)
 {
-	m_water->Touch(x,y);
+	TouchPos touchPos(x,y);
+	m_touchQueue.push(touchPos);
 }

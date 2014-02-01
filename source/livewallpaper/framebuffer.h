@@ -41,6 +41,13 @@ private:
 
 inline void FrameBuffer::Begin()
 {
+	glActiveTexture(GL_TEXTURE0);
+	glBindTexture(GL_TEXTURE_2D, m_targetTexture);
+	glBindFramebuffer(GL_FRAMEBUFFER, m_depthBuffer);
+
+	glFramebufferTexture2D(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0, GL_TEXTURE_2D, m_targetTexture, 0);
+	glFramebufferRenderbuffer(GL_FRAMEBUFFER, GL_DEPTH_ATTACHMENT, GL_RENDERBUFFER, m_depthBuffer);
+
 	glBindFramebuffer(GL_FRAMEBUFFER,m_frameBuffer);
 }
 

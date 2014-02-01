@@ -48,83 +48,43 @@ void Water::Init()
 
 	this->_initShader();
 	this->_initMesh();
-	this->_initTexture();
+	//this->_initTexture();
 
-	//just for test
-	/*
-	GLubyte pixels[4*3] = 
-	{
-		255, 0, 0,
-		0,	255,	0,
-		0,	0,	255,
-		255,	255,	0
-	};
-
-	glPixelStorei(GL_UNPACK_ALIGNMENT, 1);
-	glGenTextures(1, &testTexture);
-	glBindTexture(GL_TEXTURE_2D, testTexture);
-	glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, 2, 2, 0, GL_RGB, GL_UNSIGNED_BYTE, pixels);
-	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
-	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
-	*/
-	//test end
-
-	m_frameBufferA = new FrameBuffer(m_resWidth,m_resHeight, EFBT_TEXTURE_RGB8|EFBT_TEXTURE_DEPTH|EFBT_TEXTURE_WHITE);
-	m_frameBufferB = new FrameBuffer(m_resWidth,m_resHeight, EFBT_TEXTURE_RGB8|EFBT_TEXTURE_DEPTH|EFBT_TEXTURE_WHITE);
-
-
+	m_frameBufferA = new FrameBuffer(512,512, EFBT_TEXTURE_RGBA8|EFBT_TEXTURE_DEPTH);
+	m_frameBufferB = new FrameBuffer(512,512, EFBT_TEXTURE_RGBA8|EFBT_TEXTURE_DEPTH);
 }
 
 
 void Water::Update()
 {
-	while (m_touchQueue.size() > 0)
-	{
-		TouchPos touch = m_touchQueue.front();
-		m_touchQueue.pop();
-		this->_processTouch(touch.X, touch.Y);
-	}
+
 }
 
 void Water::Render()
 {
-	while(!m_touchQueue.empty())
-	{
-		auto touch = m_touchQueue.front();
-
-	}
-
 	_drawQuad();
 }
 
 void Water::_processTouch(int x, int y)
 {
-	static float radius = 3.0f;
+	static float radius = 0.5f;
 	static float strength = 1.0f;
 
-	//use drop shader 
-	//render to texture a
-	//display texture a
-
-	/*
-	glViewport(0,0,m_screenWidth,m_screenHeight);
+	glViewport(0,0,m_frameBufferA->GetWidth(),m_frameBufferA->GetHeight());
 	m_frameBufferA->Begin();
 	m_shader_drop->bind();
+	kmVec2 vec2;
+	vec2.x = float(x)/m_screenWidth;
+	vec2.y = float(y)/m_screenHeight;
+	m_shader_drop->uniform(RTHASH("center"), vec2);
+	m_shader_drop->uniform(RTHASH("radius"), radius);
+	m_shader_drop->uniform(RTHASH("strength"), strength);
 	glActiveTexture(GL_TEXTURE0);
+	glBindTexture(GL_TEXTURE_2D,m_frameBufferB->GetColorTexture());
 	glBindTexture(GL_TEXTURE_2D,m_textureObject);
 	_renderMesh(m_screenRect,m_shader_drop);
 	m_shader_drop->unbind();
 	m_frameBufferA->End();
-	*/
-
-	/*
-	glViewport(0,0,m_screenWidth,m_screenHeight);
-	m_quadShader->bind();
-	glActiveTexture(GL_TEXTURE0);
-	glBindTexture(GL_TEXTURE_2D, m_frameBufferA->GetColorTexture());
-	_renderMesh(m_screenRect,m_quadShader);
-	m_quadShader->unbind();
-	*/
 
 }
 
@@ -184,9 +144,6 @@ void Water::_initTexture()
 			glTexParameteri(target, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
 		}
 	}
-
-	//m_pingTexture = new Texture2D(GLuint(m_screenWidth),GLuint(m_screenHeight),GL_RGBA,GL_FLOAT);
-	//m_pangTexture = new Texture2D(GLuint(m_screenWidth),GLuint(m_screenHeight),GL_RGBA,GL_FLOAT);
 }
 
 
@@ -284,60 +241,34 @@ void Water::_initMesh()
 void Water::_drawQuad()
 {
 #if 0
-	glViewport(0,0,m_screenWidth,m_screenHeight);
-	m_quadShader->bind();
-	glActiveTexture(GL_TEXTURE0);
-	glBindTexture(GL_TEXTURE_2D, m_textureObject);
-	_renderMesh(m_screenRect,m_quadShader);
-	m_quadShader->unbind();
-#else
-#if 0
-	glViewport(0,0,m_frameBufferA->GetWidth(),m_frameBufferA->GetHeight());
-	m_frameBufferA->Begin();
-	m_quadShader->bind();
-	glClearColor(1.0f, 0.0f, 0.0f, 1.0f);
-	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-	glActiveTexture(GL_TEXTURE0);
-	glBindTexture(GL_TEXTURE_2D,m_textureObject);
-	_renderMesh(m_screenRect,m_quadShader);
-	m_quadShader->unbind();
-	m_frameBufferA->End();
-#else
-	
-	static float radius = 3.0f;
+	static float radius = 0.5f;
 	static float strength = 1.0f;
 
 	glViewport(0,0,m_frameBufferA->GetWidth(),m_frameBufferA->GetHeight());
-	//glViewport(0,0,m_screenWidth,m_screenHeight);
 	m_frameBufferA->Begin();
 	m_shader_drop->bind();
 	kmVec2 vec2;
-	vec2.x = 200.0f;
-	vec2.y = 100.0f;
+	vec2.x = 0.5f;
+	vec2.y = 0.5f;
 	m_shader_drop->uniform(RTHASH("center"), vec2);
 	m_shader_drop->uniform(RTHASH("radius"), radius);
 	m_shader_drop->uniform(RTHASH("strength"), strength);
 	glActiveTexture(GL_TEXTURE0);
-	//glBindTexture(GL_TEXTURE_2D,m_frameBufferB->GetColorTexture());
+	glBindTexture(GL_TEXTURE_2D,m_frameBufferB->GetColorTexture());
 	glBindTexture(GL_TEXTURE_2D,m_textureObject);
 	_renderMesh(m_screenRect,m_shader_drop);
 	m_shader_drop->unbind();
 	m_frameBufferA->End();
-	
 #endif
 
+	
 	glViewport(0,0,m_screenWidth,m_screenHeight);
 	m_quadShader->bind();
 	glActiveTexture(GL_TEXTURE0);
 	glBindTexture(GL_TEXTURE_2D, m_frameBufferA->GetColorTexture());
-	//glBindTexture(GL_TEXTURE_2D,m_textureObject);
-	//glBindTexture(GL_TEXTURE_2D,testTexture);
 	_renderMesh(m_screenRect,m_quadShader);
 	m_quadShader->unbind();
-	//glBindTexture(GL_TEXTURE_2D, 0);
-
 	glGetError();
-#endif
 }
 
 void Water::_renderMesh(const MeshObject* mesh, const Shader* shader)
