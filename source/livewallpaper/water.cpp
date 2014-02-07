@@ -48,7 +48,7 @@ void Water::Init()
 
 	this->_initShader();
 	this->_initMesh();
-	//this->_initTexture();
+	this->_initTexture();
 
 	m_frameBufferA = new FrameBuffer(512,512, EFBT_TEXTURE_RGBA8|EFBT_TEXTURE_DEPTH);
 	m_frameBufferB = new FrameBuffer(512,512, EFBT_TEXTURE_RGBA8|EFBT_TEXTURE_DEPTH);
@@ -67,6 +67,7 @@ void Water::Render()
 
 void Water::_processTouch(int x, int y)
 {
+
 	static float radius = 0.5f;
 	static float strength = 1.0f;
 
@@ -81,10 +82,11 @@ void Water::_processTouch(int x, int y)
 	m_shader_drop->uniform(RTHASH("strength"), strength);
 	glActiveTexture(GL_TEXTURE0);
 	glBindTexture(GL_TEXTURE_2D,m_frameBufferB->GetColorTexture());
-	glBindTexture(GL_TEXTURE_2D,m_textureObject);
 	_renderMesh(m_screenRect,m_shader_drop);
 	m_shader_drop->unbind();
 	m_frameBufferA->End();
+
+	m_frameBufferA->Swap(m_frameBufferB);
 
 }
 
@@ -265,7 +267,7 @@ void Water::_drawQuad()
 	glViewport(0,0,m_screenWidth,m_screenHeight);
 	m_quadShader->bind();
 	glActiveTexture(GL_TEXTURE0);
-	glBindTexture(GL_TEXTURE_2D, m_frameBufferA->GetColorTexture());
+	glBindTexture(GL_TEXTURE_2D, m_frameBufferB->GetColorTexture());
 	_renderMesh(m_screenRect,m_quadShader);
 	m_quadShader->unbind();
 	glGetError();
