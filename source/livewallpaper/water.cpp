@@ -48,7 +48,7 @@ void Water::Init()
 
 	this->_initShader();
 	this->_initMesh();
-	this->_initTexture();
+	//this->_initTexture();
 
 	m_frameBufferA = new FrameBuffer(512,512, EFBT_TEXTURE_RGBA8|EFBT_TEXTURE_DEPTH);
 	m_frameBufferB = new FrameBuffer(512,512, EFBT_TEXTURE_RGBA8|EFBT_TEXTURE_DEPTH);
@@ -57,7 +57,7 @@ void Water::Init()
 
 void Water::Update()
 {
-
+	this->_doUpdate();
 }
 
 void Water::Render()
@@ -312,4 +312,22 @@ void Water::_renderMesh(const MeshObject* mesh, const Shader* shader)
     {
         glDisableVertexAttribArray(it->location);
     }
+}
+
+void Water::_doUpdate()
+{
+	glViewport(0,0,m_frameBufferA->GetWidth(),m_frameBufferA->GetHeight());
+	m_frameBufferA->Begin();
+	m_shader_update->bind();
+	kmVec2 delta;
+	delta.x = 1.0f/m_frameBufferA->GetWidth();
+	delta.y = 1.0f/m_frameBufferA->GetHeight();
+	m_shader_update->uniform(RTHASH("delta"), delta);
+	glActiveTexture(GL_TEXTURE0);
+	glBindTexture(GL_TEXTURE_2D,m_frameBufferB->GetColorTexture());
+	_renderMesh(m_screenRect,m_shader_update);
+	m_shader_update->unbind();
+	m_frameBufferA->End();
+
+	m_frameBufferA->Swap(m_frameBufferB);
 }

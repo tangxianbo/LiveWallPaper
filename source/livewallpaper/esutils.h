@@ -2,7 +2,7 @@
 
 #include <stdlib.h>
 #include <stdio.h>
-#include <GLES2/gl2.h>
+#include <GLES3/gl3.h>
 #include <EGL/egl.h>
 
 /// esCreateWindow flag - RGB color buffer

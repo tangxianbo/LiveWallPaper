@@ -17,6 +17,7 @@ FrameBuffer::FrameBuffer(GLuint width,GLuint height,unsigned int flags)
 
 	if(m_flags & EFBT_TEXTURE)
 	{
+		GLuint internalFormat = (m_flags & EFBT_TEXTURE_RGB8) ? GL_RGB16F:GL_RGBA16F;
 		GLuint textureFormat = (m_flags & EFBT_TEXTURE_RGB8) ? GL_RGB : GL_RGBA;
 		int bytesPerPixel = (m_flags & EFBT_TEXTURE_RGB8) ? 3 : 4;
 
@@ -31,11 +32,11 @@ FrameBuffer::FrameBuffer(GLuint width,GLuint height,unsigned int flags)
 				pData[i] = 255;
 			}
 			glPixelStorei(GL_UNPACK_ALIGNMENT, 1);
-			glTexImage2D(GL_TEXTURE_2D,0,textureFormat,m_width,m_height,0,textureFormat,GL_UNSIGNED_BYTE,pData);
+			glTexImage2D(GL_TEXTURE_2D,0,internalFormat,m_width,m_height,0,textureFormat,GL_HALF_FLOAT,pData);
 		}
 		else
 		{
-			glTexImage2D(GL_TEXTURE_2D,0,textureFormat,m_width,m_height,0,textureFormat,GL_UNSIGNED_BYTE,0);
+			glTexImage2D(GL_TEXTURE_2D,0,internalFormat,m_width,m_height,0,textureFormat,GL_HALF_FLOAT,0);
 		}
 
 		glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);

@@ -1,5 +1,5 @@
 #pragma once
-#include <GLES2/gl2.h>
+#include <GLES3/gl3.h>
 #include "shader.h"
 #include "Mesh.h"
 
@@ -44,6 +44,8 @@ private:
     void _renderMesh(const MeshObject* mesh, const Shader* shader);
 
 	void _processTouch(int x, int y);
+
+	void _doUpdate();
 
 private:
 	int				m_screenWidth;

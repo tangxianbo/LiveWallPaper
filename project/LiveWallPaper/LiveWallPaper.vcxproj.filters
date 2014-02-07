@@ -47,27 +47,6 @@
     <ClCompile Include="..\..\source\livewallpaper\water.cpp">
       <Filter>Source Files\wallpaper</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\source\common\ktx10\ktx10\swap.c">
-      <Filter>Source Files\ktx</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\source\common\ktx10\ktx10\writer.c">
-      <Filter>Source Files\ktx</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\source\common\ktx10\ktx10\checkheader.c">
-      <Filter>Source Files\ktx</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\source\common\ktx10\ktx10\etcunpack.c">
-      <Filter>Source Files\ktx</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\source\common\ktx10\ktx10\hashtable.c">
-      <Filter>Source Files\ktx</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\source\common\ktx10\ktx10\loader.c">
-      <Filter>Source Files\ktx</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\source\common\ktx10\ktx10\etcdec.c">
-      <Filter>Source Files\ktx</Filter>
-    </ClCompile>
     <ClCompile Include="..\..\source\kazmath\aabb.cpp">
       <Filter>Source Files\kazmath</Filter>
     </ClCompile>
@@ -143,6 +122,30 @@
     <ClCompile Include="..\..\source\livewallpaper\SystemWin32.cpp">
       <Filter>Source Files\wallpaper\engine</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\source\common\ktx20\lib\checkheader.c">
+      <Filter>Source Files\ktx</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\source\common\ktx20\lib\errstr.c">
+      <Filter>Source Files\ktx</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\source\common\ktx20\lib\etcdec.cxx">
+      <Filter>Source Files\ktx</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\source\common\ktx20\lib\etcunpack.cxx">
+      <Filter>Source Files\ktx</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\source\common\ktx20\lib\hashtable.c">
+      <Filter>Source Files\ktx</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\source\common\ktx20\lib\loader.c">
+      <Filter>Source Files\ktx</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\source\common\ktx20\lib\swap.c">
+      <Filter>Source Files\ktx</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\source\common\ktx20\lib\writer.c">
+      <Filter>Source Files\ktx</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\source\platforms\win32\application.h">
@@ -153,21 +156,6 @@
     </ClInclude>
     <ClInclude Include="..\..\source\livewallpaper\water.h">
       <Filter>Source Files\wallpaper</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\source\common\ktx10\ktx10\uthash.h">
-      <Filter>Source Files\ktx</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\source\common\ktx10\ktx10\gl_funcptrs.h">
-      <Filter>Source Files\ktx</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\source\common\ktx10\ktx10\gles1_funcptrs.h">
-      <Filter>Source Files\ktx</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\source\common\ktx10\ktx10\gles2_funcptrs.h">
-      <Filter>Source Files\ktx</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\source\common\ktx10\ktx10\ktxint.h">
-      <Filter>Source Files\ktx</Filter>
     </ClInclude>
     <ClInclude Include="..\..\source\kazmath\aabb.h">
       <Filter>Source Files\kazmath</Filter>
@@ -270,6 +258,24 @@
     </ClInclude>
     <ClInclude Include="..\..\source\livewallpaper\SystemWin32.h">
       <Filter>Source Files\wallpaper\engine</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\source\common\ktx20\lib\gl_funcptrs.h">
+      <Filter>Source Files\ktx</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\source\common\ktx20\lib\gles1_funcptrs.h">
+      <Filter>Source Files\ktx</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\source\common\ktx20\lib\gles2_funcptrs.h">
+      <Filter>Source Files\ktx</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\source\common\ktx20\lib\gles3_funcptrs.h">
+      <Filter>Source Files\ktx</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\source\common\ktx20\lib\ktxint.h">
+      <Filter>Source Files\ktx</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\source\common\ktx20\lib\uthash.h">
+      <Filter>Source Files\ktx</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

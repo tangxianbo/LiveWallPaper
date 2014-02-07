@@ -54,6 +54,8 @@ void LiveWallPaper::Update()
 		m_touchQueue.pop();
 		m_water->onTouch(touch.X, touch.Y);
 	}
+
+	m_water->Update();
 }
 
 void LiveWallPaper::Render()

@@ -54,7 +54,7 @@
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <LinkIncremental>true</LinkIncremental>
-    <IncludePath>..\..\source;..\..\source\common;..\..\source\common\ktx10\include;..\..\source\common\include;$(IncludePath)</IncludePath>
+    <IncludePath>..\..\source;..\..\source\common;..\..\source\common\ktx20\include;..\..\source\common\include;$(IncludePath)</IncludePath>
     <LibraryPath>..\..\source\common\lib;$(LibraryPath)</LibraryPath>
     <LibraryWPath>$(LibraryWPath)</LibraryWPath>
   </PropertyGroup>
@@ -73,7 +73,7 @@
       </PrecompiledHeader>
       <WarningLevel>Level3</WarningLevel>
       <Optimization>Disabled</Optimization>
-      <PreprocessorDefinitions>WIN32;_DEBUG;_CONSOLE;KTX_OPENGL_ES2;_CRT_SECURE_NO_WARNINGS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>WIN32;_DEBUG;_CONSOLE;KTX_OPENGL_ES3;_CRT_SECURE_NO_WARNINGS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <SDLCheck>true</SDLCheck>
       <AdditionalIncludeDirectories>../../source/kazmath/;../../source/pthread/</AdditionalIncludeDirectories>
     </ClCompile>
@@ -119,13 +119,14 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="..\..\source\base\string_hash.cpp" />
-    <ClCompile Include="..\..\source\common\ktx10\ktx10\checkheader.c" />
-    <ClCompile Include="..\..\source\common\ktx10\ktx10\etcdec.c" />
-    <ClCompile Include="..\..\source\common\ktx10\ktx10\etcunpack.c" />
-    <ClCompile Include="..\..\source\common\ktx10\ktx10\hashtable.c" />
-    <ClCompile Include="..\..\source\common\ktx10\ktx10\loader.c" />
-    <ClCompile Include="..\..\source\common\ktx10\ktx10\swap.c" />
-    <ClCompile Include="..\..\source\common\ktx10\ktx10\writer.c" />
+    <ClCompile Include="..\..\source\common\ktx20\lib\checkheader.c" />
+    <ClCompile Include="..\..\source\common\ktx20\lib\errstr.c" />
+    <ClCompile Include="..\..\source\common\ktx20\lib\etcdec.cxx" />
+    <ClCompile Include="..\..\source\common\ktx20\lib\etcunpack.cxx" />
+    <ClCompile Include="..\..\source\common\ktx20\lib\hashtable.c" />
+    <ClCompile Include="..\..\source\common\ktx20\lib\loader.c" />
+    <ClCompile Include="..\..\source\common\ktx20\lib\swap.c" />
+    <ClCompile Include="..\..\source\common\ktx20\lib\writer.c" />
     <ClCompile Include="..\..\source\kazmath\aabb.cpp" />
     <ClCompile Include="..\..\source\kazmath\GL\mat4stack.cpp" />
     <ClCompile Include="..\..\source\kazmath\GL\matrix.cpp" />
@@ -159,11 +160,12 @@
     <ClInclude Include="..\..\source\base\singleton.h" />
     <ClInclude Include="..\..\source\base\string_hash.h" />
     <ClInclude Include="..\..\source\base\Types.h" />
-    <ClInclude Include="..\..\source\common\ktx10\ktx10\gles1_funcptrs.h" />
-    <ClInclude Include="..\..\source\common\ktx10\ktx10\gles2_funcptrs.h" />
-    <ClInclude Include="..\..\source\common\ktx10\ktx10\gl_funcptrs.h" />
-    <ClInclude Include="..\..\source\common\ktx10\ktx10\ktxint.h" />
-    <ClInclude Include="..\..\source\common\ktx10\ktx10\uthash.h" />
+    <ClInclude Include="..\..\source\common\ktx20\lib\gles1_funcptrs.h" />
+    <ClInclude Include="..\..\source\common\ktx20\lib\gles2_funcptrs.h" />
+    <ClInclude Include="..\..\source\common\ktx20\lib\gles3_funcptrs.h" />
+    <ClInclude Include="..\..\source\common\ktx20\lib\gl_funcptrs.h" />
+    <ClInclude Include="..\..\source\common\ktx20\lib\ktxint.h" />
+    <ClInclude Include="..\..\source\common\ktx20\lib\uthash.h" />
     <ClInclude Include="..\..\source\kazmath\aabb.h" />
     <ClInclude Include="..\..\source\kazmath\GL\mat4stack.h" />
     <ClInclude Include="..\..\source\kazmath\GL\matrix.h" />

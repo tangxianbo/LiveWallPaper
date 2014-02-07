@@ -18,5 +18,6 @@ void main()										\n\
 	info.g *= 0.995;							\n\
 	info.r += info.g;							\n\
 	gl_FragColor = info;						\n\
+	//gl_FragColor = vec4(average, 0, 0, 1.0);	\n\
 }												\n\
 ";

@@ -1,7 +1,7 @@
 #pragma once
 #include <unordered_map>
 #include <string>
-#include <GLES2/gl2.h>
+#include <GLES3/gl3.h>
 #include <EGL/egl.h>
 #include "kazmath.h"
 #include "base/Types.h"
