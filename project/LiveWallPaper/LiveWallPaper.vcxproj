@@ -203,6 +203,7 @@
   </ItemGroup>
   <ItemGroup>
     <Text Include="..\..\source\kazmath\CMakeLists.txt" />
+    <Text Include="..\..\source\TODO.txt" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

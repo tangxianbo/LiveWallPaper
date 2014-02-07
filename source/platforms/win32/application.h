@@ -26,7 +26,7 @@ protected:
 	}
 
 public:
-	bool Init();
+	bool Init(int screenWidth, int screenHeight);
 	int	 Run();
 	void ResizeScene(unsigned int width, unsigned int height);
 	void OnTouch(int x, int y);

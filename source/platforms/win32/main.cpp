@@ -3,9 +3,11 @@
 
 int main(int argc, char *argv[])
 {
+	int screenWidth = atoi(argv[1]);
+	int screenHeight = atoi(argv[2]);
 
 	Application* app = Application::newInstance();
-	app->Init();
+	app->Init(screenWidth, screenHeight);
 	if (app != NULL)
 	{
 		app->Run();

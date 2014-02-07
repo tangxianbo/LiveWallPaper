@@ -30,7 +30,7 @@
     <Filter Include="Source Files\wallpaper\shader">
       <UniqueIdentifier>{f29128b9-54dd-4db2-8d24-59a8d06e8c9d}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Source Files\wallpaper\engine">
+    <Filter Include="Source Files\engine">
       <UniqueIdentifier>{f86184b2-20a8-457b-a163-39eef8de0db2}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
@@ -93,34 +93,34 @@
       <Filter>Source Files\wallpaper</Filter>
     </ClCompile>
     <ClCompile Include="..\..\source\livewallpaper\esutils.cpp">
-      <Filter>Source Files\wallpaper\engine</Filter>
+      <Filter>Source Files\engine</Filter>
     </ClCompile>
     <ClCompile Include="..\..\source\livewallpaper\EVertexAttribute.cpp">
-      <Filter>Source Files\wallpaper\engine</Filter>
+      <Filter>Source Files\engine</Filter>
     </ClCompile>
     <ClCompile Include="..\..\source\livewallpaper\framebuffer.cpp">
-      <Filter>Source Files\wallpaper\engine</Filter>
+      <Filter>Source Files\engine</Filter>
     </ClCompile>
     <ClCompile Include="..\..\source\livewallpaper\ProcessBufferHeap.cpp">
-      <Filter>Source Files\wallpaper\engine</Filter>
+      <Filter>Source Files\engine</Filter>
     </ClCompile>
     <ClCompile Include="..\..\source\livewallpaper\ScopedProcessArray.cpp">
-      <Filter>Source Files\wallpaper\engine</Filter>
+      <Filter>Source Files\engine</Filter>
     </ClCompile>
     <ClCompile Include="..\..\source\livewallpaper\shader.cpp">
-      <Filter>Source Files\wallpaper\engine</Filter>
+      <Filter>Source Files\engine</Filter>
     </ClCompile>
     <ClCompile Include="..\..\source\livewallpaper\ShaderParamterDef.cpp">
-      <Filter>Source Files\wallpaper\engine</Filter>
+      <Filter>Source Files\engine</Filter>
     </ClCompile>
     <ClCompile Include="..\..\source\livewallpaper\texture2d.cpp">
-      <Filter>Source Files\wallpaper\engine</Filter>
+      <Filter>Source Files\engine</Filter>
     </ClCompile>
     <ClCompile Include="..\..\source\livewallpaper\GLError.cpp">
-      <Filter>Source Files\wallpaper\engine</Filter>
+      <Filter>Source Files\engine</Filter>
     </ClCompile>
     <ClCompile Include="..\..\source\livewallpaper\SystemWin32.cpp">
-      <Filter>Source Files\wallpaper\engine</Filter>
+      <Filter>Source Files\engine</Filter>
     </ClCompile>
     <ClCompile Include="..\..\source\common\ktx20\lib\checkheader.c">
       <Filter>Source Files\ktx</Filter>
@@ -221,28 +221,28 @@
       <Filter>Source Files\wallpaper\shader</Filter>
     </ClInclude>
     <ClInclude Include="..\..\source\livewallpaper\esutils.h">
-      <Filter>Source Files\wallpaper\engine</Filter>
+      <Filter>Source Files\engine</Filter>
     </ClInclude>
     <ClInclude Include="..\..\source\livewallpaper\EVertexAttribute.h">
-      <Filter>Source Files\wallpaper\engine</Filter>
+      <Filter>Source Files\engine</Filter>
     </ClInclude>
     <ClInclude Include="..\..\source\livewallpaper\framebuffer.h">
-      <Filter>Source Files\wallpaper\engine</Filter>
+      <Filter>Source Files\engine</Filter>
     </ClInclude>
     <ClInclude Include="..\..\source\livewallpaper\ProcessBufferHeap.h">
-      <Filter>Source Files\wallpaper\engine</Filter>
+      <Filter>Source Files\engine</Filter>
     </ClInclude>
     <ClInclude Include="..\..\source\livewallpaper\ScopedProcessArray.h">
-      <Filter>Source Files\wallpaper\engine</Filter>
+      <Filter>Source Files\engine</Filter>
     </ClInclude>
     <ClInclude Include="..\..\source\livewallpaper\shader.h">
-      <Filter>Source Files\wallpaper\engine</Filter>
+      <Filter>Source Files\engine</Filter>
     </ClInclude>
     <ClInclude Include="..\..\source\livewallpaper\ShaderParamterDef.h">
-      <Filter>Source Files\wallpaper\engine</Filter>
+      <Filter>Source Files\engine</Filter>
     </ClInclude>
     <ClInclude Include="..\..\source\livewallpaper\texture2d.h">
-      <Filter>Source Files\wallpaper\engine</Filter>
+      <Filter>Source Files\engine</Filter>
     </ClInclude>
     <ClInclude Include="..\..\source\livewallpaper\FragmentShader_Quad.h">
       <Filter>Source Files\wallpaper\shader</Filter>
@@ -251,13 +251,13 @@
       <Filter>Source Files\wallpaper\shader</Filter>
     </ClInclude>
     <ClInclude Include="..\..\source\livewallpaper\GLError.h">
-      <Filter>Source Files\wallpaper\engine</Filter>
+      <Filter>Source Files\engine</Filter>
     </ClInclude>
     <ClInclude Include="..\..\source\livewallpaper\System.h">
-      <Filter>Source Files\wallpaper\engine</Filter>
+      <Filter>Source Files\engine</Filter>
     </ClInclude>
     <ClInclude Include="..\..\source\livewallpaper\SystemWin32.h">
-      <Filter>Source Files\wallpaper\engine</Filter>
+      <Filter>Source Files\engine</Filter>
     </ClInclude>
     <ClInclude Include="..\..\source\common\ktx20\lib\gl_funcptrs.h">
       <Filter>Source Files\ktx</Filter>
@@ -282,5 +282,6 @@
     <Text Include="..\..\source\kazmath\CMakeLists.txt">
       <Filter>Source Files\kazmath</Filter>
     </Text>
+    <Text Include="..\..\source\TODO.txt" />
   </ItemGroup>
 </Project>

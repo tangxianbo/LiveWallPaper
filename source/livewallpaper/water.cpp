@@ -18,6 +18,7 @@ Water::Water(int screenWidth, int screenHeight, float dx):	m_screenWidth(screenW
 	,m_dx(dx)
 	,m_vertexBufferSize(0)
 	,m_indexEleNum(0)
+	,m_screenScaleX(0.0f)
 	,m_curVertexBuffer(nullptr)
 	,m_preVertexBuffer(nullptr)
 	,m_shader_waterdisplay(NULL)
@@ -52,6 +53,8 @@ void Water::Init()
 
 	m_frameBufferA = new FrameBuffer(512,512, EFBT_TEXTURE_RGBA8|EFBT_TEXTURE_DEPTH);
 	m_frameBufferB = new FrameBuffer(512,512, EFBT_TEXTURE_RGBA8|EFBT_TEXTURE_DEPTH);
+
+	m_screenScaleX = m_screenWidth*1.0f/m_screenHeight;
 }
 
 
@@ -80,6 +83,7 @@ void Water::_processTouch(int x, int y)
 	m_shader_drop->uniform(RTHASH("center"), vec2);
 	m_shader_drop->uniform(RTHASH("radius"), radius);
 	m_shader_drop->uniform(RTHASH("strength"), strength);
+	m_shader_drop->uniform(RTHASH("scaleX"), m_screenScaleX);
 	glActiveTexture(GL_TEXTURE0);
 	glBindTexture(GL_TEXTURE_2D,m_frameBufferB->GetColorTexture());
 	_renderMesh(m_screenRect,m_shader_drop);
@@ -316,12 +320,15 @@ void Water::_renderMesh(const MeshObject* mesh, const Shader* shader)
 
 void Water::_doUpdate()
 {
+	static const float inverseWidth = 1.0f/m_frameBufferA->GetWidth();
+	static const float inverseHeight = 1.0f/m_frameBufferA->GetHeight();
+
 	glViewport(0,0,m_frameBufferA->GetWidth(),m_frameBufferA->GetHeight());
 	m_frameBufferA->Begin();
 	m_shader_update->bind();
 	kmVec2 delta;
-	delta.x = 1.0f/m_frameBufferA->GetWidth();
-	delta.y = 1.0f/m_frameBufferA->GetHeight();
+	delta.x = inverseWidth;
+	delta.y = m_screenScaleX*inverseHeight;
 	m_shader_update->uniform(RTHASH("delta"), delta);
 	glActiveTexture(GL_TEXTURE0);
 	glBindTexture(GL_TEXTURE_2D,m_frameBufferB->GetColorTexture());

@@ -1,0 +1,5 @@
+1. 重写数学库
+2. 整理工程
+3. 整理纹理格式，FrameBuffer类型
+4. 屏幕长宽比所产生的 processTouch, doUpdate相关的系数问题
+5. DPI所对应的drop半径大小的问题

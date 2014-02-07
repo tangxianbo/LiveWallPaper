@@ -263,12 +263,12 @@ int Application::Run()
 	return (msg.wParam);							
 }
 
-bool Application::Init()
+bool Application::Init(int screenWidth, int screenHeight)
 {
-	if (CreateRenderWindow(L"LiveWallPaper",800,400,16,false,m_hWnd))
+	if (CreateRenderWindow(L"LiveWallPaper",screenWidth,screenHeight,16,false,m_hWnd))
 	{
 		LiveWallPaper::newInstance();
-		LiveWallPaper::instance()->Init(800,400,m_hWnd);
+		LiveWallPaper::instance()->Init(screenWidth,screenHeight,m_hWnd);
 		return true;
 	}
 	return false;

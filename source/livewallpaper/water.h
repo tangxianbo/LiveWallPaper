@@ -56,6 +56,8 @@ private:
 	int				m_numFaces;
 	int				m_vertexBufferSize;
 	int				m_indexEleNum;
+	float			m_screenScaleX;
+
 	WaterVertex*	m_curVertexBuffer;
 	WaterVertex*	m_preVertexBuffer;
 
