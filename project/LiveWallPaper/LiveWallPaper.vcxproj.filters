@@ -277,6 +277,9 @@
     <ClInclude Include="..\..\source\common\ktx20\lib\uthash.h">
       <Filter>Source Files\ktx</Filter>
     </ClInclude>
+    <ClInclude Include="..\..\source\livewallpaper\FragmentShader_Normal.h">
+      <Filter>Source Files\wallpaper\shader</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Text Include="..\..\source\kazmath\CMakeLists.txt">

@@ -47,6 +47,8 @@ private:
 
 	void _doUpdate();
 
+	void _updateNormal();
+
 private:
 	int				m_screenWidth;
 	int				m_screenHeight;
@@ -88,6 +90,7 @@ private:
 	Shader*			m_quadShader;
 	Shader*			m_shader_drop;
 	Shader*			m_shader_update;
+	Shader*			m_shader_normal;
 };
 
 inline void Water::onTouch(int x, int y)

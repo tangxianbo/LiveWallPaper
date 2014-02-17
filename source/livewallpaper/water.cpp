@@ -61,6 +61,7 @@ void Water::Init()
 void Water::Update()
 {
 	this->_doUpdate();
+	this->_updateNormal();
 }
 
 void Water::Render()
@@ -121,6 +122,15 @@ void Water::_initShader()
 		const char* strFragmentShader = 
 		#include "FragmentShader_Update.h"
 		m_shader_update = new Shader(strVertexShader,strFragmentShader);
+	}
+
+	//normal shader
+	{
+		const char* strVertexShader = 
+		#include "VertexShader_Common.h"
+		const char* strFragmentShader_normal = 
+		#include "FragmentShader_Normal.h"
+		m_shader_normal = new Shader(strVertexShader, strFragmentShader_normal);
 	}
 }
 
@@ -334,6 +344,27 @@ void Water::_doUpdate()
 	glBindTexture(GL_TEXTURE_2D,m_frameBufferB->GetColorTexture());
 	_renderMesh(m_screenRect,m_shader_update);
 	m_shader_update->unbind();
+	m_frameBufferA->End();
+
+	m_frameBufferA->Swap(m_frameBufferB);
+}
+
+void Water::_updateNormal()
+{
+	static const float inverseWidth = 1.0f/m_frameBufferA->GetWidth();
+	static const float inverseHeight = 1.0f/m_frameBufferA->GetHeight();
+
+	glViewport(0,0,m_frameBufferA->GetWidth(),m_frameBufferA->GetHeight());
+	m_frameBufferA->Begin();
+	m_shader_normal->bind();
+	kmVec2 delta;
+	delta.x = inverseWidth;
+	delta.y = inverseHeight;
+	m_shader_normal->uniform(RTHASH("delta"), delta);
+	glActiveTexture(GL_TEXTURE0);
+	glBindTexture(GL_TEXTURE_2D,m_frameBufferB->GetColorTexture());
+	_renderMesh(m_screenRect,m_shader_normal);
+	m_shader_normal->unbind();
 	m_frameBufferA->End();
 
 	m_frameBufferA->Swap(m_frameBufferB);
