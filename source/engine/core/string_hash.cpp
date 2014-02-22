@@ -1,4 +1,4 @@
-#include "string_hash.h"
+#include <core/string_hash.h>
 
 size_t RTHASH(const char* srcStr)
 {

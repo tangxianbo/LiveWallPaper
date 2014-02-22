@@ -24,9 +24,6 @@
     <Filter Include="Source Files\kazmath\GL">
       <UniqueIdentifier>{34f48e45-6eb7-4650-a6d6-b97d3c2a7736}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Source Files\base">
-      <UniqueIdentifier>{eaede826-c239-41c3-bc50-d58d07b6dcff}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Source Files\wallpaper\shader">
       <UniqueIdentifier>{f29128b9-54dd-4db2-8d24-59a8d06e8c9d}</UniqueIdentifier>
     </Filter>
@@ -95,9 +92,6 @@
     <ClCompile Include="..\..\source\kazmath\GL\matrix.cpp">
       <Filter>Source Files\kazmath\GL</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\source\base\string_hash.cpp">
-      <Filter>Source Files\base</Filter>
-    </ClCompile>
     <ClCompile Include="..\..\source\livewallpaper\Mesh.cpp">
       <Filter>Source Files\wallpaper</Filter>
     </ClCompile>
@@ -158,6 +152,15 @@
     <ClCompile Include="..\..\source\engine\shape\GeometryUtil.cpp">
       <Filter>Source Files\engine\shape</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\source\engine\core\ProcessBufferHeap.cpp">
+      <Filter>Source Files\engine\core</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\source\engine\core\ScopedProcessArray.cpp">
+      <Filter>Source Files\engine\core</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\source\engine\core\string_hash.cpp">
+      <Filter>Source Files\engine\core</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\source\platforms\win32\application.h">
@@ -210,15 +213,6 @@
     </ClInclude>
     <ClInclude Include="..\..\source\kazmath\GL\matrix.h">
       <Filter>Source Files\kazmath\GL</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\source\base\singleton.h">
-      <Filter>Source Files\base</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\source\base\string_hash.h">
-      <Filter>Source Files\base</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\source\base\Types.h">
-      <Filter>Source Files\base</Filter>
     </ClInclude>
     <ClInclude Include="..\..\source\livewallpaper\Mesh.h">
       <Filter>Source Files\wallpaper</Filter>
@@ -354,6 +348,18 @@
     </ClInclude>
     <ClInclude Include="..\..\source\engine\shape\triangle3d.h">
       <Filter>Source Files\engine\shape</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\source\engine\core\ProcessBufferHeap.h">
+      <Filter>Source Files\engine\core</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\source\engine\core\ScopedProcessArray.h">
+      <Filter>Source Files\engine\core</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\source\engine\core\singleton.h">
+      <Filter>Source Files\engine\core</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\source\engine\core\string_hash.h">
+      <Filter>Source Files\engine\core</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

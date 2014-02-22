@@ -1,7 +1,7 @@
 #include <GLES3/gl3.h>
 #include <EGL/egl.h>
 #include <queue>
-#include "base/singleton.h"
+#include <core/singleton.h>
 
 struct TouchPos
 {

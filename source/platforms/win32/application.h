@@ -1,7 +1,7 @@
 #pragma once
 
 #include <Windows.h>
-#include "base/singleton.h"
+#include <core/singleton.h>
 #include "livewallpaper/livewallpaper.h"
 
 

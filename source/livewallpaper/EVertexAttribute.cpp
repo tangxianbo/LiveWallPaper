@@ -1,7 +1,7 @@
 #include "EVertexAttribute.h"
 #include <map>
 #include <string>
-#include "base\string_hash.h"
+#include <core/string_hash.h>
 
 E_Vertex_Attribute getShaderVertexAttribute(const char* name)
 {

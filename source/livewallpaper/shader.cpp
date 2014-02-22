@@ -1,5 +1,5 @@
 #include "shader.h"
-#include "base/string_hash.h"
+#include <core/string_hash.h>
 
 
 Shader::Shader(const char* verStr, const char* fragStr):mShaderProgram(0)
