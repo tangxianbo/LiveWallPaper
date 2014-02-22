@@ -33,6 +33,15 @@
     <Filter Include="Source Files\engine">
       <UniqueIdentifier>{f86184b2-20a8-457b-a163-39eef8de0db2}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Source Files\engine\math">
+      <UniqueIdentifier>{7a905bb2-8729-46bd-9200-8005621bd13d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\engine\core">
+      <UniqueIdentifier>{e11a87af-a524-4885-acee-91be3433bcee}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\engine\shape">
+      <UniqueIdentifier>{f99deb3d-6ae5-4dd0-ad7a-40eca5afcb7d}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\..\source\platforms\win32\application.cpp">
@@ -145,6 +154,9 @@
     </ClCompile>
     <ClCompile Include="..\..\source\common\ktx20\lib\writer.c">
       <Filter>Source Files\ktx</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\source\engine\shape\GeometryUtil.cpp">
+      <Filter>Source Files\engine\shape</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -282,6 +294,66 @@
     </ClInclude>
     <ClInclude Include="..\..\source\livewallpaper\VertexShader_Water.h">
       <Filter>Source Files\wallpaper\shader</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\source\engine\math\math.h">
+      <Filter>Source Files\engine\math</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\source\engine\math\matrix2.h">
+      <Filter>Source Files\engine\math</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\source\engine\math\matrix3.h">
+      <Filter>Source Files\engine\math</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\source\engine\math\matrix4.h">
+      <Filter>Source Files\engine\math</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\source\engine\math\matrix4_ops.h">
+      <Filter>Source Files\engine\math</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\source\engine\math\quaternion.h">
+      <Filter>Source Files\engine\math</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\source\engine\math\vector2d.h">
+      <Filter>Source Files\engine\math</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\source\engine\math\vector3d.h">
+      <Filter>Source Files\engine\math</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\source\engine\math\vector4d.h">
+      <Filter>Source Files\engine\math</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\source\engine\core\inlines.h">
+      <Filter>Source Files\engine\core</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\source\engine\core\types.h">
+      <Filter>Source Files\engine\core</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\source\engine\shape\aabbox3d.h">
+      <Filter>Source Files\engine\shape</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\source\engine\shape\dimension2d.h">
+      <Filter>Source Files\engine\shape</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\source\engine\shape\ECullingResult.h">
+      <Filter>Source Files\engine\shape</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\source\engine\shape\GeometryUtil.h">
+      <Filter>Source Files\engine\shape</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\source\engine\shape\line2d.h">
+      <Filter>Source Files\engine\shape</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\source\engine\shape\line3d.h">
+      <Filter>Source Files\engine\shape</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\source\engine\shape\plane3d.h">
+      <Filter>Source Files\engine\shape</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\source\engine\shape\rect.h">
+      <Filter>Source Files\engine\shape</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\source\engine\shape\triangle3d.h">
+      <Filter>Source Files\engine\shape</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

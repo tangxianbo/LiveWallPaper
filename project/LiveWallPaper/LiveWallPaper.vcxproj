@@ -75,7 +75,7 @@
       <Optimization>Disabled</Optimization>
       <PreprocessorDefinitions>WIN32;_DEBUG;_CONSOLE;KTX_OPENGL_ES3;_CRT_SECURE_NO_WARNINGS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <SDLCheck>true</SDLCheck>
-      <AdditionalIncludeDirectories>../../source/kazmath/;../../source/pthread/</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>../../source/kazmath/;../../source/pthread/;../../source/engine/</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -127,6 +127,7 @@
     <ClCompile Include="..\..\source\common\ktx20\lib\loader.c" />
     <ClCompile Include="..\..\source\common\ktx20\lib\swap.c" />
     <ClCompile Include="..\..\source\common\ktx20\lib\writer.c" />
+    <ClCompile Include="..\..\source\engine\shape\GeometryUtil.cpp" />
     <ClCompile Include="..\..\source\kazmath\aabb.cpp" />
     <ClCompile Include="..\..\source\kazmath\GL\mat4stack.cpp" />
     <ClCompile Include="..\..\source\kazmath\GL\matrix.cpp" />
@@ -166,6 +167,26 @@
     <ClInclude Include="..\..\source\common\ktx20\lib\gl_funcptrs.h" />
     <ClInclude Include="..\..\source\common\ktx20\lib\ktxint.h" />
     <ClInclude Include="..\..\source\common\ktx20\lib\uthash.h" />
+    <ClInclude Include="..\..\source\engine\core\inlines.h" />
+    <ClInclude Include="..\..\source\engine\core\types.h" />
+    <ClInclude Include="..\..\source\engine\math\math.h" />
+    <ClInclude Include="..\..\source\engine\math\matrix2.h" />
+    <ClInclude Include="..\..\source\engine\math\matrix3.h" />
+    <ClInclude Include="..\..\source\engine\math\matrix4.h" />
+    <ClInclude Include="..\..\source\engine\math\matrix4_ops.h" />
+    <ClInclude Include="..\..\source\engine\math\quaternion.h" />
+    <ClInclude Include="..\..\source\engine\math\vector2d.h" />
+    <ClInclude Include="..\..\source\engine\math\vector3d.h" />
+    <ClInclude Include="..\..\source\engine\math\vector4d.h" />
+    <ClInclude Include="..\..\source\engine\shape\aabbox3d.h" />
+    <ClInclude Include="..\..\source\engine\shape\dimension2d.h" />
+    <ClInclude Include="..\..\source\engine\shape\ECullingResult.h" />
+    <ClInclude Include="..\..\source\engine\shape\GeometryUtil.h" />
+    <ClInclude Include="..\..\source\engine\shape\line2d.h" />
+    <ClInclude Include="..\..\source\engine\shape\line3d.h" />
+    <ClInclude Include="..\..\source\engine\shape\plane3d.h" />
+    <ClInclude Include="..\..\source\engine\shape\rect.h" />
+    <ClInclude Include="..\..\source\engine\shape\triangle3d.h" />
     <ClInclude Include="..\..\source\kazmath\aabb.h" />
     <ClInclude Include="..\..\source\kazmath\GL\mat4stack.h" />
     <ClInclude Include="..\..\source\kazmath\GL\matrix.h" />

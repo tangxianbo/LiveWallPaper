@@ -4,7 +4,7 @@
 #include <GLES3/gl3.h>
 #include <EGL/egl.h>
 #include "kazmath.h"
-#include "base/Types.h"
+#include <core/types.h>
 #include "EVertexAttribute.h"
 
 
