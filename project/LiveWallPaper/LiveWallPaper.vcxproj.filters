@@ -18,12 +18,6 @@
     <Filter Include="Source Files\ktx">
       <UniqueIdentifier>{f8510e69-9cc1-4fcd-879a-a5480e38163d}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Source Files\kazmath">
-      <UniqueIdentifier>{f78bd883-10d3-42a1-a68b-38ccaf90c29f}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Source Files\kazmath\GL">
-      <UniqueIdentifier>{34f48e45-6eb7-4650-a6d6-b97d3c2a7736}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Source Files\wallpaper\shader">
       <UniqueIdentifier>{f29128b9-54dd-4db2-8d24-59a8d06e8c9d}</UniqueIdentifier>
     </Filter>
@@ -52,45 +46,6 @@
     </ClCompile>
     <ClCompile Include="..\..\source\livewallpaper\water.cpp">
       <Filter>Source Files\wallpaper</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\source\kazmath\aabb.cpp">
-      <Filter>Source Files\kazmath</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\source\kazmath\mat3.cpp">
-      <Filter>Source Files\kazmath</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\source\kazmath\mat4.cpp">
-      <Filter>Source Files\kazmath</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\source\kazmath\plane.cpp">
-      <Filter>Source Files\kazmath</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\source\kazmath\quaternion.cpp">
-      <Filter>Source Files\kazmath</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\source\kazmath\ray2.cpp">
-      <Filter>Source Files\kazmath</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\source\kazmath\ray3.cpp">
-      <Filter>Source Files\kazmath</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\source\kazmath\utility.cpp">
-      <Filter>Source Files\kazmath</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\source\kazmath\vec2.cpp">
-      <Filter>Source Files\kazmath</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\source\kazmath\vec3.cpp">
-      <Filter>Source Files\kazmath</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\source\kazmath\vec4.cpp">
-      <Filter>Source Files\kazmath</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\source\kazmath\GL\mat4stack.cpp">
-      <Filter>Source Files\kazmath\GL</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\source\kazmath\GL\matrix.cpp">
-      <Filter>Source Files\kazmath\GL</Filter>
     </ClCompile>
     <ClCompile Include="..\..\source\livewallpaper\Mesh.cpp">
       <Filter>Source Files\wallpaper</Filter>
@@ -171,48 +126,6 @@
     </ClInclude>
     <ClInclude Include="..\..\source\livewallpaper\water.h">
       <Filter>Source Files\wallpaper</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\source\kazmath\aabb.h">
-      <Filter>Source Files\kazmath</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\source\kazmath\kazmath.h">
-      <Filter>Source Files\kazmath</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\source\kazmath\mat3.h">
-      <Filter>Source Files\kazmath</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\source\kazmath\mat4.h">
-      <Filter>Source Files\kazmath</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\source\kazmath\plane.h">
-      <Filter>Source Files\kazmath</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\source\kazmath\quaternion.h">
-      <Filter>Source Files\kazmath</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\source\kazmath\ray2.h">
-      <Filter>Source Files\kazmath</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\source\kazmath\ray3.h">
-      <Filter>Source Files\kazmath</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\source\kazmath\utility.h">
-      <Filter>Source Files\kazmath</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\source\kazmath\vec2.h">
-      <Filter>Source Files\kazmath</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\source\kazmath\vec3.h">
-      <Filter>Source Files\kazmath</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\source\kazmath\vec4.h">
-      <Filter>Source Files\kazmath</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\source\kazmath\GL\mat4stack.h">
-      <Filter>Source Files\kazmath\GL</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\source\kazmath\GL\matrix.h">
-      <Filter>Source Files\kazmath\GL</Filter>
     </ClInclude>
     <ClInclude Include="..\..\source\livewallpaper\Mesh.h">
       <Filter>Source Files\wallpaper</Filter>
@@ -363,9 +276,6 @@
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <Text Include="..\..\source\kazmath\CMakeLists.txt">
-      <Filter>Source Files\kazmath</Filter>
-    </Text>
     <Text Include="..\..\source\TODO.txt" />
   </ItemGroup>
 </Project>

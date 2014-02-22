@@ -3,10 +3,14 @@
 #include <string>
 #include <GLES3/gl3.h>
 #include <EGL/egl.h>
-#include "kazmath.h"
 #include <core/types.h>
+#include <math/vector2d.h>
+#include <math/vector3d.h>
+#include <math/vector4d.h>
+#include <math/matrix4.h>
 #include "EVertexAttribute.h"
 
+using namespace jenny;
 
 struct ShaderUniformDef
 {
@@ -39,17 +43,17 @@ public:
 
 	void	uniform( size_t name, int data );	
 	void	uniform( size_t name, float data );
-	void	uniform( size_t name, const kmVec2 &data );
-	void	uniform( size_t name, const kmVec3 &data );
-	void	uniform( size_t name, const kmVec4 &data );
-	void	uniform( size_t name, const kmMat3 &data, bool transpose = false );
-	void	uniform( size_t name, const kmMat4 &data, bool transpose = false );
+	void	uniform( size_t name, const vector2df &data );
+	void	uniform( size_t name, const vector3df &data );
+	void	uniform( size_t name, const vector4df &data );
+	void	uniform( size_t name, const matrix3 &data, bool transpose = false );
+	void	uniform( size_t name, const matrix4 &data, bool transpose = false );
 	void	uniform( size_t name, const float *data, int count );
-	void	uniform( size_t name, const kmVec2 *data, int count );
-	void	uniform( size_t name, const kmVec3 *data, int count );
-	void	uniform( size_t name, const kmVec4 *data, int count );
-	void	uniform( size_t name, const kmMat3 *data, int count, bool transpose = false );
-	void	uniform( size_t name, const kmMat4 *data, int count, bool transpose = false );
+	void	uniform( size_t name, const vector2df *data, int count );
+	void	uniform( size_t name, const vector3df *data, int count );
+	void	uniform( size_t name, const vector4df *data, int count );
+	void	uniform( size_t name, const matrix3 *data, int count, bool transpose = false );
+	void	uniform( size_t name, const matrix4 *data, int count, bool transpose = false );
 
 private:
     GLuint	loadShader ( GLenum type, const char *shaderStr);
@@ -113,38 +117,38 @@ Shader::uniform( size_t name, float data )
 }
 
 inline void	
-Shader::uniform( size_t name, const kmVec2 &data )
+Shader::uniform( size_t name, const vector2df &data )
 {
 	GLint loc = getUniformLocation(name);
-	glUniform2f(loc, data.x, data.y);
+	glUniform2f(loc, data.x(), data.y());
 }
 
 inline void	
-Shader::uniform( size_t name, const kmVec3 &data )
+Shader::uniform( size_t name, const vector3df &data )
 {
 	GLint loc = getUniformLocation(name);
-	glUniform3f(loc,data.x, data.y, data.z);
+	glUniform3f(loc,data.x(), data.y(), data.z());
 }
 
 inline void	
-Shader::uniform( size_t name, const kmVec4 &data )
+Shader::uniform( size_t name, const vector4df &data )
 {
 	GLint loc = getUniformLocation(name);
-	glUniform4f(loc, data.x, data.y, data.z, data.w);
+	glUniform4f(loc, data.x(), data.y(), data.z(), data.w());
 }
 
 inline void	
-Shader::uniform( size_t name, const kmMat3 &data, bool transpose)
+Shader::uniform( size_t name, const matrix3 &data, bool transpose)
 {
 	GLint loc = getUniformLocation(name);
-	glUniformMatrix3fv(loc,1,(transpose) ? GL_TRUE:GL_FALSE, data.mat);
+	glUniformMatrix3fv(loc,1,(transpose) ? GL_TRUE:GL_FALSE, data.pointer());
 }
 
 inline void	
-Shader::uniform( size_t name, const kmMat4 &data, bool transpose)
+Shader::uniform( size_t name, const matrix4 &data, bool transpose)
 {
 	GLint loc = getUniformLocation(name);
-	glUniformMatrix4fv(loc,1, (transpose) ? GL_TRUE : GL_FALSE, data.mat);
+	glUniformMatrix4fv(loc,1, (transpose) ? GL_TRUE : GL_FALSE, data.pointer());
 }
 
 inline void	
@@ -155,36 +159,36 @@ Shader::uniform( size_t name, const float *data, int count )
 }
 
 inline void	
-Shader::uniform( size_t name, const kmVec2 *data, int count )
+Shader::uniform( size_t name, const vector2df *data, int count )
 {
 	GLint loc = getUniformLocation(name);
-	glUniform2fv(loc, count, &data[0].x);
+	glUniform2fv(loc, count, data->getDataPtr());
 }
 
 inline void	
-Shader::uniform( size_t name, const kmVec3 *data, int count )
+Shader::uniform( size_t name, const vector3df *data, int count )
 {
 	GLint loc = getUniformLocation(name);
-	glUniform3fv(loc, count, &data[0].x);
+	glUniform3fv(loc, count, data->getDataPtr());
 }
 
 inline void	
-Shader::uniform( size_t name, const kmVec4 *data, int count )
+Shader::uniform( size_t name, const vector4df *data, int count )
 {
 	GLint loc = getUniformLocation(name);
-	glUniform4fv(loc, count, &data[0].x);
+	glUniform4fv(loc, count, data->getDataPtr());
 }
 
 inline void	
-Shader::uniform( size_t name, const kmMat3 *data, int count, bool transpose)
+Shader::uniform( size_t name, const matrix3 *data, int count, bool transpose)
 {
 	GLint loc = getUniformLocation(name);
-	glUniformMatrix3fv(loc,count, (transpose) ? GL_TRUE : GL_FALSE, data->mat);
+	glUniformMatrix3fv(loc,count, (transpose) ? GL_TRUE : GL_FALSE, data->pointer());
 }
 
 inline void	
-Shader::uniform( size_t name, const kmMat4 *data, int count, bool transpose)
+Shader::uniform( size_t name, const matrix4 *data, int count, bool transpose)
 {
 	GLint loc = getUniformLocation(name);
-	glUniformMatrix4fv( loc, count, ( transpose ) ? GL_TRUE : GL_FALSE, data->mat );
+	glUniformMatrix4fv( loc, count, ( transpose ) ? GL_TRUE : GL_FALSE, data->pointer());
 }

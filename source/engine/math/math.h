@@ -5,6 +5,7 @@
 #include <core/types.h>
 #include <type_traits>
 
+
 namespace jenny
 {
 
@@ -519,6 +520,15 @@ struct SBounded
 		return std::numeric_limits<T>::min();
 	}
 };
+
+#ifdef max
+#undef max
+#endif // max
+
+#ifdef min
+#undef min
+#endif //min
+
 
 template<>
 struct SBounded<float>

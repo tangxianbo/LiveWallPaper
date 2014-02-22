@@ -43,8 +43,10 @@ public:
 	const T& operator [] (u32 i) const;
 
 	T& x();
-
 	T& y();
+
+	const T& x() const;
+	const T& y() const;
 
 	const T& getX() const;
 	const T& getY() const;
@@ -189,6 +191,22 @@ template < typename T >
 inline
 T&
 vector2d<T>::y()
+{
+	return Data[1];
+}
+
+template < typename T >
+inline
+const T&
+	vector2d<T>::x() const
+{
+	return Data[0];
+}
+
+template < typename T >
+inline
+const T&
+	vector2d<T>::y() const
 {
 	return Data[1];
 }

@@ -130,19 +130,6 @@
     <ClCompile Include="..\..\source\engine\core\ScopedProcessArray.cpp" />
     <ClCompile Include="..\..\source\engine\core\string_hash.cpp" />
     <ClCompile Include="..\..\source\engine\shape\GeometryUtil.cpp" />
-    <ClCompile Include="..\..\source\kazmath\aabb.cpp" />
-    <ClCompile Include="..\..\source\kazmath\GL\mat4stack.cpp" />
-    <ClCompile Include="..\..\source\kazmath\GL\matrix.cpp" />
-    <ClCompile Include="..\..\source\kazmath\mat3.cpp" />
-    <ClCompile Include="..\..\source\kazmath\mat4.cpp" />
-    <ClCompile Include="..\..\source\kazmath\plane.cpp" />
-    <ClCompile Include="..\..\source\kazmath\quaternion.cpp" />
-    <ClCompile Include="..\..\source\kazmath\ray2.cpp" />
-    <ClCompile Include="..\..\source\kazmath\ray3.cpp" />
-    <ClCompile Include="..\..\source\kazmath\utility.cpp" />
-    <ClCompile Include="..\..\source\kazmath\vec2.cpp" />
-    <ClCompile Include="..\..\source\kazmath\vec3.cpp" />
-    <ClCompile Include="..\..\source\kazmath\vec4.cpp" />
     <ClCompile Include="..\..\source\livewallpaper\esutils.cpp" />
     <ClCompile Include="..\..\source\livewallpaper\EVertexAttribute.cpp" />
     <ClCompile Include="..\..\source\livewallpaper\framebuffer.cpp" />
@@ -190,20 +177,6 @@
     <ClInclude Include="..\..\source\engine\shape\plane3d.h" />
     <ClInclude Include="..\..\source\engine\shape\rect.h" />
     <ClInclude Include="..\..\source\engine\shape\triangle3d.h" />
-    <ClInclude Include="..\..\source\kazmath\aabb.h" />
-    <ClInclude Include="..\..\source\kazmath\GL\mat4stack.h" />
-    <ClInclude Include="..\..\source\kazmath\GL\matrix.h" />
-    <ClInclude Include="..\..\source\kazmath\kazmath.h" />
-    <ClInclude Include="..\..\source\kazmath\mat3.h" />
-    <ClInclude Include="..\..\source\kazmath\mat4.h" />
-    <ClInclude Include="..\..\source\kazmath\plane.h" />
-    <ClInclude Include="..\..\source\kazmath\quaternion.h" />
-    <ClInclude Include="..\..\source\kazmath\ray2.h" />
-    <ClInclude Include="..\..\source\kazmath\ray3.h" />
-    <ClInclude Include="..\..\source\kazmath\utility.h" />
-    <ClInclude Include="..\..\source\kazmath\vec2.h" />
-    <ClInclude Include="..\..\source\kazmath\vec3.h" />
-    <ClInclude Include="..\..\source\kazmath\vec4.h" />
     <ClInclude Include="..\..\source\livewallpaper\esutils.h" />
     <ClInclude Include="..\..\source\livewallpaper\EVertexAttribute.h" />
     <ClInclude Include="..\..\source\livewallpaper\FragmentShader_Drop.h" />
@@ -228,7 +201,6 @@
     <ClInclude Include="..\..\source\platforms\win32\application.h" />
   </ItemGroup>
   <ItemGroup>
-    <Text Include="..\..\source\kazmath\CMakeLists.txt" />
     <Text Include="..\..\source\TODO.txt" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

@@ -7,9 +7,16 @@
 #include <string>
 #include "shader.h"
 #include <core/string_hash.h>
-#include "kazmath.h"
+#include <math/math.h>
+#include <math/vector2d.h>
+#include <math/vector3d.h>
+#include <math/vector4d.h>
+#include <math/matrix3.h>
+#include <math/matrix4.h>
+#include <math/quaternion.h>
 #include "esutils.h"
 
+using namespace jenny;
 
 Water::Water(int screenWidth, int screenHeight, float dx):	m_screenWidth(screenWidth)
 	,m_screenHeight(screenHeight)
@@ -78,9 +85,7 @@ void Water::_processTouch(int x, int y)
 	glViewport(0,0,m_frameBufferA->GetWidth(),m_frameBufferA->GetHeight());
 	m_frameBufferA->Begin();
 	m_shader_drop->bind();
-	kmVec2 vec2;
-	vec2.x = float(x)/m_screenWidth;
-	vec2.y = float(y)/m_screenHeight;
+	vector2df vec2(float(x)/m_screenWidth,float(y)/m_screenHeight);
 	m_shader_drop->uniform(RTHASH("center"), vec2);
 	m_shader_drop->uniform(RTHASH("radius"), radius);
 	m_shader_drop->uniform(RTHASH("strength"), strength);
@@ -339,9 +344,9 @@ void Water::_doUpdate()
 	glViewport(0,0,m_frameBufferA->GetWidth(),m_frameBufferA->GetHeight());
 	m_frameBufferA->Begin();
 	m_shader_update->bind();
-	kmVec2 delta;
-	delta.x = inverseWidth;
-	delta.y = m_screenScaleX*inverseHeight;
+	vector2df delta(inverseWidth, m_screenScaleX*inverseHeight);
+	//delta.x = inverseWidth;
+	//delta.y = m_screenScaleX*inverseHeight;
 	m_shader_update->uniform(RTHASH("delta"), delta);
 	glActiveTexture(GL_TEXTURE0);
 	glBindTexture(GL_TEXTURE_2D,m_frameBufferB->GetColorTexture());
@@ -360,9 +365,9 @@ void Water::_updateNormal()
 	glViewport(0,0,m_frameBufferA->GetWidth(),m_frameBufferA->GetHeight());
 	m_frameBufferA->Begin();
 	m_shader_normal->bind();
-	kmVec2 delta;
-	delta.x = inverseWidth;
-	delta.y = inverseHeight;
+	vector2df delta(inverseWidth, inverseHeight);
+	//delta.x = inverseWidth;
+	//delta.y = inverseHeight;
 	m_shader_normal->uniform(RTHASH("delta"), delta);
 	glActiveTexture(GL_TEXTURE0);
 	glBindTexture(GL_TEXTURE_2D,m_frameBufferB->GetColorTexture());
