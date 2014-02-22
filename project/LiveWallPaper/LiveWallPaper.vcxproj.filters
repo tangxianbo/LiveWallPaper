@@ -280,6 +280,9 @@
     <ClInclude Include="..\..\source\livewallpaper\FragmentShader_Normal.h">
       <Filter>Source Files\wallpaper\shader</Filter>
     </ClInclude>
+    <ClInclude Include="..\..\source\livewallpaper\VertexShader_Water.h">
+      <Filter>Source Files\wallpaper\shader</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Text Include="..\..\source\kazmath\CMakeLists.txt">

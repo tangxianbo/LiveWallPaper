@@ -199,6 +199,7 @@
     <ClInclude Include="..\..\source\livewallpaper\texture2d.h" />
     <ClInclude Include="..\..\source\livewallpaper\VertexShader_Common.h" />
     <ClInclude Include="..\..\source\livewallpaper\VertexShader_Quad.h" />
+    <ClInclude Include="..\..\source\livewallpaper\VertexShader_Water.h" />
     <ClInclude Include="..\..\source\livewallpaper\water.h" />
     <ClInclude Include="..\..\source\platforms\win32\application.h" />
   </ItemGroup>

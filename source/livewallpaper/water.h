@@ -73,6 +73,7 @@ private:
 	GLuint			m_quadVertexBuffer;
 	GLuint			m_quadIndexBuffer;
 	MeshObject*		m_screenRect;
+	MeshObject*		m_waterMesh;
 
 
 	//attribute and uniforms location

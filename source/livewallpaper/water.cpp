@@ -176,8 +176,7 @@ void Water::_initMesh()
 
 	m_numFaces = (m_resWidth-1)*(m_resHeight-1)*2;
 
-	m_curVertexBuffer = new WaterVertex[m_resWidth*m_resHeight];
-	m_preVertexBuffer = new WaterVertex[m_resWidth*m_resHeight];
+	WaterVertex* vertexBuffer = new WaterVertex[m_resWidth*m_resHeight];
 
 	float halfWidth = m_screenWidth*0.5f;
 	float halfHeight = m_screenHeight*0.5f;
@@ -192,8 +191,7 @@ void Water::_initMesh()
 		#if 1
 			float u = j*1.0f/(m_resWidth-1);
 			float v = i*1.0f/(m_resHeight-1);
-			m_curVertexBuffer[i*m_resWidth + j] = WaterVertex(j*2.0f/(m_resWidth-1)-1.0f,1.0f-i*2.0f/(m_resHeight-1),0.5f,u,v);
-			m_preVertexBuffer[i*m_resWidth + j] = WaterVertex(j*2.0f/(m_resWidth-1)-1.0f,1.0f-i*2.0f/(m_resHeight-1),0.5f,u,v);
+			vertexBuffer[i*m_resWidth + j] = WaterVertex(j*2.0f/(m_resWidth-1)-1.0f,1.0f-i*2.0f/(m_resHeight-1),0.5f,u,v);
 		#else
 			m_curVertexBuffer[i*m_resWidth + j] = WaterVertex(x,0.0f,z);
 			m_preVertexBuffer[i*m_resWidth + j] = WaterVertex(x,0.0f,z);
@@ -225,6 +223,11 @@ void Water::_initMesh()
 	glGenBuffers(1,&m_indexBuffer);
 	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER,m_indexBuffer);
 	glBufferData(GL_ELEMENT_ARRAY_BUFFER,sizeof(GLushort)*m_numFaces*3,&indices[0],GL_STATIC_DRAW);
+
+	m_waterMesh = new MeshObject(m_vertexBuffer,m_indexBuffer);
+	m_waterMesh->addMeshAttribute("position",3,GL_FLOAT,sizeof(WaterVertex),0);
+	m_waterMesh->addMeshAttribute("coord",2,GL_FLOAT,sizeof(WaterVertex),12);
+	m_waterMesh->setIndexCount(m_numFaces*3);
 
 	//quad buffer
 	{
