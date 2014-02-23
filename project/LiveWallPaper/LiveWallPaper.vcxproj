@@ -183,6 +183,7 @@
     <ClInclude Include="..\..\source\livewallpaper\FragmentShader_Normal.h" />
     <ClInclude Include="..\..\source\livewallpaper\FragmentShader_Quad.h" />
     <ClInclude Include="..\..\source\livewallpaper\FragmentShader_Update.h" />
+    <ClInclude Include="..\..\source\livewallpaper\FragmentShader_Water.h" />
     <ClInclude Include="..\..\source\livewallpaper\framebuffer.h" />
     <ClInclude Include="..\..\source\livewallpaper\GLError.h" />
     <ClInclude Include="..\..\source\livewallpaper\livewallpaper.h" />

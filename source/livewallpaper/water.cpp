@@ -42,6 +42,7 @@ Water::Water(int screenWidth, int screenHeight, float dx):	m_screenWidth(screenW
 	,m_frameBufferB(nullptr)
 	,m_shader_drop(nullptr)
 	,m_shader_update(nullptr)
+	,m_shader_water(nullptr)
 {
 }
 
@@ -56,7 +57,7 @@ void Water::Init()
 
 	this->_initShader();
 	this->_initMesh();
-	//this->_initTexture();
+	this->_initTexture();
 
 	m_frameBufferA = new FrameBuffer(512,512, EFBT_TEXTURE_RGBA8|EFBT_TEXTURE_DEPTH);
 	m_frameBufferB = new FrameBuffer(512,512, EFBT_TEXTURE_RGBA8|EFBT_TEXTURE_DEPTH);
@@ -67,8 +68,10 @@ void Water::Init()
 
 void Water::Update()
 {
+#if 0
 	this->_doUpdate();
 	this->_updateNormal();
+#endif
 }
 
 void Water::Render()
@@ -136,6 +139,15 @@ void Water::_initShader()
 		const char* strFragmentShader_normal = 
 		#include "FragmentShader_Normal.h"
 		m_shader_normal = new Shader(strVertexShader, strFragmentShader_normal);
+	}
+
+	//water shader
+	{
+		const char* strVertexShader = 
+		#include "VertexShader_Water.h"
+		const char* strFragmentShader =
+		#include "FragmentShader_Water.h"
+		m_shader_water = new Shader(strVertexShader, strFragmentShader);
 	}
 }
 
@@ -223,7 +235,7 @@ void Water::_initMesh()
 
 	glGenBuffers(1,&m_vertexBuffer);
 	glBindBuffer(GL_ARRAY_BUFFER,m_vertexBuffer);
-	glBufferData(GL_ARRAY_BUFFER,m_vertexBufferSize, m_curVertexBuffer,GL_STATIC_DRAW);
+	glBufferData(GL_ARRAY_BUFFER,m_vertexBufferSize, vertexBuffer,GL_STATIC_DRAW);
 
 	glGenBuffers(1,&m_indexBuffer);
 	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER,m_indexBuffer);
@@ -259,9 +271,34 @@ void Water::_initMesh()
 		m_screenRect->addMeshAttribute("coord",2,GL_FLOAT,sizeof(WaterVertex),12);
 		m_screenRect->setIndexCount(6);
 	}
+
+	//test triangle
+	{
+		vector3df vertexBufferData[] = 
+		{
+			vector3df(0.0f, 0.0f, 0.0f),
+			vector3df(3.0f, 0.0f, 0.0f),
+			vector3df(0.0f, 3.0f, 0.0f)
+		};
+
+		GLushort indexBufferData[3] = {0,1,2};
+		GLuint vertexBuffer, indexBuffer;
+		glGenBuffers(1, &vertexBuffer);
+		glBindBuffer(GL_ARRAY_BUFFER, vertexBuffer);
+		glBufferData(GL_ARRAY_BUFFER, sizeof(vector3df)*3, vertexBufferData, GL_STATIC_DRAW);
+
+		glGenBuffers(1, &indexBuffer);
+		glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, indexBuffer);
+		glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(indexBufferData), indexBufferData, GL_STATIC_DRAW);
+
+		m_testTriangle = new MeshObject(vertexBuffer, indexBuffer);
+		m_testTriangle->addMeshAttribute("position", 3, GL_FLOAT, sizeof(vector3df), 0);
+		m_testTriangle->setIndexCount(3);
+	}
 }
 
 
+extern matrix4 g_viewProjectMatrix;
 void Water::_drawQuad()
 {
 #if 0
@@ -285,7 +322,7 @@ void Water::_drawQuad()
 	m_frameBufferA->End();
 #endif
 
-	
+#if 0	
 	glViewport(0,0,m_screenWidth,m_screenHeight);
 	m_quadShader->bind();
 	glActiveTexture(GL_TEXTURE0);
@@ -293,6 +330,45 @@ void Water::_drawQuad()
 	_renderMesh(m_screenRect,m_quadShader);
 	m_quadShader->unbind();
 	glGetError();
+#endif
+
+	//for test
+#if 0
+	glViewport(0,0,m_screenWidth,m_screenHeight);
+	m_quadShader->bind();
+	glActiveTexture(GL_TEXTURE0);
+	glBindTexture(GL_TEXTURE_2D, m_textureObject);
+	_renderMesh(m_testTriangle,m_quadShader);
+	m_quadShader->unbind();
+	glGetError();
+#endif
+
+	//
+#if 1
+
+	vector4df transformedVertexs[3];
+	vector4df originalVertex[] = 
+	{
+		vector4df(0.0f, 0.0f, 0.5f, 1.0f),
+		vector4df(1.0f, 0.0f, 0.5f, 1.0f),
+		vector4df(0.0f, 0.0f, -1.0f, 1.0f)
+	};
+
+	for (int i=0; i<3; ++i)
+	{
+		g_viewProjectMatrix.transformVect(transformedVertexs[i],originalVertex[i]);
+	}
+
+	matrix4 transposedMatrix = g_viewProjectMatrix.getTransposed();
+
+	glViewport(0, 0, m_screenWidth, m_screenHeight);
+	m_shader_water->bind();
+	m_shader_water->uniform(RTHASH("WVPMatrix"), g_viewProjectMatrix);
+	_renderMesh(m_testTriangle, m_shader_water);
+	m_shader_water->unbind();
+	glGetError();
+#endif
+
 }
 
 void Water::_renderMesh(const MeshObject* mesh, const Shader* shader)

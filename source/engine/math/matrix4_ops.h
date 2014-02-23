@@ -57,7 +57,7 @@ inline
 CMatrix4<T>&
 buildProjectionMatrixPerspectiveFov(CMatrix4<T>& out, T fieldOfViewRadians, T aspectRatio, T zNear, T zFar)
 {
-	f64 h = 1.0 / glf::Tan(f64(fieldOfViewRadians) / 2.0);
+	f64 h = 1.0 / Tan(f64(fieldOfViewRadians) / 2.0);
 	T w = T(h / f64(aspectRatio));
 	T d = 1.0f / (zFar - zNear);
 

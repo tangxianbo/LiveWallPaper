@@ -274,6 +274,9 @@
     <ClInclude Include="..\..\source\engine\core\string_hash.h">
       <Filter>Source Files\engine\core</Filter>
     </ClInclude>
+    <ClInclude Include="..\..\source\livewallpaper\FragmentShader_Water.h">
+      <Filter>Source Files\wallpaper\shader</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Text Include="..\..\source\TODO.txt" />

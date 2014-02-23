@@ -40,13 +40,11 @@ private:
 	void _initMesh();
 
 	void _drawQuad();
-
     void _renderMesh(const MeshObject* mesh, const Shader* shader);
 
 	void _processTouch(int x, int y);
 
 	void _doUpdate();
-
 	void _updateNormal();
 
 private:
@@ -74,6 +72,7 @@ private:
 	GLuint			m_quadIndexBuffer;
 	MeshObject*		m_screenRect;
 	MeshObject*		m_waterMesh;
+	MeshObject*		m_testTriangle;
 
 
 	//attribute and uniforms location
@@ -92,6 +91,7 @@ private:
 	Shader*			m_shader_drop;
 	Shader*			m_shader_update;
 	Shader*			m_shader_normal;
+	Shader*			m_shader_water;
 };
 
 inline void Water::onTouch(int x, int y)
