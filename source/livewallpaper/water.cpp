@@ -18,16 +18,22 @@
 
 using namespace jenny;
 
+//temp code
+
+vector2di getSceenDPI()
+{
+	HDC screen = GetDC(0);
+	int dpiX = GetDeviceCaps (screen, LOGPIXELSX);
+	int dpiY = GetDeviceCaps (screen, LOGPIXELSY);
+	ReleaseDC (0, screen);
+
+	return vector2di(dpiX, dpiY);
+}
+
 Water::Water(int screenWidth, int screenHeight, float dx):	m_screenWidth(screenWidth)
 	,m_screenHeight(screenHeight)
-	,m_resWidth(0)
-	,m_resHeight(0)
-	,m_dx(dx)
-	,m_vertexBufferSize(0)
 	,m_indexEleNum(0)
 	,m_screenScaleX(0.0f)
-	,m_curVertexBuffer(nullptr)
-	,m_preVertexBuffer(nullptr)
 	,m_shader_waterdisplay(NULL)
 	,m_vertexBuffer(NULL)
 	,m_indexBuffer(NULL)
@@ -182,69 +188,66 @@ void Water::_initTexture()
 
 void Water::_initMesh()
 {
+	//water mesh
+	{
+		static const float VERTEX_PER_INCH =  50.0f;
+
 	#if 0
-	m_resWidth = int(m_screenWidth/m_dx+0.5f) + 1;
-	m_resHeight = int(m_screenHeight/m_dx+0.5f) + 1;
+		vector2di dpi = getSceenDPI();
+		int resWidth = int(float(m_screenWidth)/dpi.getX()*VERTEX_PER_INCH + 0.5f);
+		int resHeight = int(float(m_screenHeight)/dpi.getY()*VERTEX_PER_INCH + 0.5f);
 	#else
-	m_resWidth = 128;
-	m_resHeight = 128;
+		int resWidth = 10;
+		int resHeight = 10;
 	#endif
-	m_vertexBufferSize = sizeof(WaterVertex)*m_resWidth*m_resHeight;
 
-	m_numFaces = (m_resWidth-1)*(m_resHeight-1)*2;
+		vector3df* vertexBuffer = new vector3df[resWidth*resHeight];
 
-	WaterVertex* vertexBuffer = new WaterVertex[m_resWidth*m_resHeight];
-
-	float halfWidth = m_screenWidth*0.5f;
-	float halfHeight = m_screenHeight*0.5f;
-
-	for (int i = 0; i < m_resHeight; i++)
-	{
-		float z = halfHeight - i*m_dx;
-		for (int j=0; j< m_resWidth; j++)
+		float inverseWidth = 1.0f/(resWidth-1);
+		float inverseHeight = 1.0f/(resHeight-1);
+		for (int y=0; y<resHeight; ++y)
 		{
-			float x = -halfWidth + j*m_dx;
-
-		#if 1
-			float u = j*1.0f/(m_resWidth-1);
-			float v = i*1.0f/(m_resHeight-1);
-			vertexBuffer[i*m_resWidth + j] = WaterVertex(j*2.0f/(m_resWidth-1)-1.0f,1.0f-i*2.0f/(m_resHeight-1),0.5f,u,v);
-		#else
-			m_curVertexBuffer[i*m_resWidth + j] = WaterVertex(x,0.0f,z);
-			m_preVertexBuffer[i*m_resWidth + j] = WaterVertex(x,0.0f,z);
-		#endif
+			float posY = y*inverseHeight;
+			for (int x=0; x<resWidth; ++x)
+			{
+				float posX = x*inverseWidth;
+				vertexBuffer[y*resHeight + x].set(posX, posY, 0.0f);
+			}
 		}
+
+
+		int numFaces = (resWidth-1)*(resHeight-1)*2;
+		std::vector<GLushort> indices(numFaces*3);
+		int k = 0;
+		for (int y=0; y<resHeight-1; ++y)
+		{
+			for(int x=0; x<resWidth-1; ++x)
+			{
+				indices[k++] = y*resWidth + x;
+				indices[k++] = y*resWidth + x + 1;
+				indices[k++] = (y + 1)*resWidth + x;
+
+				indices[k++] = (y + 1)*resWidth + x;
+				indices[k++] = y*resWidth + x + 1;
+				indices[k++] = (y + 1)*resWidth + x + 1;
+			}
+		}
+
+		glGenBuffers(1,&m_vertexBuffer);
+		glBindBuffer(GL_ARRAY_BUFFER,m_vertexBuffer);
+		glBufferData(GL_ARRAY_BUFFER,sizeof(vector3df)*resWidth*resHeight, vertexBuffer,GL_STATIC_DRAW);
+
+		glGenBuffers(1,&m_indexBuffer);
+		glBindBuffer(GL_ELEMENT_ARRAY_BUFFER,m_indexBuffer);
+		glBufferData(GL_ELEMENT_ARRAY_BUFFER,sizeof(GLushort)*numFaces*3,&indices[0],GL_STATIC_DRAW);
+
+		m_waterMesh = new MeshObject(m_vertexBuffer,m_indexBuffer);
+		m_waterMesh->addMeshAttribute("position",3,GL_FLOAT,sizeof(vector3df),0);
+		m_waterMesh->setIndexCount(numFaces*3);
+
+		delete[] vertexBuffer;
 	}
 
-
-	std::vector<GLushort> indices(m_numFaces*3);
-	int k = 0;
-	for (int i=0; i<m_resHeight-1; ++i)
-	{
-		for (int j=0; j<m_resWidth-1; ++j)
-		{
-			indices[k++] = i*m_resWidth+j;
-			indices[k++] = i*m_resWidth+j+1;
-			indices[k++] = (i+1)*m_resWidth+j;
-
-			indices[k++] = (i+1)*m_resWidth+j;
-			indices[k++] = i*m_resWidth+j+1;
-			indices[k++] = (i+1)*m_resWidth+j+1;
-		}
-	}
-
-	glGenBuffers(1,&m_vertexBuffer);
-	glBindBuffer(GL_ARRAY_BUFFER,m_vertexBuffer);
-	glBufferData(GL_ARRAY_BUFFER,m_vertexBufferSize, vertexBuffer,GL_STATIC_DRAW);
-
-	glGenBuffers(1,&m_indexBuffer);
-	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER,m_indexBuffer);
-	glBufferData(GL_ELEMENT_ARRAY_BUFFER,sizeof(GLushort)*m_numFaces*3,&indices[0],GL_STATIC_DRAW);
-
-	m_waterMesh = new MeshObject(m_vertexBuffer,m_indexBuffer);
-	m_waterMesh->addMeshAttribute("position",3,GL_FLOAT,sizeof(WaterVertex),0);
-	m_waterMesh->addMeshAttribute("coord",2,GL_FLOAT,sizeof(WaterVertex),12);
-	m_waterMesh->setIndexCount(m_numFaces*3);
 
 	//quad buffer
 	{
@@ -364,7 +367,8 @@ void Water::_drawQuad()
 	glViewport(0, 0, m_screenWidth, m_screenHeight);
 	m_shader_water->bind();
 	m_shader_water->uniform(RTHASH("WVPMatrix"), g_viewProjectMatrix);
-	_renderMesh(m_testTriangle, m_shader_water);
+	//_renderMesh(m_testTriangle, m_shader_water);
+	_renderMesh(m_waterMesh,m_shader_water);
 	m_shader_water->unbind();
 	glGetError();
 #endif

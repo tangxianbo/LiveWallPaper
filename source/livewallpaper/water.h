@@ -50,16 +50,8 @@ private:
 private:
 	int				m_screenWidth;
 	int				m_screenHeight;
-	int				m_resWidth;
-	int				m_resHeight;
-	float			m_dx;
-	int				m_numFaces;
-	int				m_vertexBufferSize;
 	int				m_indexEleNum;
 	float			m_screenScaleX;
-
-	WaterVertex*	m_curVertexBuffer;
-	WaterVertex*	m_preVertexBuffer;
 
 	//object and buffer
 	GLuint			m_shader_waterdisplay;
