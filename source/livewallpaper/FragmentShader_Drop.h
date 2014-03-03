@@ -23,6 +23,6 @@ void main()															\n\
 	float drop = max(0.0,1.0 - len(center, coord, scaleX)/radius);	\n\
 	drop = 0.5 - cos(drop*PI)*0.5;									\n\
 	info.r += drop*strength;										\n\
-	gl_FragColor = vec4(info.r,0.0,0.0,1.0);						\n\
+	gl_FragColor = info;											\n\
 }																	\n\
 ";

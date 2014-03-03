@@ -9,6 +9,10 @@ jenny::matrix4 g_viewMatrix;
 jenny::matrix4 g_projectMatrix;
 jenny::matrix4 g_viewProjectMatrix;
 
+jenny::matrix4 g_viewMatrixOrc;
+jenny::matrix4 g_projectMatrixOrtho;
+jenny::matrix4 g_viewProjectMatrixOrc;
+
 LiveWallPaper::LiveWallPaper():	m_hWnd(nullptr)
 								,m_width(0)
 								,m_height(0)
@@ -47,18 +51,33 @@ void LiveWallPaper::Init(int width, int height, HWND hwnd)
 
 	//initialize matrixs
 	//view matrix
-	vector3df pos(0.0f, 0.0f, 6.0f);
-	vector3df target(0.0f, 0.0f, 0.0f);
-	vector3df up(0.0f, 1.0f, 0.0f);
-	g_viewMatrix = jenny::buildCameraLookAtMatrix(pos, target, up);
+	{
+		vector3df pos(0.0f, 0.0f, 6.0f);
+		vector3df target(0.0f, 0.0f, 0.0f);
+		vector3df up(0.0f, 1.0f, 0.0f);
+		g_viewMatrixOrc = jenny::buildCameraLookAtMatrix(pos, target, up);
+	}
+
+	{
+		vector3df pos(400.0f, 400.0f, 400.0f);
+		vector3df target(0.0f, 0.0f, 0.0f);
+		vector3df up(0.0f, 0.0f, 1.0f);
+		g_viewMatrix = jenny::buildCameraLookAtMatrix(pos, target, up);
+	}
 
 	//projection matrix
 	float fovAngleY = 70.0f * PI / 180.0f;
 	float aspectRatio = m_width / m_height;
-	g_projectMatrix = buildProjectionMatrixPerspectiveFov(fovAngleY, aspectRatio, 0.1f, 300.0f);
+	g_projectMatrix = buildProjectionMatrixPerspectiveFov(fovAngleY, aspectRatio, 0.1f, 3000.0f);
 
-	//view projecton matrix
+	//ortho projection matrix
+	g_projectMatrixOrtho = buildProjectionMatrixOrtho((float)m_width, (float)m_height, 0.1f, 3000.0f);
+
+	//view projection matrix
 	g_viewProjectMatrix.setbyproduct_nocheck(g_projectMatrix, g_viewMatrix);
+
+	//ortho projection matrix
+	g_viewProjectMatrixOrc.setbyproduct_nocheck(g_projectMatrixOrtho, g_viewMatrixOrc);
 
 	m_water = new Water(m_width,m_height,200.0f);
 	m_water->Init();

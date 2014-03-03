@@ -74,7 +74,7 @@ void Water::Init()
 
 void Water::Update()
 {
-#if 0
+#if 1
 	this->_doUpdate();
 	this->_updateNormal();
 #endif
@@ -197,8 +197,8 @@ void Water::_initMesh()
 		int resWidth = int(float(m_screenWidth)/dpi.getX()*VERTEX_PER_INCH + 0.5f);
 		int resHeight = int(float(m_screenHeight)/dpi.getY()*VERTEX_PER_INCH + 0.5f);
 	#else
-		int resWidth = 10;
-		int resHeight = 10;
+		int resWidth = 50;
+		int resHeight = 50;
 	#endif
 
 		vector3df* vertexBuffer = new vector3df[resWidth*resHeight];
@@ -211,7 +211,7 @@ void Water::_initMesh()
 			for (int x=0; x<resWidth; ++x)
 			{
 				float posX = x*inverseWidth;
-				vertexBuffer[y*resHeight + x].set(posX, posY, 0.0f);
+				vertexBuffer[y*resWidth + x].set(posX, posY, 0.0f);
 			}
 		}
 
@@ -302,6 +302,7 @@ void Water::_initMesh()
 
 
 extern matrix4 g_viewProjectMatrix;
+extern matrix4 g_viewProjectMatrixOrc;
 void Water::_drawQuad()
 {
 #if 0
@@ -325,7 +326,7 @@ void Water::_drawQuad()
 	m_frameBufferA->End();
 #endif
 
-#if 0	
+#if 1
 	glViewport(0,0,m_screenWidth,m_screenHeight);
 	m_quadShader->bind();
 	glActiveTexture(GL_TEXTURE0);
@@ -333,21 +334,9 @@ void Water::_drawQuad()
 	_renderMesh(m_screenRect,m_quadShader);
 	m_quadShader->unbind();
 	glGetError();
-#endif
-
-	//for test
-#if 0
-	glViewport(0,0,m_screenWidth,m_screenHeight);
-	m_quadShader->bind();
-	glActiveTexture(GL_TEXTURE0);
-	glBindTexture(GL_TEXTURE_2D, m_textureObject);
-	_renderMesh(m_testTriangle,m_quadShader);
-	m_quadShader->unbind();
-	glGetError();
-#endif
 
 	//
-#if 1
+#else
 
 	vector4df transformedVertexs[3];
 	vector4df originalVertex[] = 
@@ -363,9 +352,15 @@ void Water::_drawQuad()
 	}
 
 	matrix4 transposedMatrix = g_viewProjectMatrix.getTransposed();
+	vector2df screenSize((float)m_screenWidth, (float)m_screenHeight);
+	//vector2df screenSize(10.0f, 10.0f);
 
 	glViewport(0, 0, m_screenWidth, m_screenHeight);
 	m_shader_water->bind();
+	glActiveTexture(GL_TEXTURE0);
+	glBindTexture(GL_TEXTURE_2D, m_frameBufferB->GetColorTexture());
+	m_shader_water->uniform(RTHASH("screenSize"), screenSize);
+	//m_shader_water->uniform(RTHASH("WVPMatrix"), g_viewProjectMatrixOrc);
 	m_shader_water->uniform(RTHASH("WVPMatrix"), g_viewProjectMatrix);
 	//_renderMesh(m_testTriangle, m_shader_water);
 	_renderMesh(m_waterMesh,m_shader_water);
