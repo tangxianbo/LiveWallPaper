@@ -46,9 +46,11 @@ Water::Water(int screenWidth, int screenHeight, float dx):	m_screenWidth(screenW
 	,m_pangTexture(nullptr)
 	,m_frameBufferA(nullptr)
 	,m_frameBufferB(nullptr)
+	,m_frameBufferCaustic(nullptr)
 	,m_shader_drop(nullptr)
 	,m_shader_update(nullptr)
 	,m_shader_water(nullptr)
+	,m_shader_caustics(nullptr)
 {
 }
 
@@ -67,6 +69,7 @@ void Water::Init()
 
 	m_frameBufferA = new FrameBuffer(512,512, EFBT_TEXTURE_RGBA8|EFBT_TEXTURE_DEPTH);
 	m_frameBufferB = new FrameBuffer(512,512, EFBT_TEXTURE_RGBA8|EFBT_TEXTURE_DEPTH);
+	m_frameBufferCaustic = new FrameBuffer(512, 512, EFBT_TEXTURE_RGBA8|EFBT_TEXTURE_DEPTH); 
 
 	m_screenScaleX = m_screenWidth*1.0f/m_screenHeight;
 }
@@ -77,6 +80,7 @@ void Water::Update()
 #if 1
 	this->_doUpdate();
 	this->_updateNormal();
+	this->_genCaustics();
 #endif
 }
 
@@ -88,7 +92,7 @@ void Water::Render()
 void Water::_processTouch(int x, int y)
 {
 
-	static float radius = 0.5f;
+	static float radius = 0.2f;
 	static float strength = 1.0f;
 
 	glViewport(0,0,m_frameBufferA->GetWidth(),m_frameBufferA->GetHeight());
@@ -154,6 +158,29 @@ void Water::_initShader()
 		const char* strFragmentShader =
 		#include "FragmentShader_Water.h"
 		m_shader_water = new Shader(strVertexShader, strFragmentShader);
+	}
+
+	//caustic shader
+	{
+		const char* strVertexShader =
+		#include "VertexShader_Caustic.h"
+		const char* strFragmentShader =
+#if 0
+		"#version 300 es                              \n"
+		"precision mediump float;                     \n"
+		"out vec4 fragColor;                          \n"
+		"varying vec3 oldPos;						 \n"
+		"varying vec3 newPos; \n"
+		"void main()                                  \n"
+		"{                                            \n"
+		"float oldArea = length(dFdx(oldPos)) * length(dFdy(oldPos)); \n"
+		"float newArea = length(dFdx(newPos)) * length(dFdy(newPos)); \n"
+		"   fragColor = vec4 ( oldArea/newArea*0.2, 0.0, 0.0, 1.0 );  \n"
+		"}                                            \n";
+#else
+		#include "FragmentShader_Caustic.h"
+#endif
+		m_shader_caustics = new Shader(strVertexShader,strFragmentShader); 
 	}
 }
 
@@ -326,7 +353,7 @@ void Water::_drawQuad()
 	m_frameBufferA->End();
 #endif
 
-#if 1
+#if 0
 	glViewport(0,0,m_screenWidth,m_screenHeight);
 	m_quadShader->bind();
 	glActiveTexture(GL_TEXTURE0);
@@ -355,13 +382,22 @@ void Water::_drawQuad()
 	vector2df screenSize((float)m_screenWidth, (float)m_screenHeight);
 	//vector2df screenSize(10.0f, 10.0f);
 
-	glViewport(0, 0, m_screenWidth, m_screenHeight);
+	glViewport(0, 0, m_screenWidth, m_screenHeight); 
 	m_shader_water->bind();
 	glActiveTexture(GL_TEXTURE0);
+#if 0
 	glBindTexture(GL_TEXTURE_2D, m_frameBufferB->GetColorTexture());
+#else
+	glBindTexture(GL_TEXTURE_2D, m_frameBufferCaustic->GetColorTexture());
+#endif
+
 	m_shader_water->uniform(RTHASH("screenSize"), screenSize);
-	//m_shader_water->uniform(RTHASH("WVPMatrix"), g_viewProjectMatrixOrc);
+
+#if 1
+	m_shader_water->uniform(RTHASH("WVPMatrix"), g_viewProjectMatrixOrc);
+#else
 	m_shader_water->uniform(RTHASH("WVPMatrix"), g_viewProjectMatrix);
+#endif
 	//_renderMesh(m_testTriangle, m_shader_water);
 	_renderMesh(m_waterMesh,m_shader_water);
 	m_shader_water->unbind();
@@ -451,4 +487,30 @@ void Water::_updateNormal()
 	m_frameBufferA->End();
 
 	m_frameBufferA->Swap(m_frameBufferB);
+}
+
+void Water::_genCaustics()
+{
+	glViewport(0, 0, m_frameBufferCaustic->GetWidth(), m_frameBufferCaustic->GetHeight());
+	m_frameBufferCaustic->Begin();
+	glClear ( GL_COLOR_BUFFER_BIT );
+	m_shader_caustics->bind();
+
+	//uniform screensize
+	vector2df screenSize((float)m_screenWidth, (float)m_screenHeight);
+	m_shader_caustics->uniform(RTHASH("screenSize"), screenSize);
+
+	//uniform light dir
+	vector3df light(2.0f, -1.0f, 2.0f); //light(0.5f, 0.0f, 1.0f);
+	light.normalize();
+	m_shader_caustics->uniform(RTHASH("light"), light);
+
+	//uniform texture
+	glActiveTexture(GL_TEXTURE0);
+	glBindTexture(GL_TEXTURE_2D,m_frameBufferB->GetColorTexture());
+
+	_renderMesh(m_waterMesh,m_shader_caustics);
+
+	m_shader_caustics->unbind();
+	m_frameBufferCaustic->End();
 }

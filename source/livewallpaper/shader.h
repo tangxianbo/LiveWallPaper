@@ -105,7 +105,8 @@ inline void
 Shader::uniform( size_t name, int data )
 {
 	GLint loc = getUniformLocation(name);
-	glUniform1i(loc, data);
+	if(loc >= 0)
+		glUniform1i(loc, data);
 }
 
 
@@ -113,82 +114,94 @@ inline void
 Shader::uniform( size_t name, float data )
 {
 	GLint loc = getUniformLocation(name);
-	glUniform1f(loc,data);
+	if(loc >= 0)
+		glUniform1f(loc,data);
 }
 
 inline void	
 Shader::uniform( size_t name, const vector2df &data )
 {
 	GLint loc = getUniformLocation(name);
-	glUniform2f(loc, data.x(), data.y());
+	if(loc >= 0)
+		glUniform2f(loc, data.x(), data.y());
 }
 
 inline void	
 Shader::uniform( size_t name, const vector3df &data )
 {
 	GLint loc = getUniformLocation(name);
-	glUniform3f(loc,data.x(), data.y(), data.z());
+	if(loc >= 0)
+		glUniform3f(loc,data.x(), data.y(), data.z());
 }
 
 inline void	
 Shader::uniform( size_t name, const vector4df &data )
 {
 	GLint loc = getUniformLocation(name);
-	glUniform4f(loc, data.x(), data.y(), data.z(), data.w());
+	if(loc >= 0)
+		glUniform4f(loc, data.x(), data.y(), data.z(), data.w());
 }
 
 inline void	
 Shader::uniform( size_t name, const matrix3 &data, bool transpose)
 {
 	GLint loc = getUniformLocation(name);
-	glUniformMatrix3fv(loc,1,(transpose) ? GL_TRUE:GL_FALSE, data.pointer());
+	if(loc >= 0)
+		glUniformMatrix3fv(loc,1,(transpose) ? GL_TRUE:GL_FALSE, data.pointer());
 }
 
 inline void	
 Shader::uniform( size_t name, const matrix4 &data, bool transpose)
 {
 	GLint loc = getUniformLocation(name);
-	glUniformMatrix4fv(loc,1, (transpose) ? GL_TRUE : GL_FALSE, data.pointer());
+	if(loc >= 0)
+		glUniformMatrix4fv(loc,1, (transpose) ? GL_TRUE : GL_FALSE, data.pointer());
 }
 
 inline void	
 Shader::uniform( size_t name, const float *data, int count )
 {
 	GLint loc = getUniformLocation(name);
-	glUniform1fv(loc, count, data);
+	if(loc >= 0)
+		glUniform1fv(loc, count, data);
 }
 
 inline void	
 Shader::uniform( size_t name, const vector2df *data, int count )
 {
 	GLint loc = getUniformLocation(name);
-	glUniform2fv(loc, count, data->getDataPtr());
+	if(loc >= 0)
+		glUniform2fv(loc, count, data->getDataPtr());
 }
 
 inline void	
 Shader::uniform( size_t name, const vector3df *data, int count )
 {
 	GLint loc = getUniformLocation(name);
-	glUniform3fv(loc, count, data->getDataPtr());
+	if(loc >= 0)
+		glUniform3fv(loc, count, data->getDataPtr());
 }
 
 inline void	
 Shader::uniform( size_t name, const vector4df *data, int count )
 {
 	GLint loc = getUniformLocation(name);
-	glUniform4fv(loc, count, data->getDataPtr());
+	if(loc >= 0)
+		glUniform4fv(loc, count, data->getDataPtr());
 }
 
 inline void	
 Shader::uniform( size_t name, const matrix3 *data, int count, bool transpose)
 {
 	GLint loc = getUniformLocation(name);
-	glUniformMatrix3fv(loc,count, (transpose) ? GL_TRUE : GL_FALSE, data->pointer());
+	if(loc >= 0)
+		glUniformMatrix3fv(loc,count, (transpose) ? GL_TRUE : GL_FALSE, data->pointer());
 }
 
 inline void	
 Shader::uniform( size_t name, const matrix4 *data, int count, bool transpose)
 {
 	GLint loc = getUniformLocation(name);
-	glUniformMatrix4fv( loc, count, ( transpose ) ? GL_TRUE : GL_FALSE, data->pointer());
+	if(loc >= 0)
+		glUniformMatrix4fv( loc, count, ( transpose ) ? GL_TRUE : GL_FALSE, data->pointer());
 }

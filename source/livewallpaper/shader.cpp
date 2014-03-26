@@ -65,11 +65,12 @@ Shader::loadShader ( GLenum type, const char* shaderStr)
     if ( !compiled ) 
     {
         GLint infoLen = 0;
+		GLint len = 0;
         glGetShaderiv ( shader, GL_INFO_LOG_LENGTH, &infoLen );
         if ( infoLen > 1 )
         {
-            char* infoLog = reinterpret_cast<char*>(malloc(sizeof(char) * infoLen ));
-            glGetShaderInfoLog ( shader, infoLen, NULL, infoLog );      
+            char* infoLog = reinterpret_cast<char*>(malloc(sizeof(char) * infoLen));
+            glGetShaderInfoLog ( shader, infoLen, &len, infoLog );    
             free ( infoLog );
         }
         glDeleteShader ( shader );

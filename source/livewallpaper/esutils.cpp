@@ -131,7 +131,12 @@ EGLBoolean CreateEGLContext(EGLNativeWindowType  hWnd,
 	EGLContext context;
 	EGLSurface surface;
 	EGLConfig config;
+
+#if USING_GLES_30
+	EGLint contextAttribs[] = { EGL_CONTEXT_CLIENT_VERSION, 3, EGL_NONE, EGL_NONE };
+#else
 	EGLint contextAttribs[] = { EGL_CONTEXT_CLIENT_VERSION, 2, EGL_NONE, EGL_NONE };
+#endif
 
 	// Get Display
 	display = eglGetDisplay(GetDC(hWnd));

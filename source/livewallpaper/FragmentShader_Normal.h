@@ -8,8 +8,10 @@ void main(){                                                                    
 	vec4 info = texture2D(texture, coord);															\n\
 																									\n\
 	/* update the normal */																			\n\
-	vec3 dx = vec3(delta.x, texture2D(texture, vec2(coord.x + delta.x, coord.y)).r - info.r, 0.0);	\n\
-	vec3 dy = vec3(0.0, texture2D(texture, vec2(coord.x, coord.y + delta.y)).r - info.r, delta.y);	\n\
+	//vec3 dx = vec3(delta.x, texture2D(texture, vec2(coord.x + delta.x, coord.y)).r - info.r, 0.0);\n\
+	//vec3 dy = vec3(0.0, texture2D(texture, vec2(coord.x, coord.y + delta.y)).r - info.r, delta.y);\n\
+	vec3 dx = vec3(delta.x, 0.0, texture2D(texture, vec2(coord.x + delta.x, coord.y)).r - info.r);	\n\
+	vec3 dy = vec3(0.0, delta.y, texture2D(texture, vec2(coord.x, coord.y + delta.y)).r - info.r);	\n\
 	info.ba = normalize(cross(dy, dx)).xz;															\n\
 																									\n\
 	gl_FragColor = info;																			\n\

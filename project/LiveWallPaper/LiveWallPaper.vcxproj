@@ -73,7 +73,7 @@
       </PrecompiledHeader>
       <WarningLevel>Level3</WarningLevel>
       <Optimization>Disabled</Optimization>
-      <PreprocessorDefinitions>WIN32;_DEBUG;_CONSOLE;KTX_OPENGL_ES3;_CRT_SECURE_NO_WARNINGS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>WIN32;_DEBUG;_CONSOLE;_CRT_SECURE_NO_WARNINGS;KTX_OPENGL_ES3;USING_GLES_30;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <SDLCheck>true</SDLCheck>
       <AdditionalIncludeDirectories>../../source/kazmath/;../../source/pthread/;../../source/engine/</AdditionalIncludeDirectories>
     </ClCompile>
@@ -81,7 +81,7 @@
       <SubSystem>Console</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <AdditionalDependencies>libEGL.lib;libGLESv2.lib;pthreadVCE2.lib;%(AdditionalDependencies)</AdditionalDependencies>
-      <AdditionalLibraryDirectories>../../3rdparth/lib/;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalLibraryDirectories>../../3rdparty\lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug_OpenGL|Win32'">
@@ -179,6 +179,7 @@
     <ClInclude Include="..\..\source\engine\shape\triangle3d.h" />
     <ClInclude Include="..\..\source\livewallpaper\esutils.h" />
     <ClInclude Include="..\..\source\livewallpaper\EVertexAttribute.h" />
+    <ClInclude Include="..\..\source\livewallpaper\FragmentShader_Caustic.h" />
     <ClInclude Include="..\..\source\livewallpaper\FragmentShader_Drop.h" />
     <ClInclude Include="..\..\source\livewallpaper\FragmentShader_Normal.h" />
     <ClInclude Include="..\..\source\livewallpaper\FragmentShader_Quad.h" />
@@ -195,6 +196,7 @@
     <ClInclude Include="..\..\source\livewallpaper\System.h" />
     <ClInclude Include="..\..\source\livewallpaper\SystemWin32.h" />
     <ClInclude Include="..\..\source\livewallpaper\texture2d.h" />
+    <ClInclude Include="..\..\source\livewallpaper\VertexShader_Caustic.h" />
     <ClInclude Include="..\..\source\livewallpaper\VertexShader_Common.h" />
     <ClInclude Include="..\..\source\livewallpaper\VertexShader_Quad.h" />
     <ClInclude Include="..\..\source\livewallpaper\VertexShader_Water.h" />

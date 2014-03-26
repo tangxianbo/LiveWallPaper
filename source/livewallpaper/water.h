@@ -46,6 +46,7 @@ private:
 
 	void _doUpdate();
 	void _updateNormal();
+	void _genCaustics();
 
 private:
 	int				m_screenWidth;
@@ -77,6 +78,7 @@ private:
 	Texture2D*		m_pangTexture;
 	FrameBuffer*	m_frameBufferA;
 	FrameBuffer*	m_frameBufferB;
+	FrameBuffer*	m_frameBufferCaustic;
 
 	Shader*			m_shader;
 	Shader*			m_quadShader;
@@ -84,6 +86,7 @@ private:
 	Shader*			m_shader_update;
 	Shader*			m_shader_normal;
 	Shader*			m_shader_water;
+	Shader*			m_shader_caustics;
 };
 
 inline void Water::onTouch(int x, int y)

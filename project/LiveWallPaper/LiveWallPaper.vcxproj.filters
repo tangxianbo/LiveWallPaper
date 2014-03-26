@@ -277,6 +277,12 @@
     <ClInclude Include="..\..\source\livewallpaper\FragmentShader_Water.h">
       <Filter>Source Files\wallpaper\shader</Filter>
     </ClInclude>
+    <ClInclude Include="..\..\source\livewallpaper\VertexShader_Caustic.h">
+      <Filter>Source Files\wallpaper\shader</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\source\livewallpaper\FragmentShader_Caustic.h">
+      <Filter>Source Files\wallpaper\shader</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Text Include="..\..\source\TODO.txt" />
