@@ -1,5 +1,5 @@
 "																	\n\
-precision lowp float;												\n\
+precision highp float;												\n\
 const float PI = 3.141592653589793;									\n\
 uniform sampler2D texture;											\n\
 uniform vec2 center;												\n\

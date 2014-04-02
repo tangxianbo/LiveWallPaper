@@ -48,6 +48,8 @@ private:
 	void _updateNormal();
 	void _genCaustics();
 
+	void _drawWaterMesh();
+
 private:
 	int				m_screenWidth;
 	int				m_screenHeight;
@@ -87,6 +89,7 @@ private:
 	Shader*			m_shader_normal;
 	Shader*			m_shader_water;
 	Shader*			m_shader_caustics;
+	Shader*			m_shader_waterMesh;
 };
 
 inline void Water::onTouch(int x, int y)

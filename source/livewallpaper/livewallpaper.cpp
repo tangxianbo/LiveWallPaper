@@ -91,7 +91,8 @@ void LiveWallPaper::Update()
 	{
 		TouchPos touch = m_touchQueue.front();
 		m_touchQueue.pop();
-		m_water->onTouch(touch.X, touch.Y);
+		//m_water->onTouch(touch.X, touch.Y);
+		m_water->onTouch(400, 400);
 	}
 
 	m_water->Update();

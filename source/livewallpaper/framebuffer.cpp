@@ -17,7 +17,7 @@ FrameBuffer::FrameBuffer(GLuint width,GLuint height,unsigned int flags)
 
 	if(m_flags & EFBT_TEXTURE)
 	{
-		GLuint internalFormat = (m_flags & EFBT_TEXTURE_RGB8) ? GL_RGB16F:GL_RGBA16F;
+		GLuint internalFormat = (m_flags & EFBT_TEXTURE_RGB8) ? GL_RGB32F:GL_RGBA32F;
 		GLuint textureFormat = (m_flags & EFBT_TEXTURE_RGB8) ? GL_RGB : GL_RGBA;
 		int bytesPerPixel = (m_flags & EFBT_TEXTURE_RGB8) ? 3 : 4;
 

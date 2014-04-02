@@ -51,6 +51,7 @@ Water::Water(int screenWidth, int screenHeight, float dx):	m_screenWidth(screenW
 	,m_shader_update(nullptr)
 	,m_shader_water(nullptr)
 	,m_shader_caustics(nullptr)
+	,m_shader_waterMesh(nullptr)
 {
 }
 
@@ -86,7 +87,11 @@ void Water::Update()
 
 void Water::Render()
 {
+#if 1
 	_drawQuad();
+#else
+	_drawWaterMesh();
+#endif
 }
 
 void Water::_processTouch(int x, int y)
@@ -165,22 +170,17 @@ void Water::_initShader()
 		const char* strVertexShader =
 		#include "VertexShader_Caustic.h"
 		const char* strFragmentShader =
-#if 0
-		"#version 300 es                              \n"
-		"precision mediump float;                     \n"
-		"out vec4 fragColor;                          \n"
-		"varying vec3 oldPos;						 \n"
-		"varying vec3 newPos; \n"
-		"void main()                                  \n"
-		"{                                            \n"
-		"float oldArea = length(dFdx(oldPos)) * length(dFdy(oldPos)); \n"
-		"float newArea = length(dFdx(newPos)) * length(dFdy(newPos)); \n"
-		"   fragColor = vec4 ( oldArea/newArea*0.2, 0.0, 0.0, 1.0 );  \n"
-		"}                                            \n";
-#else
 		#include "FragmentShader_Caustic.h"
-#endif
 		m_shader_caustics = new Shader(strVertexShader,strFragmentShader); 
+	}
+
+	//water mesh
+	{
+		const char* strVertexShader =
+		#include "VertexShader_WaterMesh.h"
+		const char* strFragmentShader =
+		#include "FragmentShader_WaterMesh.h"
+		m_shader_waterMesh = new Shader(strVertexShader, strFragmentShader);
 	}
 }
 
@@ -224,8 +224,8 @@ void Water::_initMesh()
 		int resWidth = int(float(m_screenWidth)/dpi.getX()*VERTEX_PER_INCH + 0.5f);
 		int resHeight = int(float(m_screenHeight)/dpi.getY()*VERTEX_PER_INCH + 0.5f);
 	#else
-		int resWidth = 50;
-		int resHeight = 50;
+		int resWidth = 200;
+		int resHeight = 200;
 	#endif
 
 		vector3df* vertexBuffer = new vector3df[resWidth*resHeight];
@@ -385,7 +385,7 @@ void Water::_drawQuad()
 	glViewport(0, 0, m_screenWidth, m_screenHeight); 
 	m_shader_water->bind();
 	glActiveTexture(GL_TEXTURE0);
-#if 0
+#if 1
 	glBindTexture(GL_TEXTURE_2D, m_frameBufferB->GetColorTexture());
 #else
 	glBindTexture(GL_TEXTURE_2D, m_frameBufferCaustic->GetColorTexture());
@@ -513,4 +513,29 @@ void Water::_genCaustics()
 
 	m_shader_caustics->unbind();
 	m_frameBufferCaustic->End();
+}
+
+
+void Water::_drawWaterMesh()
+{
+	glViewport(0, 0, m_screenWidth, m_screenHeight); 
+	m_shader_waterMesh ->bind();
+	glActiveTexture(GL_TEXTURE0);
+	glBindTexture(GL_TEXTURE_2D, m_frameBufferB->GetColorTexture());
+
+	vector2df screenSize((float)m_screenWidth, (float)m_screenHeight);
+	m_shader_waterMesh->uniform(RTHASH("screenSize"), screenSize);
+
+	vector3df light(2.0f, -1.0f, 2.0f); //light(0.5f, 0.0f, 1.0f);
+	light.normalize();
+	m_shader_waterMesh->uniform(RTHASH("light"), light);
+#if 1
+	m_shader_waterMesh->uniform(RTHASH("WVPMatrix"), g_viewProjectMatrixOrc);
+#else
+	m_shader_waterMesh->uniform(RTHASH("WVPMatrix"), g_viewProjectMatrix);
+#endif
+
+	_renderMesh(m_waterMesh,m_shader_waterMesh);
+	m_shader_waterMesh->unbind();
+	glGetError();
 }

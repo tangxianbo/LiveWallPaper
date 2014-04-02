@@ -37,7 +37,7 @@ void main()																					\n\
 	vec4 info = texture(water, position.xy);												\n\
 	info.ba *= 0.5;																			\n\
 	vec3 normal = vec3(info.b, sqrt(1.0 - dot(info.ba, info.ba)), info.a);					\n\
-	vec3 refractedLight = refract(-light, vec3(0.0,0.0,-1.0), IOR_AIR/IOR_WATER);			\n\
+	vec3 refractedLight = refract(-light, vec3(0.0,0.0,1.0), IOR_AIR/IOR_WATER);			\n\
 	normalColor = refractedLight;															\n\
 	ray = refract(-light, normal, IOR_AIR/IOR_WATER);										\n\
 	//vec3 vp = vec3((position.x-0.5)*screenSize.x, (position.y-0.5)*screenSize.y, 0.0);	\n\
