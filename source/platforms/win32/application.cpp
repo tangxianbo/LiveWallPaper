@@ -139,6 +139,7 @@ bool Application::CreateRenderWindow(LPCWSTR title, int width, int height, int b
 	return true;	
 }
 
+static bool g_bLeftMouseDown = false;
 LRESULT CALLBACK WndProc(	HWND	hWnd,			// Handle For This Window
 							UINT	uMsg,			// Message For This Window
 							WPARAM	wParam,			// Additional Message Information
@@ -195,11 +196,31 @@ LRESULT CALLBACK WndProc(	HWND	hWnd,			// Handle For This Window
 			Application::instance()->ResizeScene(LOWORD(lParam),HIWORD(lParam));  // LoWord=Width, HiWord=Height
 			return 0;								// Jump Back
 		}
+
+		case  WM_LBUTTONDOWN:
+		{
+			g_bLeftMouseDown = true;
+			return 0;
+		}
+
 		case  WM_LBUTTONUP:
+		{
+				//int pos_x = GET_X_LPARAM(lParam);
+				//int pos_y = GET_Y_LPARAM(lParam);
+				//Application::instance()->OnTouch(pos_x,pos_y);
+			g_bLeftMouseDown = false;
+			return 0;
+		}
+
+		case  WM_MOUSEMOVE:
 			{
-				int pos_x = GET_X_LPARAM(lParam);
-				int pos_y = GET_Y_LPARAM(lParam);
-				Application::instance()->OnTouch(pos_x,pos_y);
+				if(g_bLeftMouseDown)
+				{
+					int pos_x = GET_X_LPARAM(lParam);
+					int pos_y = GET_Y_LPARAM(lParam);
+					Application::instance()->OnTouch(pos_x,pos_y);
+				}
+
 				return 0;
 			}
 	}

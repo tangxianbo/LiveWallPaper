@@ -224,7 +224,7 @@ void Water::_initTexture()
 	GLboolean	isMipmapped;
 	KTX_error_code ktxerror;
 
-	FILE* ktxFile = fopen("reflect.ktx","rb");
+	FILE* ktxFile = fopen("grid.ktx","rb");
 	if (ktxFile)
 	{
 		fseek(ktxFile,0L,SEEK_END);
@@ -687,11 +687,6 @@ int inline READBUFFER(int* buffer, int x, int y)
 	return (buffer[y*resWidth + x]);
 }
 
-void inline SETBUFFER(int* buffer, int x, int y, int value)	
-{
-	buffer[y*resWidth + x] = value;
-}
-
 const float m_DampingFactor = 0.04f;
 void Water::_updateWaterMeshUV()
 {
@@ -758,8 +753,8 @@ void Water::_updateWaterMeshUV()
 			//one equals one pixel
 			const vector2df& oriUV = m_pUVBufferRead[cnt];
 			vector2df& newUV = m_pUVBufferWrite[cnt];
-			newUV.setX(xoff*0.5f/512.0f + oriUV.getX());
-			newUV.setY(yoff*0.5f/512.0f + oriUV.getY());
+			newUV.setX(xoff*1.0f/512.0f + oriUV.getX());
+			newUV.setY(yoff*1.0f/512.0f + oriUV.getY());
 
 			if(xoff != 0)
 			{
@@ -830,29 +825,21 @@ const int m_Drip_Radius = 12;
 const int m_Drip_Radius_Sqr = 12*12;
 void Water::_processTouchUV(int x, int y, int depth)
 {
-#if 1
 	int i,j,dist,finaldepth;
 
-	for (j = std::max(1, y - m_Drip_Radius); j < std::min(resHeight -1, y + m_Drip_Radius); j++)
+	for (j = y - m_Drip_Radius; j < y + m_Drip_Radius; j++)
 	{
-		for (i = std::max(1, x - m_Drip_Radius); i < std::min(resWidth - 1, x + m_Drip_Radius); i++)
+		for (i = x - m_Drip_Radius; i < x + m_Drip_Radius; i++)
 		{
 			dist = SquaredDist(x,y,i,j);
 			if(dist < m_Drip_Radius_Sqr)
 			{
 				finaldepth = (int)((float)depth * ((float)(m_Drip_Radius - sqrt((float)dist))/(float)m_Drip_Radius));
+				if(finaldepth > 127) finaldepth = 127;
+				if(finaldepth < -127) finaldepth = -127;
 
-				if(finaldepth > 127) 
-					finaldepth = 127;
-				if(finaldepth < -127) 
-					finaldepth = -127;
-
-				SETBUFFER(m_pHightWrite, i,j,finaldepth);
+				m_pHightWrite[j*resWidth + i] = finaldepth;
 			}
 		}
 	}
-#else
-
-
-#endif
 }

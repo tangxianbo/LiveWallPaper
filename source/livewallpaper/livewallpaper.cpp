@@ -87,13 +87,15 @@ void LiveWallPaper::Init(int width, int height, HWND hwnd)
 void LiveWallPaper::Update()
 {
 	//update touches
-	while (m_touchQueue.size() > 0)
+	if (m_touchQueue.size() > 0)
 	{
 		TouchPos touch = m_touchQueue.front();
 		m_touchQueue.pop();
-		//m_water->onTouch(touch.X, touch.Y);
-		m_water->onTouch(400, 400);
+		m_water->onTouch(touch.X, touch.Y);
+		//m_water->onTouch(400, 400);
 	}
+
+	m_touchQueue.empty();
 
 	m_water->Update();
 }

@@ -181,11 +181,13 @@
     <ClInclude Include="..\..\source\livewallpaper\EVertexAttribute.h" />
     <ClInclude Include="..\..\source\livewallpaper\FragmentShader_Caustic.h" />
     <ClInclude Include="..\..\source\livewallpaper\FragmentShader_Drop.h" />
+    <ClInclude Include="..\..\source\livewallpaper\FragmentShader_Init.h" />
     <ClInclude Include="..\..\source\livewallpaper\FragmentShader_Normal.h" />
     <ClInclude Include="..\..\source\livewallpaper\FragmentShader_Quad.h" />
     <ClInclude Include="..\..\source\livewallpaper\FragmentShader_Update.h" />
     <ClInclude Include="..\..\source\livewallpaper\FragmentShader_Water.h" />
     <ClInclude Include="..\..\source\livewallpaper\FragmentShader_WaterMesh.h" />
+    <ClInclude Include="..\..\source\livewallpaper\FragmentShader_Water_UV.h" />
     <ClInclude Include="..\..\source\livewallpaper\framebuffer.h" />
     <ClInclude Include="..\..\source\livewallpaper\GLError.h" />
     <ClInclude Include="..\..\source\livewallpaper\livewallpaper.h" />
@@ -202,6 +204,7 @@
     <ClInclude Include="..\..\source\livewallpaper\VertexShader_Quad.h" />
     <ClInclude Include="..\..\source\livewallpaper\VertexShader_Water.h" />
     <ClInclude Include="..\..\source\livewallpaper\VertexShader_WaterMesh.h" />
+    <ClInclude Include="..\..\source\livewallpaper\VertexShader_Water_UV.h" />
     <ClInclude Include="..\..\source\livewallpaper\water.h" />
     <ClInclude Include="..\..\source\platforms\win32\application.h" />
   </ItemGroup>

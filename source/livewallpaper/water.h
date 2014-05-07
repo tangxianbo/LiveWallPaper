@@ -38,6 +38,7 @@ private:
 	void _initShader();
 	void _initTexture();
 	void _initMesh();
+	void _initFrameBuffers();
 
 	void _drawQuad();
     void _renderMesh(const MeshObject* mesh, const Shader* shader);
@@ -49,6 +50,12 @@ private:
 	void _genCaustics();
 
 	void _drawWaterMesh();
+
+	void _initWaterMeshUV();
+	void _updateWaterMeshUV();
+	void _drawWaterMeshUV();
+
+	void _processTouchUV(int x, int y, int depth);
 
 private:
 	int				m_screenWidth;
@@ -62,6 +69,12 @@ private:
 	GLuint			m_vertexBuffer;
 	GLuint			m_indexBuffer;
 	GLuint			m_textureObject;
+
+	//water mesh uv
+	GLuint			m_vertexBuffer_Pos;
+	GLuint			m_vertexBuffer_UV;
+	GLuint			m_indexBuffer_UV;
+	MeshObject*		m_waterMesh_UV;
 
 	GLuint			m_quadVertexBuffer;
 	GLuint			m_quadIndexBuffer;
@@ -78,8 +91,8 @@ private:
 
 	Texture2D*		m_pingTexture;
 	Texture2D*		m_pangTexture;
-	FrameBuffer*	m_frameBufferA;
-	FrameBuffer*	m_frameBufferB;
+	FrameBuffer*	m_fbWrite;
+	FrameBuffer*	m_fbRead;
 	FrameBuffer*	m_frameBufferCaustic;
 
 	Shader*			m_shader;
@@ -90,9 +103,14 @@ private:
 	Shader*			m_shader_water;
 	Shader*			m_shader_caustics;
 	Shader*			m_shader_waterMesh;
+	Shader*			m_shader_init;
+	Shader*			m_shader_water_uv;
 };
 
 inline void Water::onTouch(int x, int y)
 {
-	this->_processTouch(x,y);
+	//this->_processTouch(x,y);
+
+	float scale = 0.5f;
+	this->_processTouchUV(int(x*scale), int(y*scale),16);
 }

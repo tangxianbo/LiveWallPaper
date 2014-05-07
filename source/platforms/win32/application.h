@@ -18,6 +18,7 @@ protected:
 				,m_bFullscreen(false)
 				,m_screenWidth(960)
 				,m_screenHeight(640)
+				,m_bIsLMouseDown(false)
 	{
 		ZeroMemory(keys,sizeof(keys));
 	}
@@ -47,6 +48,7 @@ public:
 	bool	keys[256];		
 	bool	active;		
 	bool	m_bFullscreen;
+	bool    m_bIsLMouseDown;
 
 	int		m_screenWidth;
 	int		m_screenHeight;

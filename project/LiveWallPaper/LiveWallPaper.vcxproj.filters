@@ -289,6 +289,15 @@
     <ClInclude Include="..\..\source\livewallpaper\FragmentShader_WaterMesh.h">
       <Filter>Source Files\wallpaper\shader</Filter>
     </ClInclude>
+    <ClInclude Include="..\..\source\livewallpaper\FragmentShader_Init.h">
+      <Filter>Source Files\wallpaper\shader</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\source\livewallpaper\VertexShader_Water_UV.h">
+      <Filter>Source Files\wallpaper\shader</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\source\livewallpaper\FragmentShader_Water_UV.h">
+      <Filter>Source Files\wallpaper\shader</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Text Include="..\..\source\TODO.txt" />
